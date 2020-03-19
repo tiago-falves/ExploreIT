@@ -1,5 +1,5 @@
 *.stash
-*.pro.user
+*.pro*
 Makefile
 *.o
 
