@@ -4,18 +4,19 @@
 #include <GL/glut.h>
 #include <map>
 #include <iostream>
+#include <node.h>
 
 using namespace std;
 
 class MapDisplay
 {
 public:
-    MapDisplay(map<float,float> mapa,int argc, char **argv);
+    MapDisplay(vector<Node*> *mapa,int argc, char **argv);
     void start();
 private:
     static void display();
     void myinit();
-    static map<float,float> mapa;
+    static vector<Node*> *mapa;
 };
 
 #endif // MAPDISPLAY_H

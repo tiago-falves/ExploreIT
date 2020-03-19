@@ -13,7 +13,6 @@ using namespace std;
 MapParser::MapParser(int argc, char **argv)
 {
     vector<Node*> nodes;
-    map<float,float> display_nos;
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file("map.osm");
     map<long int,int> nos;
@@ -26,18 +25,17 @@ MapParser::MapParser(int argc, char **argv)
         long unsigned id=(tool.attribute("id").as_llong());
         double latitude=(tool.attribute("lat").as_double());
         double longitude=(tool.attribute("lon").as_double());
-        display_nos[(longitude+7.71536)*2000]=(latitude-40.2646)*2000;
         nodes.push_back(new Node(longitude,latitude,0,id));
     }
 
     //iterate ways
-    for (pugi::xml_node way: doc.child("osm").children("way"))
+    for (pugi::xml_node way_it: doc.child("osm").children("way"))
     {
-        for (pugi::xml_node node: way.children("nd"))
+        for (pugi::xml_node node_it: way_it.children("nd"))
         {
-            auto no=nos.find(node.attribute("ref").as_llong());
+            auto no=nos.find(node_it.attribute("ref").as_llong());
             if(no == nos.end()){
-                nos[node.attribute("ref").as_llong()]=1;
+                nos[node_it.attribute("ref").as_llong()]=1;
             }
             else{
                 no->second++;
@@ -46,9 +44,7 @@ MapParser::MapParser(int argc, char **argv)
     }
 
     //display map
-    MapDisplay temp_map=MapDisplay(display_nos,argc,argv);
+    MapDisplay temp_map=MapDisplay(&nodes,argc,argv);
     temp_map.start();
-
-
 
 }

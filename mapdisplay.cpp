@@ -1,15 +1,15 @@
 #include "mapdisplay.h"
 
 
-map<float,float> MapDisplay::mapa={};
+vector<Node*> *MapDisplay::mapa={};
 void MapDisplay::display(){
     glClear(GL_COLOR_BUFFER_BIT);
     glColor3f(1.0, 0.0, 0.0);
 
     glBegin(GL_POINTS);
-    for(auto i:mapa){
-        cout<<i.first<<" "<<i.second<<endl;
-        glVertex2f(i.first,i.second);
+    for(auto i:*mapa){
+        cout<<i->getLatitude()<<" "<<i->getLongitude()<<endl;
+        glVertex2f((i->getLongitude()+7.71536)*2000,(i->getLatitude()-40.2646)*2000);
     }
     glEnd();
     glFlush();
@@ -24,7 +24,7 @@ void MapDisplay::myinit(){
     gluOrtho2D(0.0, 499.0, 0.0, 499.0);
 }
 
-MapDisplay::MapDisplay(map<float,float> mapa,int argc, char **argv)
+MapDisplay::MapDisplay(vector<Node*> *mapa,int argc, char **argv)
 {
     this->mapa=mapa;
     glutInit(&argc, argv);
