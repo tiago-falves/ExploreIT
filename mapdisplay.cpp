@@ -8,7 +8,7 @@ void MapDisplay::display(){
 
     glBegin(GL_POINTS);
     for(auto i:*mapa){
-        cout<<i->getLatitude()<<" "<<i->getLongitude()<<endl;
+        //cout<<i->getLatitude()<<" "<<i->getLongitude()<<endl;
         glVertex2f((i->getLongitude()+7.71536)*2000,(i->getLatitude()-40.2646)*2000);
     }
     glEnd();

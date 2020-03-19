@@ -19786,14 +19786,15 @@
  </node>
  <node id="7188727771" visible="true" version="1" changeset="80608069" timestamp="2020-02-05T21:02:37Z" user="pebogufi" uid="66430" lat="40.3989280" lon="-7.5406897">
   <tag k="amenity" v="parking_space"/>
+ </node> 
+<node id="7230146662" visible="true" version="1" changeset="81269888" timestamp="2020-02-20T11:35:52Z" user="somini" uid="3808313" lat="40.4082222" lon="-7.5673487">
+  <tag k="name" v="Casa das Penhas Douradas"/>
+  <tag k="tourism" v="hotel"/>
  </node>
  <node id="7188761653" visible="true" version="1" changeset="80608069" timestamp="2020-02-05T21:02:37Z" user="pebogufi" uid="66430" lat="40.4004993" lon="-7.5412174">
   <tag k="amenity" v="parking_space"/>
  </node>
- <node id="7230146662" visible="true" version="1" changeset="81269888" timestamp="2020-02-20T11:35:52Z" user="somini" uid="3808313" lat="40.4082222" lon="-7.5673487">
-  <tag k="name" v="Casa das Penhas Douradas"/>
-  <tag k="tourism" v="hotel"/>
- </node>
+
  <way id="25999502" visible="true" version="8" changeset="40182234" timestamp="2016-06-21T14:30:39Z" user="Ricardo Martins" uid="470644">
   <nd ref="283646614"/>
   <nd ref="1372961543"/>

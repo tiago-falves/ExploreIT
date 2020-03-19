@@ -2,6 +2,7 @@
 #define MAPPARSER_H
 #include <mapdisplay.h>
 
+class Node;
 class MapParser
 {
 public:

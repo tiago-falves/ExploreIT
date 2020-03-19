@@ -6,6 +6,7 @@
 
 using namespace std;
 
+class Connections;
 class Node
 {
 public:
@@ -13,11 +14,16 @@ public:
     double getLongitude();
     double getLatitude();
     double getAltitude();
-    long int getId();
+    long unsigned getId();
+    static Node* findNode(long unsigned id,vector<Node*> vector);
+    void addConnection(Connections *connection);
 private:
     double longitude,latitude,altitude;
     const long unsigned id;
-    vector<Connections> connections;
+    vector<Connections*> connections;
+
 };
+
+bool operator <(Node &a,Node &b);
 
 #endif // NODE_H
