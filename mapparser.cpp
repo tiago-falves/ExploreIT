@@ -54,6 +54,7 @@ MapParser::MapParser(int argc, char **argv)
 
     //display map
     MapDisplay temp_map=MapDisplay(&nodes,argc,argv);
+    Way way(Node::findNode(283646614,nodes),Node::findNode(283645446,nodes));
     temp_map.start();
 
 }

@@ -17,10 +17,10 @@ public:
     long unsigned getId();
     static Node* findNode(long unsigned id,vector<Node*> vector);
     void addConnection(Connections *connection);
+    vector<Connections*> connections;
 private:
     double longitude,latitude,altitude;
     const long unsigned id;
-    vector<Connections*> connections;
 
 };
 

@@ -25,17 +25,50 @@ Connections::Connections(Node *this_node,Node *next_node)
 }
 
 Node *Connections::get_this_node(){
-
+    return this_node;
 }
 
 Node *Connections::get_next_node(){
-
+    return next_node;
 }
 
 double Connections::get_delta_h(){
-
+    return delta_h;
 }
 
 double Connections::get_distance(){
-
+    return distance;
 }
+class W_node{
+public:
+    W_node(Node *actual,Node *before, double peso)
+        :actual(actual),before(before),peso(peso)
+    {
+    }
+    Node *actual;
+    Node *before;
+    double peso;
+
+};
+
+bool operator <(const W_node& a,const W_node& b){
+    return a.peso<b.peso;
+}
+
+void explore(priority_queue<W_node> *linha,Node *last){
+    W_node tempTop=linha->top();
+    linha->pop();
+    for(auto i:tempTop.actual->connections){
+        Connections tempConnection(i->get_next_node(),last);
+        W_node temp(i->get_next_node(),i->get_this_node(),i->get_distance()/5000*3600+tempTop.peso+tempConnection.get_distance()/5000*3600);
+        linha->push(temp);
+    }
+}
+
+void Way::getShortestPath(){
+
+    priority_queue<W_node> linha;
+    linha.push(W_node(initial,nullptr,0));
+    explore(&linha,(end));
+}
+
