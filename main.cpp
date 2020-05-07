@@ -1,11 +1,8 @@
-#include <iostream>
-#include <mapparser.h>
+#include "iostream"
+#include "graph.h"
 
-using namespace std;
-
-int main(int argc, char **argv)
+int main()
 {
-    MapParser temp(argc,argv);
-    cout << "Hello World!" << endl;
-    return 0;
+    Graph a;
+    a.Dijkstra();
 }
