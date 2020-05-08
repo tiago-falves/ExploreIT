@@ -4,5 +4,5 @@
 int main()
 {
     Graph a;
-    a.Dijkstra();
+    //a.Dijkstra();
 }

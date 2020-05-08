@@ -1,0 +1,131 @@
+\documentclass[a4paper]{article}
+
+%-------PACKAGES--------%
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{url}
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[portuguese]{babel}
+\usepackage{lmodern,textcomp}
+\usepackage{enumitem}
+
+
+%---- lstlist setting ----%
+\lstset{
+  frame=tb,
+  language=Prolog,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numberstyle=\tiny\color{CadetBlue},
+  keywordstyle=\color{Blue},
+  commentstyle=\color{OliveGreen},
+  stringstyle=\color{Maroon},
+  numbers=none,
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+  }
+
+
+\begin{document}
+
+\setlength{\textwidth}{16cm}
+\setlength{\textheight}{22cm}
+
+\title{\Huge\textbf{ExploreIT}\linebreak\linebreak\linebreak
+\Large\textbf{Relatório Intermédio}\linebreak\linebreak
+\linebreak\linebreak
+\includegraphics[scale=0.1]{images/feup-logo.png}\linebreak\linebreak
+\linebreak\linebreak
+\Large{Mestrado Integrado em Engenharia Informática e Computação} \linebreak\linebreak
+\Large{Concepção e Análise de Algoritmos}\linebreak
+}
+
+\author{\textbf{Grupo Chameleon\_1}\\ João Romão - up201806779 \\ Luís Pinto - up201806206 \\ Tiago  Alves - up201603820 \\\linebreak\linebreak \\
+ \\ Faculdade de Engenharia da Universidade do Porto \\ Rua Roberto Frias, s\/n, 4200-465 Porto, Portugal \linebreak\linebreak\linebreak
+\linebreak\linebreak\vspace{1cm}}
+%\date{Junho de 2007}
+\maketitle
+\thispagestyle{empty}
+
+%************************************************************************************************
+%************************************************************************************************
+
+\newpage
+
+\section*{Resumo}
+Este projeto tem como objetivo a implementação do jogo de tabuleiro 'Chameleon' na linguagem de programação Prolog, usando os benefícios da programação em lógica na sua modelação.
+O primeiro desafio no projeto foi encontrar uma representação interna que representasse de forma simples o estado de jogo, sendo que a melhor opção encontrada foi uma lista de listas de listas, visto que não basta saber qual é a peça que se encontra numa determinada posição, como a cor onde ela está e a sua 'Natureza'.
+De seguida, com recurso ao SWI-Prolog, foi criada a interface gráfica do jogo, onde foi necessário a partir da representação interna definida anteriormente, representar o tabuleiro e a posição, equipa e natureza de cada peça. Foram também criados mecanismos de obtenção de input, resistentes a inputs inválidos e menus para interface com o utilizador.
+
+Relativamente ao jogo em si, foram definidos todos os mecanismos que permitiam aos jogadores mover as peças no tabuleiro, avaliando se uma jogada era válida segundo as regras do jogo. Para além disso, foram criados os critérios de paragem, que terminavam a execução do jogo caso a jogada cumprisse uma das três maneiras de ganhar.
+
+Após o modo \textit{Humano vs Humano} estar bem definido, foram criados diversos modos de jogo, em que um utilizador poderia jogar contra o computador em três níveis diferentes: \textit{Easy}, que escolhe as suas jogadas aleatoreamente; \textit{Medium}, que tem como objetivo tentar avançar o máximo no tabuleiro; \textit{Hard}, que tem como prioridade capturar as peças do adversário e, finalmente, \textit{Expert}, a \textit{AI} que utilizada um algoritmo do tipo \textit{minimax} como critério para escolher a melhor jogada.
+
+Finalmente, com todos os conhecimentos adquiridos ao longo da disiplina de Programação em Lógica, foi possível cumprir todos os objetivos propostos e superar os problemas que surgiram ao longo do desenvolvimento do projeto.
+
+\newpage 
+
+\tableofcontents
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introdução}
+
+Este trabalho foi desenvolvido no âmbito da disciplina Programação em Lógica, lecionada no 3º ano do Mestrado Integrado de Engenharia Informática, tendo como objetivo introduzir os alunos a este paradigma de programação, tão diferente de todas as cadeiras realizadas até ao momento.\newline
+
+Decidiu-se escolher o jogo 'Chameleon', de todas as opções possíveis, visto que ambos os autores deste trabalho tinham um grande interesse em xadrez e na dinâmica que era adiconava a este clássico. Além disso, as peças neste jogo variam consoante a sua posição no tabuleiro e existem 3 maneiras de o ganhar: tudo indicava que se tratava de um desafio interessante. \newline
+
+Este relatório encontra-se dividido em 4 secções:
+
+\begin{enumerate}
+	\item \textbf{Chameleon}, onde é feita uma breve descrição do jogo, assim como de todas as suas regras.
+	\item \textbf{Lógica do jogo}, onde é apresentada detalhadamente a implementaçao do jogo, incluindo a forma de representação do estado do tabuleiro e sua vizualização, execução de movimentos, verificação das regras do jogo, assim como a determinação do final do jogo e o cálculo das jogadas a realizar pelo computador utilizando vários níveis de dificuldade.
+	\item \textbf{Conclusão}, onde é feito um pequeno sumário acerca deste trabalho e do conhecimento que se retirou dele.
+	
+
+
+\end{enumerate}
+	
+\newpage
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusões}
+
+xxx
+
+\vspace{15pt}
+
+\begin{thebibliography}{9}
+
+\bibitem{sigarra} 
+BGG: Chameleon,
+\\\texttt{https://www.boardgamegeek.com/boardgame/273396/chameleon}
+ 
+\bibitem{kickstarter} 
+KickStarter: Chameleon - A Modern Version of Chess,
+\\\texttt{https://www.kickstarter.com/projects/logygames/chameleon-\newline a-modern-version-of-chess}
+
+\bibitem{swiprolog}
+SWI Prolog
+\\\texttt{https://www.swi-prolog.org/}
+
+\bibitem{theartofprolog}
+Sterling, Leon; The Art of Prolog,
+\\\texttt{ISBN: 0-262-69163-9}
+
+\end{thebibliography}
+
+\end{document}
