@@ -19,22 +19,12 @@ class Graph
 {
     unordered_map<long,Node*> nodes;
 public:
-    Graph();
     unordered_map<long,Node*> getNodes();
     double Dijkstra();
     Node *findNode(const int &id) const;
     bool addNode(const int &id, int x, int y);
-
     bool addEdge(int origId, int destId);
 };
-
-
-
-
-
-
-
-
 
 
 struct setpHash

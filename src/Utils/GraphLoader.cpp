@@ -43,17 +43,17 @@ bool GraphLoader::loadNodes(Graph * graph) {
 
 
 bool GraphLoader::loadEdges(Graph * graph) {
-    int n_edges, id1, id2;
+    int numberEdges, originId, destId;
     char c;
 
     ifstream edgesFile("../data/edges.txt");
     if (!edgesFile.is_open()) return false;
 
-    edgesFile >> n_edges;
+    edgesFile >> numberEdges;
 
-    for (int i = 0; i < n_edges; i++) {
-        edgesFile >> c >> id1 >> c >> id2 >> c;
-        graph->addEdge(id1, id2);
+    for (int i = 0; i < numberEdges; i++) {
+        edgesFile >> c >> originId >> c >> destId >> c;
+        graph->addEdge(originId, destId);
     }
 
     edgesFile.close();

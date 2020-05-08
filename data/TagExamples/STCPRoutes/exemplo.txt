@@ -1,0 +1,7 @@
+STCP:
+(ID nó mais proximo, Código Paragem, Código Linha, Código Zona, Concelho, Freguesia, Morada, Tipo Paragem)
+(128560439, 'ADA3', '603', 'C1', 'PORTO', 'PARANHOS', 'RUA VALE FORMOSO', 'PARAGEM SEM ABRIGO')
+
+METRO:
+(ID nó mais próximo, Nome Paragem, Lista de Linhas)
+(698819576, 'Estádio do Dragão', ['A', 'B', 'E', 'F'])
