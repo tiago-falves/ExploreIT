@@ -10,12 +10,16 @@ class Node;
 
 class Edge
 {
-    double distance;
-    Node *destination;
+private:
+    double weight;
+    Node * destination;
+    Node * origin;
 public:
-    Edge(float distance,Node *destination);
-    Node *getNode();
-    double getDistance();
+    Edge(Node *origin, Node *destiny, double weight);
+    Edge(float weight,Node *destination);
+    Node * getDestination();
+    Node * getOrigin();
+    double getWeight();
 };
 
 

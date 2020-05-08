@@ -4,14 +4,14 @@
 #include <vector>
 #include <iostream>
 #include <sstream>
-#include "src/Graph/graph.h"
+
 
 #include <unordered_map>
 #include <unordered_set>
 //#include <queue>
 using namespace std;
 
-vector<double> getSubStr(string in){
+/*vector<double> getSubStr(string in){
     std::vector<double> vect;
 
     std::stringstream ss(in);
@@ -25,7 +25,7 @@ vector<double> getSubStr(string in){
     }
 
     return vect;
-}
+}*/
 
 template<class T> T *binarySearch(vector<T*> vector,long x)
 {

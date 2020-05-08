@@ -20,7 +20,7 @@ public:
 
     Node();
 
-    void addEdge(Node *destination);
+    void addEdge(Node * origin,Node *destination);
 
     double getX() const;
 

@@ -1,52 +1,33 @@
 #include "graph.h"
-#include "src/utils.h"
+#include "src/Utils/utils.h"
 #include <chrono>
 #include <queue>
-
 
 
 unordered_map<long, Node *> Graph::getNodes(){
     return nodes;
 }
 
-Graph::Graph(){
+Node* Graph::findNode(const int &id) const {
+    unordered_map<long, Node*>::const_iterator it = nodes.find(id);
+    return it == nodes.end() ? nullptr : it->second;
+}
 
-    string ask;
-    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+bool Graph::addNode(const int &id, int x, int y) {
+    if (findNode(id) != nullptr) return false;
+    Node * newNode = new Node(id, x, y);
+    this->nodes.insert(pair<int,Node*>(id, newNode));
+    return true;
+}
 
-    cout<<"Start!"<<endl;
-    nodes.reserve(2000000);
-    cout<<"Nodes Start!"<<endl;
-    fstream file_node("data/nodes.txt");
-    string in;
-    getline(file_node,in);
-    while (getline(file_node,in)) {
-        string temp=in.substr(1,in.size()-3);
-        vector<double> tmp_vector=getSubStr(temp);
-        nodes[tmp_vector.at(0)]=new Node(tmp_vector.at(0),tmp_vector.at(1),tmp_vector.at(2));
-    }
-    file_node.close();
-    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+bool Graph::addEdge(int origId, int destId) {
+    Node * orig = findNode(origId);
+    Node * dest = findNode(destId);
+    if(orig == nullptr || dest == nullptr) return false;
 
-    cout<<"Nodes Ended!! "<<std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()/1000000.0<<endl;
-
-    begin = std::chrono::steady_clock::now();
-    fstream file_edges("data/edges.txt");
-    getline(file_edges,in);
-    cout<<"Edges Start!"<<endl;
-    while (getline(file_edges,in)) {
-        string temp=in.substr(1,in.size()-3);
-        vector<double> tmp_vector=getSubStr(temp);
-        Node *a=(nodes.find(tmp_vector.at(0)))->second;
-        Node *b=(nodes.find(tmp_vector.at(1)))->second;
-        if(a!=NULL && b!=NULL){
-            a->addEdge(b);
-            b->addEdge(a);
-        }
-    }
-    end = std::chrono::steady_clock::now();
-    cout<<"Edges Ended!! "<<std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()/1000000.0<<endl;
-
+    orig->addEdge(orig, dest);
+    dest->addEdge(dest, orig);
+    return true;
 }
 
 bool operator <(ww a,ww b){
@@ -100,12 +81,12 @@ double Graph::Dijkstra(){
         if(u.first->getId()!=target.getId()){
             if(n_c.find(u.first)==n_c.end()){
                 for(auto v:u.first->getEdges()){
-                    if(n_c.find(v->getNode())==n_c.end()){
-                        double alt = dist[u.first] + v->getDistance();
-                        if(alt < dist[v->getNode()]){
-                            dist[v->getNode()] = alt;
-                            prev[v->getNode()] = u.first;
-                            ww tmp(v->getNode(),alt);
+                    if(n_c.find(v->getDestination())==n_c.end()){
+                        double alt = dist[u.first] + v->getWeight();
+                        if(alt < dist[v->getDestination()]){
+                            dist[v->getDestination()] = alt;
+                            prev[v->getDestination()] = u.first;
+                            ww tmp(v->getDestination(),alt);
                             Q.push(tmp);
                         }
                         n_c.insert(u.first);
