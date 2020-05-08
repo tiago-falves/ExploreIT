@@ -5,7 +5,7 @@
 #ifndef CAL1920_GRAPHDRAWER_H
 #define CAL1920_GRAPHDRAWER_H
 
-#include "../../../GraphViewer/cpp/graphviewer.h"
+#include "../../GraphViewer/cpp/graphviewer.h"
 
 
 class GraphDrawer {
