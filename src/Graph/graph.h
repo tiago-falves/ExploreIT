@@ -8,46 +8,10 @@
 #include <algorithm>
 #include <vector>
 #include <unordered_map>
+#include "Node.h"
+
 using namespace std;
 
-
-
-class Node;
-class Edge;
-
-
-class Edge
-{
-    double distance;
-    Node *destination;
-public:
-    Edge(double distance,Node *destination);
-    Node *getNode();
-    double getDistance();
-};
-
-class Node
-{
-private:
-    long int id=0;
-    list<Edge*> edges;
-    double x=0,y=0;
-public:
-    Node(long int id,double x,double y);
-    Node();
-    void addEdge(Node *destination);
-    double getX() const;
-    double getY() const;
-    long  getId()  const;
-    list<Edge*> getEdges();
-    bool operator <(Node b){
-        return this->getId()>b.getId();
-    }
-    long operator ()(){
-        return id;
-    }
-
-};
 
 
 bool operator <(Node &a,Node &b);
