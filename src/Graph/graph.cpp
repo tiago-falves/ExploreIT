@@ -42,12 +42,17 @@ typedef unordered_map<Node*,double, setpHash, setpHash> d;
 typedef unordered_map<Node*,Node*, setpHash, setpHash> p;
 typedef unordered_set<Node*, setpHash, setpHash> n;
 
+
+vector<Edge*> Graph::getEdges(){
+    return edges;
+};
+
 double Graph::Dijkstra(){
     string carry;// The main loop
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     cout<<endl<<"Start Dijkstra!!"<<endl;
-    Node source=(*nodes.find(26018641)->second);
-    Node target=(*nodes.find(26018620)->second);
+    Node source=(*nodes.find(0)->second);
+    Node target=(*nodes.find(284)->second);
     d dist;
     p prev;
     priority_queue<ww> Q;
@@ -68,6 +73,7 @@ double Graph::Dijkstra(){
 
     cout<<"Starting"<<endl<<flush;
     begin = std::chrono::steady_clock::now();
+    Node *bef;
     while(!Q.empty()){
         auto u=Q.top();
         Q.pop();
@@ -76,7 +82,7 @@ double Graph::Dijkstra(){
             //dist[u.first]=0;
             end = std::chrono::steady_clock::now();
             cout<<"Dijkstra Ended!! "<<std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()/1000000.0<<endl;
-	    return 0;
+            break;
         }
         if(u.first->getId()!=target.getId()){
             if(n_c.find(u.first)==n_c.end()){
@@ -98,6 +104,12 @@ double Graph::Dijkstra(){
             //cout<<u.second<<" "<<u.first->getId()<<endl;
         }
         cout<<u.second<<" "<<u.first->getId()<<endl;
+        bef=u.first;
+    }
+    Node* tmp=bef;
+    while (tmp->getId()!=source.getId()){
+        edges.push_back(new Edge(tmp,prev[tmp],1));
+        tmp=prev[tmp];
     }
     return 0;
 }

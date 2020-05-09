@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 #include "Node.h"
 
 using namespace std;
@@ -18,8 +19,10 @@ bool operator <(Node &a,Node &b);
 class Graph
 {
     unordered_map<long,Node*> nodes;
+    vector<Edge*> edges;
 public:
     unordered_map<long,Node*> getNodes();
+    vector<Edge*> getEdges();
     double Dijkstra();
     Node *findNode(const int &id) const;
     bool addNode(const int &id, int x, int y);

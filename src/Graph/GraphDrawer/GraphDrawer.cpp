@@ -30,10 +30,6 @@ void GraphDrawer::drawFromGraph(Graph * graph) {
     float max_y=-800000000000;
 
     for (auto node:graph->getNodes()) {
-        graphViewer->addNode(node.second->getId(),
-                             (node.second->getX()-520106.0)/(40512-20106)*1990+5,
-                             (node.second->getY()-4486780.0)/(507560-486780)*1990+5
-        );
         if(node.second->getX()>max_x)
             max_x=node.second->getX();
         if(node.second->getX()<min_x)
@@ -46,11 +42,17 @@ void GraphDrawer::drawFromGraph(Graph * graph) {
 
 
     }
-    for (auto node:graph->getNodes())
-        for(auto edge:node.second->getEdges()){
-            graphViewer->addEdge(++i,edge->getOrigin()->getId(),edge->getDestination()->getId(),EdgeType::UNDIRECTED);
-            graphViewer->setEdgeColor(i,"blue");
-        }
+
+    for (auto node:graph->getNodes()) {
+        graphViewer->addNode(node.second->getId(),
+                             (node.second->getX()-min_x)/(max_x-min_x)*1990+5,
+                             (node.second->getY()-min_y)/(max_y-min_y)*1990+5
+        );
+    }
+    for(auto edge:graph->getEdges()){
+        graphViewer->addEdge(++i,edge->getOrigin()->getId(),edge->getDestination()->getId(),EdgeType::UNDIRECTED);
+        graphViewer->setEdgeColor(i,"blue");
+    }
     cout<<max_x<<" "<<min_x<<endl;
     cout<<max_y<<" "<<min_y<<endl;
     graphViewer->rearrange();
