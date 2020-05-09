@@ -14,5 +14,5 @@ int main()
     //Node * zas = a->findNode(26018671);
     //cout <<to_string(zas->getX());
 
-    //a.Dijkstra();
+    graph->Dijkstra();
 }
