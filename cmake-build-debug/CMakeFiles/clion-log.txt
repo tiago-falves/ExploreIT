@@ -1,0 +1,4 @@
+/home/miguel/Programas/clion-2019.3.5/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/miguel/Documentos/faculdade/2/2/cal/CAL1920
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug

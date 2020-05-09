@@ -57,10 +57,10 @@ void drawGraphFromFile(std::string name, unsigned int port){
     //draw edges
     for(int i = 0; i < n_edges ; i++) {
         std::getline(edges, line);
+	0, 18, 0, blue ,1, - , % , % 
         sscanf( line.c_str(), "(%u, %u, %u, %s ,%u, %s , %s , %s )", &v1, &v2, &type, color, &thickness, label, flow, weight);
         (type)? gv->addEdge(i, v1, v2, EdgeType::DIRECTED): gv->addEdge(i, v1, v2, EdgeType::UNDIRECTED);
         gv->setEdgeColor(i, color);
-        gv->setEdgeThickness(i, thickness);
         if (label[0] != '-')
             gv->setEdgeLabel(i, label);
         if (flow[0] != '%')
