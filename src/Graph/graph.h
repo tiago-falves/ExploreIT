@@ -196,8 +196,10 @@ void Graph<T>::dijkstraShortestPath(const T &origin, const T &target) {
     {
         auto v = q.extractMin();
         v->visited = true;
-        if(v->getInfo() == target)
+        if(v->getInfo() == target) {
+            cout<<"Peso: "<<v->weight<<endl;
             break;
+        }
         for(auto e : v->adj)
         {
             auto oldDist = e.dest->dist;
@@ -262,10 +264,10 @@ Vertex<T> * Graph<T>::initSingleSource(const T &origin, const T &dest)
 template<class T>
 bool Graph<T>::relax(Vertex<T> *v, Vertex<T> *w, double weight)
 {
-    if(sqrt(pow(v->weight + weight-2000+w->dist_to_pret,2)) < sqrt(pow(w->weight-2000+w->dist_to_pret,2)))
+    if(sqrt(pow(v->weight + weight-69*37+w->dist_to_pret,2)) < sqrt(pow(w->weight-69*37+w->dist_to_pret,2)))
     {
         if(v->path != w) {
-            w->dist = sqrt(pow(v->weight + weight - 2000 + w->dist_to_pret, 2));
+            w->dist = sqrt(pow(v->weight + weight - 69*37 + w->dist_to_pret, 2));
             w->weight = v->weight + weight;
             w->path = v;
             return true;
