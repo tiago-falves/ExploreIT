@@ -52,7 +52,7 @@ double Graph::Dijkstra(){
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     cout<<endl<<"Start Dijkstra!!"<<endl;
     Node source=(*nodes.find(0)->second);
-    Node target=(*nodes.find(284)->second);
+    Node target=(*nodes.find(20)->second);
     d dist;
     p prev;
     priority_queue<ww> Q;
@@ -77,6 +77,8 @@ double Graph::Dijkstra(){
     while(!Q.empty()){
         auto u=Q.top();
         Q.pop();
+        if(u.first->getId()==target.getId())
+            break;
         if(u.second==9000000900000000000){
             //return 0;
             //dist[u.first]=0;
