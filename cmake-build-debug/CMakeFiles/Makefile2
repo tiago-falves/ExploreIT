@@ -74,12 +74,12 @@ preinstall:
 CMakeFiles/CAL1920.dir/all:
 	$(MAKE) -f CMakeFiles/CAL1920.dir/build.make CMakeFiles/CAL1920.dir/depend
 	$(MAKE) -f CMakeFiles/CAL1920.dir/build.make CMakeFiles/CAL1920.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target CAL1920"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11 "Built target CAL1920"
 .PHONY : CMakeFiles/CAL1920.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/CAL1920.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles 11
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/CAL1920.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/CAL1920.dir/rule
