@@ -4,24 +4,24 @@
 
 #include <string>
 #include <chrono>
+#include <fstream>
 #include "GraphLoader.h"
 #include "../../Utils/utils.h"
 #include "../graph.h"
+#include "Node.h"
+#include "Position.h"
 
 using namespace std;
 
-bool GraphLoader::loadGraph(Graph * graph) {
+bool GraphLoader::loadGraph(Graph<Node> * graph) {
     return (loadNodes(graph) && loadEdges(graph));
 }
-bool GraphLoader::loadNodes(Graph * graph) {
+bool GraphLoader::loadNodes(Graph<Node> * graph) {
 
     int numberNodes, id;
     double x, y;
     char c;
 
-    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-
-    cout<<"Started Nodes!"<<endl;
     fstream file_node("../data/nodes.txt");
     if (!file_node.is_open())
     {
@@ -30,10 +30,25 @@ bool GraphLoader::loadNodes(Graph * graph) {
     }
 
     file_node >> numberNodes;
+    
+    graph->min_x=8000000000000;
+    graph->max_x=-800000000000;
+    graph->min_y=8000000000000;
+    graph->max_y=-800000000000;
 
     for (int i = 0; i < numberNodes; i++) {
         file_node >> c >> id >> c >> x >> c >> y >> c;
-        graph->addNode(id, x, y);
+        graph->addVertex(Node(id, x, y));
+
+        if(x>graph->max_x)
+            graph->max_x=x;
+        if(x<graph->min_x)
+            graph->min_x=x;
+
+        if(y>graph->max_y)
+            graph->max_y=y;
+        if(y<graph->min_y)
+            graph->min_y=y;
         //cout << to_string(id) << " x:" << to_string(x) << "\n";
     }
     file_node.close();
@@ -44,7 +59,7 @@ bool GraphLoader::loadNodes(Graph * graph) {
 }
 
 
-bool GraphLoader::loadEdges(Graph * graph) {
+bool GraphLoader::loadEdges(Graph<Node> * graph) {
     int numberEdges, originId, destId;
     char c;
 
@@ -55,7 +70,12 @@ bool GraphLoader::loadEdges(Graph * graph) {
 
     for (int i = 0; i < numberEdges; i++) {
         edgesFile >> c >> originId >> c >> destId >> c;
-        graph->addEdge(originId, destId);
+        Node tmp_n_o=graph->findVertex(Node(originId,0,0))->getInfo();
+        Node tmp_n_d=graph->findVertex(Node(destId,0,0))->getInfo();
+
+        double weight=Position(tmp_n_o.getX(),tmp_n_o.getY()).calculateRealDistance(Position(tmp_n_d.getX(),tmp_n_d.getY()));
+        graph->addEdge(Node(originId,0,0),Node(destId,0,0),weight);
+        graph->addEdge(Node(destId,0,0),Node(originId,0,0),weight);
     }
 
     edgesFile.close();

@@ -94,12 +94,6 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/Edge.cpp">
-			<Option target="CAL1920"/>
-		</Unit>
-		<Unit filename="/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/Edge.h">
-			<Option target="CAL1920"/>
-		</Unit>
 		<Unit filename="/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/GraphDrawer/GraphDrawer.cpp">
 			<Option target="CAL1920"/>
 		</Unit>
@@ -118,9 +112,6 @@
 		<Unit filename="/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/Node.h">
 			<Option target="CAL1920"/>
 		</Unit>
-		<Unit filename="/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/graph.cpp">
-			<Option target="CAL1920"/>
-		</Unit>
 		<Unit filename="/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/graph.h">
 			<Option target="CAL1920"/>
 		</Unit>
@@ -137,6 +128,9 @@
 			<Option target="CAL1920"/>
 		</Unit>
 		<Unit filename="/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/GraphViewer/cpp/graphviewer.h">
+			<Option target="CAL1920"/>
+		</Unit>
+		<Unit filename="/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Utils/MutablePriorityQueue.h">
 			<Option target="CAL1920"/>
 		</Unit>
 		<Unit filename="/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Utils/Position.cpp">

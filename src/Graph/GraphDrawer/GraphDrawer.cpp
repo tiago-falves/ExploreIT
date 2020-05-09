@@ -17,43 +17,29 @@ void GraphDrawer::resetGraphViewer() {
     graphViewer = new GraphViewer(width, height, false);
 }
 
-void GraphDrawer::drawFromGraph(Graph * graph) {
+void GraphDrawer::drawFromGraph(Graph<Node> * graph) {
+    cout<<"entrei"<<endl;
     int i = 0;
     resetGraphViewer();
     graphViewer->createWindow(width, height);
     graphViewer->defineEdgeDashed(0);
     graphViewer->defineEdgeCurved(0);
     graphViewer->defineVertexSize(1);
-    float min_x=8000000000000;
-    float max_x=-800000000000;
-    float min_y=8000000000000;
-    float max_y=-800000000000;
-
-    for (auto node:graph->getNodes()) {
-        if(node.second->getX()>max_x)
-            max_x=node.second->getX();
-        if(node.second->getX()<min_x)
-            min_x=node.second->getX();
-
-        if(node.second->getY()>max_y)
-            max_y=node.second->getY();
-        if(node.second->getY()<min_y)
-            min_y=node.second->getY();
 
 
+    for (auto node:graph->getVertexSet()) {
+        graphViewer->
+        addNode(
+                node->getInfo().getId(),
+                (node->getInfo().getX()-graph->min_x)/(graph->max_x-graph->min_x)*1990+5,
+                (node->getInfo().getY()-graph->min_y)/(graph->max_y-graph->min_y)*1990+5);
     }
+    Node a=Node(40,0,0);
+    Node b=Node(200,0,0);
+    auto tmp = graph->getPath(a,b);
+    cout<<"ola: "<<tmp.size()<<endl;
 
-    for (auto node:graph->getNodes()) {
-        graphViewer->addNode(node.second->getId(),
-                             (node.second->getX()-min_x)/(max_x-min_x)*1990+5,
-                             (node.second->getY()-min_y)/(max_y-min_y)*1990+5
-        );
-    }
-    for(auto edge:graph->getEdges()){
-        graphViewer->addEdge(++i,edge->getOrigin()->getId(),edge->getDestination()->getId(),EdgeType::UNDIRECTED);
-        graphViewer->setEdgeColor(i,"blue");
-    }
-    cout<<max_x<<" "<<min_x<<endl;
-    cout<<max_y<<" "<<min_y<<endl;
+    for(int it=0;it<tmp.size()-1;it++)
+        graphViewer->addEdge(++i,tmp.at(it).getId(),tmp.at(it+1).getId(),EdgeType::UNDIRECTED);
     graphViewer->rearrange();
 }

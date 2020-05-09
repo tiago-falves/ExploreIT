@@ -7,13 +7,12 @@
 #define CAL1920_NODE_H
 
 #include <list>
-#include "Edge.h"
+#include "graph.h"
 
 
 class Node {
 private:
     long int id = 0;
-    std::list<Edge *> edges;
     double x = 0, y = 0;
 public:
     Node(long int id, double x, double y);
@@ -28,9 +27,8 @@ public:
 
     long getId() const;
 
-    std::list<Edge *> getEdges();
-
     bool operator<(Node b) {return this->getId() > b.getId();}
+    bool operator==(const Node b) {return this->getId() == b.getId();}
 
     long operator()() {return id;}
 

@@ -5,6 +5,7 @@
 #ifndef CAL1920_GRAPHDRAWER_H
 #define CAL1920_GRAPHDRAWER_H
 
+#include <Node.h>
 #include "../../GraphViewer/cpp/graphviewer.h"
 
 
@@ -14,7 +15,7 @@ private:
     GraphViewer * graphViewer;
 public:
     void resetGraphViewer();
-    void drawFromGraph(Graph *graph);
+    void drawFromGraph(Graph<Node> *graph);
     GraphDrawer(int width, int height);
 };
 

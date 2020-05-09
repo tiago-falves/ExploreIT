@@ -83,35 +83,9 @@ CMakeFiles/CAL1920.dir/src/Graph/GraphLoader/GraphLoader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CAL1920.dir/src/Graph/GraphLoader/GraphLoader.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/GraphLoader/GraphLoader.cpp -o CMakeFiles/CAL1920.dir/src/Graph/GraphLoader/GraphLoader.cpp.s
 
-CMakeFiles/CAL1920.dir/src/Graph/Edge.cpp.o: CMakeFiles/CAL1920.dir/flags.make
-CMakeFiles/CAL1920.dir/src/Graph/Edge.cpp.o: ../src/Graph/Edge.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/CAL1920.dir/src/Graph/Edge.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CAL1920.dir/src/Graph/Edge.cpp.o -c /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/Edge.cpp
-
-CMakeFiles/CAL1920.dir/src/Graph/Edge.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CAL1920.dir/src/Graph/Edge.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/Edge.cpp > CMakeFiles/CAL1920.dir/src/Graph/Edge.cpp.i
-
-CMakeFiles/CAL1920.dir/src/Graph/Edge.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CAL1920.dir/src/Graph/Edge.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/Edge.cpp -o CMakeFiles/CAL1920.dir/src/Graph/Edge.cpp.s
-
-CMakeFiles/CAL1920.dir/src/Graph/graph.cpp.o: CMakeFiles/CAL1920.dir/flags.make
-CMakeFiles/CAL1920.dir/src/Graph/graph.cpp.o: ../src/Graph/graph.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/CAL1920.dir/src/Graph/graph.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CAL1920.dir/src/Graph/graph.cpp.o -c /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/graph.cpp
-
-CMakeFiles/CAL1920.dir/src/Graph/graph.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CAL1920.dir/src/Graph/graph.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/graph.cpp > CMakeFiles/CAL1920.dir/src/Graph/graph.cpp.i
-
-CMakeFiles/CAL1920.dir/src/Graph/graph.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CAL1920.dir/src/Graph/graph.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/graph.cpp -o CMakeFiles/CAL1920.dir/src/Graph/graph.cpp.s
-
 CMakeFiles/CAL1920.dir/src/Graph/Node.cpp.o: CMakeFiles/CAL1920.dir/flags.make
 CMakeFiles/CAL1920.dir/src/Graph/Node.cpp.o: ../src/Graph/Node.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/CAL1920.dir/src/Graph/Node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/CAL1920.dir/src/Graph/Node.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CAL1920.dir/src/Graph/Node.cpp.o -c /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/Node.cpp
 
 CMakeFiles/CAL1920.dir/src/Graph/Node.cpp.i: cmake_force
@@ -124,7 +98,7 @@ CMakeFiles/CAL1920.dir/src/Graph/Node.cpp.s: cmake_force
 
 CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/connection.cpp.o: CMakeFiles/CAL1920.dir/flags.make
 CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/connection.cpp.o: ../src/GraphViewer/cpp/connection.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/connection.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/connection.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/connection.cpp.o -c /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/GraphViewer/cpp/connection.cpp
 
 CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/connection.cpp.i: cmake_force
@@ -137,7 +111,7 @@ CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/connection.cpp.s: cmake_force
 
 CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/graphviewer.cpp.o: CMakeFiles/CAL1920.dir/flags.make
 CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/graphviewer.cpp.o: ../src/GraphViewer/cpp/graphviewer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/graphviewer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/graphviewer.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/graphviewer.cpp.o -c /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/GraphViewer/cpp/graphviewer.cpp
 
 CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/graphviewer.cpp.i: cmake_force
@@ -150,7 +124,7 @@ CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/graphviewer.cpp.s: cmake_force
 
 CMakeFiles/CAL1920.dir/src/Utils/Position.cpp.o: CMakeFiles/CAL1920.dir/flags.make
 CMakeFiles/CAL1920.dir/src/Utils/Position.cpp.o: ../src/Utils/Position.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/CAL1920.dir/src/Utils/Position.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/CAL1920.dir/src/Utils/Position.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CAL1920.dir/src/Utils/Position.cpp.o -c /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Utils/Position.cpp
 
 CMakeFiles/CAL1920.dir/src/Utils/Position.cpp.i: cmake_force
@@ -163,7 +137,7 @@ CMakeFiles/CAL1920.dir/src/Utils/Position.cpp.s: cmake_force
 
 CMakeFiles/CAL1920.dir/src/main.cpp.o: CMakeFiles/CAL1920.dir/flags.make
 CMakeFiles/CAL1920.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/CAL1920.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/CAL1920.dir/src/main.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CAL1920.dir/src/main.cpp.o -c /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/main.cpp
 
 CMakeFiles/CAL1920.dir/src/main.cpp.i: cmake_force
@@ -178,8 +152,6 @@ CMakeFiles/CAL1920.dir/src/main.cpp.s: cmake_force
 CAL1920_OBJECTS = \
 "CMakeFiles/CAL1920.dir/src/Graph/GraphDrawer/GraphDrawer.cpp.o" \
 "CMakeFiles/CAL1920.dir/src/Graph/GraphLoader/GraphLoader.cpp.o" \
-"CMakeFiles/CAL1920.dir/src/Graph/Edge.cpp.o" \
-"CMakeFiles/CAL1920.dir/src/Graph/graph.cpp.o" \
 "CMakeFiles/CAL1920.dir/src/Graph/Node.cpp.o" \
 "CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/connection.cpp.o" \
 "CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/graphviewer.cpp.o" \
@@ -191,8 +163,6 @@ CAL1920_EXTERNAL_OBJECTS =
 
 CAL1920: CMakeFiles/CAL1920.dir/src/Graph/GraphDrawer/GraphDrawer.cpp.o
 CAL1920: CMakeFiles/CAL1920.dir/src/Graph/GraphLoader/GraphLoader.cpp.o
-CAL1920: CMakeFiles/CAL1920.dir/src/Graph/Edge.cpp.o
-CAL1920: CMakeFiles/CAL1920.dir/src/Graph/graph.cpp.o
 CAL1920: CMakeFiles/CAL1920.dir/src/Graph/Node.cpp.o
 CAL1920: CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/connection.cpp.o
 CAL1920: CMakeFiles/CAL1920.dir/src/GraphViewer/cpp/graphviewer.cpp.o
@@ -200,7 +170,7 @@ CAL1920: CMakeFiles/CAL1920.dir/src/Utils/Position.cpp.o
 CAL1920: CMakeFiles/CAL1920.dir/src/main.cpp.o
 CAL1920: CMakeFiles/CAL1920.dir/build.make
 CAL1920: CMakeFiles/CAL1920.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable CAL1920"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable CAL1920"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/CAL1920.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

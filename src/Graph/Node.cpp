@@ -12,13 +12,7 @@ Node::Node(long int id,double x,double y)
 
 Node::Node()
 {}
-void Node::addEdge(Node *origin,Node *destination){
-    float distance=0;
-    double dx=(pow(x,2)-(pow(destination->x,2)),2);
-    double dy=(pow(y,2)-pow(destination->y,2),2);
-    distance=sqrt(pow(dx,2.0)+pow(dy,2.0));
-    edges.push_back(new Edge(origin,destination,distance));
-}
+
 double Node::getX() const{
     return x;
 }
@@ -33,9 +27,6 @@ bool operator <(Node &a, Node &b){
 }
 bool operator ==(Node a,Node b){
     return a.getId()==b.getId();
-}
-list<Edge*> Node::getEdges(){
-    return edges;
 }
 
 
