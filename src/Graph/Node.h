@@ -22,6 +22,7 @@ private:
     double dist=0;
     double weight=0;
     double dist_target=0;
+
 public:
     int queueIndex = 0;
     Node *path;

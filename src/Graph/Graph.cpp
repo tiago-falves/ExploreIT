@@ -62,11 +62,6 @@ bool Graph::relax(Node *v,Node *w, double weight,long int targetDistance){
         return false;
 }
 
-
-
-
-
-
 double Graph::Dijkstra(long int origin,long int  target,long int targetDistance){
     initNodes(nodes[origin],nodes[target]);
     MutablePriorityQueue q;
@@ -160,3 +155,29 @@ void Graph::printMatrix(double **matrix) {
         cout << endl;
     }
 }
+
+void Graph::resetVisited(){
+    for(pair<long,Node *> node : nodes){
+        node.second->visited = false;
+    }
+}
+
+void Graph::removeNode(int id){
+    Node * node = findNode(id);
+    if(node != nullptr){
+        nodes.erase(id);
+    }
+}
+
+void Graph::DFSConnectivity(Node * start) {
+    resetVisited();
+    DFSVisit(start);
+}
+void Graph::DFSVisit(Node * node) {
+    node->visited = true;
+    for (Edge * edge : node->getEdges())
+        if (!edge->getDestination()->visited)
+            DFSVisit(edge->getDestination());
+}
+
+
