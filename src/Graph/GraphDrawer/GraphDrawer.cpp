@@ -2,6 +2,7 @@
 // Created by tiago on 08/05/2020.
 //
 
+#include <zconf.h>
 #include "Graph.h"
 #include "GraphDrawer.h"
 
@@ -40,4 +41,6 @@ void GraphDrawer::drawFromGraph(Graph * graph) {
         graphViewer->addEdge(++i,graph->pointsToDraw.at(it+1)(),graph->pointsToDraw.at(it)(),EdgeType::DIRECTED);
     }
     graphViewer->rearrange();
+    sleep(10);
+
 }
