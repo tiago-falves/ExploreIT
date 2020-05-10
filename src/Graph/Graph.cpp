@@ -163,7 +163,7 @@ void Graph::resetVisited(){
 }
 
 
-void Graph::removeSymetricNodes(int id){
+void Graph::removeSymetricEdges(int id){
     Node * node = findNode(id);
     if(node != nullptr){
         //Remove symmetric edges
@@ -177,7 +177,7 @@ void Graph::removeUnvisited(Graph * graph){
     std::unordered_map<long, Node*>::iterator it = nodes.begin();
     while(it != nodes.end()){
         if(!it->second->visited){
-            removeSymetricNodes(it->first);
+            removeSymetricEdges(it->first);
             it = nodes.erase(it); //Remove from graph
         } else it++;
     }

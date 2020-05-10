@@ -47,7 +47,7 @@ public:
 
 
     void removeUnvisited(Graph *graph);
-    void removeSymetricNodes(int id);
+    void removeSymetricEdges(int id);
 };
 
 

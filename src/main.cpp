@@ -48,12 +48,29 @@ void floydWarshall(Graph * graph){
 }
 
 void cleanGraphRuntime(Graph * graph,int origin){
-    cout << "Comecado DFS\n";
 
     graph->DFSConnectivity(origin);
-    cout << "Acabado DFS\n";
     graph->removeUnvisited(graph);
-    cout << "Removidos DFS\n";
+}
+
+void calculateMinMax(Graph* graph){
+
+    graph->min_x = INT_MAX;
+    graph->min_y = INT_MAX;
+    graph->max_x = 0;
+    graph->max_y = 0;
+
+
+
+    std::unordered_map<long, Node*>::iterator it = graph->getNodes().begin();
+    while(it != graph->getNodes().end()){
+        int x = it->second->getX();
+        int y = it->second->getY();
+        if(x > graph->max_x)  graph->max_x = x;
+        if(x < graph->min_x)  graph->min_x = x;
+        if(y > graph->max_y)  graph->max_y=y;
+        if(y < graph->min_y)  graph->min_y=y;
+    }
 
 }
 
