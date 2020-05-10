@@ -5,7 +5,7 @@
 #include "Graph/GraphLoader/GraphLoader.h"
 #include <chrono>
 
-bool IS_TESTING = true;
+bool IS_TESTING = false;
 
 void dijkstra(Graph * graph,int origin,int dest){
     //dikstra
@@ -47,7 +47,15 @@ void floydWarshall(Graph * graph){
     std::cout << "Floyd time: " << elapsed.count() << " s\n" << endl;
 }
 
+void cleanGraphRuntime(Graph * graph,int origin){
+    cout << "Comecado DFS\n";
 
+    graph->DFSConnectivity(origin);
+    cout << "Acabado DFS\n";
+    graph->removeUnvisited(graph);
+    cout << "Removidos DFS\n";
+
+}
 
 
 
@@ -66,20 +74,9 @@ int main() {
     }
 
     loadGraph(graph);
+    cleanGraphRuntime(graph,origin);
     dijkstra(graph,origin,dest);
     drawer(graph,origin, dest);
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
 

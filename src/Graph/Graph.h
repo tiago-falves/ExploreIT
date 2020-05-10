@@ -38,18 +38,16 @@ public:
     bool addNode(const int &id, int x, int y);
     bool addEdge(int origId, int destId);
     void printMatrix(double** matrix);
-    void removeNode(int id);
     void resetVisited();
 
     //Algorithms
-    void DFSConnectivity(Node *start);
+    void DFSConnectivity(int id);
     void FloydWarshall();
     double Dijkstra(long int origin,long int  target,long int targetDistance);
 
 
-
-
-
+    void removeUnvisited(Graph *graph);
+    void removeSymetricNodes(int id);
 };
 
 
