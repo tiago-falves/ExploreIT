@@ -1,3 +1,0 @@
-/home/joao/Desktop/FEUP/CAL-PROJ/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/joao/Desktop/FEUP/CAL-PROJ/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/joao/Desktop/FEUP/CAL-PROJ/cmake-build-debug/CMakeFiles/CAL1920.dir

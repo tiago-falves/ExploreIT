@@ -1,3 +1,0 @@
-/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-release/CMakeFiles/rebuild_cache.dir
-/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-release/CMakeFiles/CAL1920.dir
-/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/cmake-build-release/CMakeFiles/edit_cache.dir

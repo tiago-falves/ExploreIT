@@ -125,7 +125,7 @@ void Graph::FloydWarshall() {
             W[i][j] = i == j ? 0 : INF;
             P[i][j] = -1;
         }
-        for (auto e : getNodes()[i]->getEdges()) {
+        for (auto e : nodes[i]->getEdges()) {
             int j = e->getDestination()->getId();
             W[i][j]  = e->getWeight();
             P[i][j]  = i;
@@ -144,9 +144,9 @@ void Graph::FloydWarshall() {
                 }
             }
 
-    cout << "Finished" << endl;
-    cout << "W: " << endl;
-    printMatrix(W);
+    //cout << "Finished" << endl;
+    //cout << "W: " << endl;
+    //printMatrix(W);
 }
 
 void Graph::printMatrix(double **matrix) {
