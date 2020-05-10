@@ -16,4 +16,5 @@ int main()
     graph->Dijkstra(origin,dest,250);
     graph->pointsToDraw = graph->getPath(origin,dest);
     drawer->drawFromGraph(graph);
+    //graph->FloydWarshall();
 }

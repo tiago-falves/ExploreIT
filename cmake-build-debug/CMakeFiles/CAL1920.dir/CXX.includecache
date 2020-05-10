@@ -21,6 +21,8 @@ algorithm
 -
 vector
 -
+iomanip
+-
 unordered_map
 -
 Node.h
@@ -82,13 +84,21 @@ vector
 Node.h
 ../src/Utils/Node.h
 
-/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/GraphDrawer/GraphDrawer.cpp
-Graph.h
-/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/GraphDrawer/Graph.h
-GraphDrawer.h
-/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/GraphDrawer/GraphDrawer.h
-
-/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/GraphDrawer/GraphDrawer.h
+/home/joao/Desktop/FEUP/CAL-PROJ/src/Graph/GraphDrawer/GraphDrawer.h
 graphviewer.h
-/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/GraphDrawer/graphviewer.h
+/home/joao/Desktop/FEUP/CAL-PROJ/src/Graph/GraphDrawer/graphviewer.h
+
+/home/joao/Desktop/FEUP/CAL-PROJ/src/Graph/GraphLoader/GraphLoader.h
+Graph.h
+/home/joao/Desktop/FEUP/CAL-PROJ/src/Graph/GraphLoader/Graph.h
+
+/home/joao/Desktop/FEUP/CAL-PROJ/src/main.cpp
+iostream
+/home/joao/Desktop/FEUP/CAL-PROJ/src/iostream
+Graph.h
+/home/joao/Desktop/FEUP/CAL-PROJ/src/Graph.h
+Graph/GraphDrawer/GraphDrawer.h
+/home/joao/Desktop/FEUP/CAL-PROJ/src/Graph/GraphDrawer/GraphDrawer.h
+Graph/GraphLoader/GraphLoader.h
+/home/joao/Desktop/FEUP/CAL-PROJ/src/Graph/GraphLoader/GraphLoader.h
 

@@ -7,6 +7,7 @@
 #include <cmath>
 #include <algorithm>
 #include <vector>
+#include <iomanip>
 #include <unordered_map>
 #include "Node.h"
 #include "MutablePriorityQueue.h"
@@ -28,6 +29,10 @@ public:
     bool addEdge(int origId, int destId);
     vector<Node> getPath(long int origin,long int dest);
     vector<Node> pointsToDraw;
+
+    //FloydWarshall implementation
+    void FloydWarshall();
+    void printMatrix(double** matrix);
 
     double min_x=8000000000000.0;
     double max_x=-800000000000.0;
