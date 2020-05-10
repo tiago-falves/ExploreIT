@@ -7,14 +7,24 @@
 
 
 int main() {
+
+    bool IS_TESTING = true;
+
     Graph *graph = new Graph();
     GraphDrawer *drawer = new GraphDrawer(2000, 2000);
-    int origin = 1330250426; //Aveiro
-    int dest = 1330250483;
+    int origin,dest;
+
+    if(!IS_TESTING){
+        origin = 1330250426;
+        dest = 1330250483;
+    } else{
+        origin = 12;
+        dest = 22;
+    }
 
     //load
     auto start = std::chrono::high_resolution_clock::now();
-    GraphLoader::loadGraph(graph);
+    GraphLoader::loadGraph(graph,IS_TESTING);
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     std::cout << "Load time: " << elapsed.count() << " s\n" << endl;
@@ -28,7 +38,11 @@ int main() {
 
     //dikstra
     start = std::chrono::high_resolution_clock::now();
-    graph->Dijkstra(origin, dest, 1000);
+
+    int distance;
+    if(IS_TESTING) distance = 10;
+    else distance = 1000;
+    graph->Dijkstra(origin, dest, distance);
     finish = std::chrono::high_resolution_clock::now();
     elapsed = finish - start;
     std::cout << "Dijkstra time: " << elapsed.count() << " s\n" << endl;

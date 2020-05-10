@@ -3,6 +3,7 @@
 //
 
 #include <cmath>
+#include <string>
 #include "Node.h"
 using namespace std;
 
@@ -18,6 +19,9 @@ void Node::addEdge(Node *origin,Node *destination){
     double dy=abs(y-destination->y);
     distance=sqrt(dx*dx+dy*dy);
     edges.push_back(new Edge(origin,destination,distance));
+}
+void Node::addTag(string tag ){
+    tags.push_back(tag);
 }
 double Node::getX() const{
     return x;
@@ -35,5 +39,9 @@ bool operator ==(Node a,Node b){
 list<Edge*> Node::getEdges(){
     return edges;
 }
+vector<string> Node::getTags(){
+    return tags;
+}
+
 
 

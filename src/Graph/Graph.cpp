@@ -94,6 +94,7 @@ double Graph::Dijkstra(long int origin,long int  target,long int targetDistance)
             }
         }
     }
+    return 0;
 }
 
 vector<Node> Graph::getPath(long int origin,long int dest)

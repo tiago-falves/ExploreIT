@@ -16,6 +16,8 @@ public:
     void resetGraphViewer();
     void drawFromGraph(Graph *graph);
     GraphDrawer(int width, int height);
+
+    string parseColor(string tag);
 };
 
 

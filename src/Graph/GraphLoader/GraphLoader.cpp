@@ -10,17 +10,20 @@
 
 using namespace std;
 
-bool GraphLoader::loadGraph(Graph * graph) {
-    return (loadNodes(graph) && loadEdges(graph));
+bool GraphLoader::loadGraph(Graph * graph, bool isGrid) {
+    return (loadNodes(graph,isGrid) && loadEdges(graph,isGrid) && loadTags(graph,isGrid));
 }
-bool GraphLoader::loadNodes(Graph * graph) {
+
+
+bool GraphLoader::loadNodes(Graph * graph, bool isGrid) {
 
     int numberNodes, id;
     double x, y;
     char c;
+    fstream file_node;
 
-    //fstream file_node("../data/nodes.txt");
-    fstream file_node("../data/PortugalMaps/Aveiro/nodes_x_y_aveiro.txt");
+    if(isGrid)  file_node.open("../data/nodes.txt");
+    else file_node.open("../data/PortugalMaps/Aveiro/nodes_x_y_aveiro.txt");
     if (!file_node.is_open())
     {
         cout << "Node File not found\n";
@@ -46,15 +49,17 @@ bool GraphLoader::loadNodes(Graph * graph) {
 }
 
 
-bool GraphLoader::loadEdges(Graph * graph) {
+bool GraphLoader::loadEdges(Graph * graph,bool isGrid) {
     int numberEdges, originId, destId;
     char c;
 
-    //ifstream edgesFile("../data/edges.txt");
-    fstream edgesFile("../data/PortugalMaps/Aveiro/edges_aveiro.txt");
+    ifstream edgesFile;
+
+    if(isGrid)  edgesFile.open("../data/edges.txt");
+    else edgesFile.open("../data/PortugalMaps/Aveiro/edges_aveiro.txt");
 
     if (!edgesFile.is_open()) return false;
-    cout << "Started Edges\n";
+
     edgesFile >> numberEdges;
 
     for (int i = 0; i < numberEdges; i++) {
@@ -63,7 +68,28 @@ bool GraphLoader::loadEdges(Graph * graph) {
     }
     edgesFile.close();
 
-    cout << "Ended Edges\n";
+    return true;
+}
+
+bool GraphLoader::loadTags(Graph * graph,bool isGrid) {
+    int totalTags, numberTags,nodeId;
+    string tag;
+    if(isGrid) return true;
+    fstream TagsFile("../data/TagExamples/Aveiro/t03_tags_aveiro.txt"); //Turismo
+
+    if (!TagsFile.is_open()) return false;
+
+    TagsFile >> totalTags;
+
+    for (int i = 0; i < totalTags; i++) {
+        TagsFile >> tag >> numberTags;
+        for (int j = 0; j < numberTags; ++j) {
+            TagsFile >> nodeId;
+            Node * node = graph->findNode(nodeId);
+            if(node != nullptr) node->addTag(tag);
+        }
+    }
+    TagsFile.close();
 
     return true;
 }

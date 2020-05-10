@@ -10,12 +10,12 @@
 
 class GraphLoader {
 public:
-    static bool loadGraph(Graph *graph);
+    static bool loadGraph(Graph *graph, bool isGrid);
 
 private:
-    static bool loadEdges(Graph *graph);
-    static bool loadNodes(Graph *graph);
-
+    static bool loadEdges(Graph *graph,bool isGrid);
+    static bool loadNodes(Graph *graph,bool isGrid);
+    static bool loadTags(Graph *graph,bool isGrid);
 };
 
 

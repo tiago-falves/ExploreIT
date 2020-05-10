@@ -1,14 +1,13 @@
+#pragma once
 #ifndef UTILS_H
 #define UTILS_H
 
 #include <vector>
 #include <iostream>
 #include <sstream>
-
-
 #include <unordered_map>
 #include <unordered_set>
-//#include <queue>
+
 using namespace std;
 
 /*vector<double> getSubStr(string in){
@@ -55,5 +54,13 @@ template<class T> T *binarySearch(vector<T*> vector,long x)
 template<class T> bool cmp(T *a,T*b){
     return (a->getId())<(b->getId());
 }
+
+/*std::string getUntilCharacter(std::string const& s,char character)
+{
+    std::string::size_type pos = s.find(character);
+    if (pos != std::string::npos) return s.substr(0, pos);
+    else return s;
+}*/
+
 
 #endif // UTILS_H
