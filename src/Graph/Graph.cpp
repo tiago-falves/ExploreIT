@@ -106,12 +106,18 @@ vector<Node> Graph::getPath(long int origin,long int dest)
 }
 
 void Graph::FloydWarshall() {
-    double ** W;   // dist
-    double **P;   // path
-
     cout << "Started FloydWarshall algorithm" << endl;
 
-    unsigned n = getNodes().size();
+    double ** W;   // dist
+    double **P;   // path
+    vector<Node*> temp;
+    unordered_map<long, Node*>::const_iterator it = nodes.begin();
+    while(it != nodes.end()){
+        temp.push_back(it->second);
+        it++;
+    }
+
+    unsigned n = temp.size();
     W = new double *[n];
     P = new double *[n];
     for (unsigned i = 0; i < n; i++) {
@@ -121,8 +127,8 @@ void Graph::FloydWarshall() {
             W[i][j] = i == j ? 0 : INF;
             P[i][j] = -1;
         }
-        for (auto e : nodes[i]->getEdges()) {
-            int j = e->getDestination()->getId();
+        for (auto e : temp[i]->getEdges()) {
+            int j = find(temp.begin(), temp.end(), e->getDestination()) - temp.begin();
             W[i][j]  = e->getWeight();
             P[i][j]  = i;
         }
@@ -140,9 +146,8 @@ void Graph::FloydWarshall() {
                 }
             }
 
-    //cout << "Finished" << endl;
-    //cout << "W: " << endl;
-    //printMatrix(W);
+    cout << "W: " << endl;
+    printMatrix(W);
 }
 
 void Graph::printMatrix(double **matrix) {
@@ -150,7 +155,7 @@ void Graph::printMatrix(double **matrix) {
 
     for (int i=0; i<n; i++){
         for (int j=0; j<n; j++){
-            cout << setw(4) << matrix[i][j] << " ";
+            cout << setw(15) << matrix[i][j] << " ";
         }
         cout << endl;
     }

@@ -5,7 +5,7 @@
 #include "Graph/GraphLoader/GraphLoader.h"
 #include <chrono>
 
-bool IS_TESTING = true;
+bool IS_TESTING = false;
 
 void dijkstra(Graph * graph,int origin,int dest){
     //dikstra
@@ -66,9 +66,9 @@ int main() {
     }
 
     loadGraph(graph);
-    dijkstra(graph,origin,dest);
-    drawer(graph,origin, dest);
-
+    //dijkstra(graph,origin,dest);
+    //drawer(graph,origin, dest);
+    floydWarshall(graph);
 
 
 
