@@ -82,21 +82,13 @@ vector
 Node.h
 ../src/Utils/Node.h
 
+/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/GraphDrawer/GraphDrawer.cpp
+Graph.h
+/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/GraphDrawer/Graph.h
+GraphDrawer.h
+/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/GraphDrawer/GraphDrawer.h
+
 /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/GraphDrawer/GraphDrawer.h
 graphviewer.h
 /home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/GraphDrawer/graphviewer.h
-
-/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/GraphLoader/GraphLoader.h
-Graph.h
-/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/GraphLoader/Graph.h
-
-/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/main.cpp
-iostream
-/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/iostream
-Graph.h
-/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph.h
-Graph/GraphDrawer/GraphDrawer.h
-/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/GraphDrawer/GraphDrawer.h
-Graph/GraphLoader/GraphLoader.h
-/home/miguel/Documentos/faculdade/2/2/cal/CAL1920/src/Graph/GraphLoader/GraphLoader.h
 

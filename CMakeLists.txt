@@ -14,7 +14,10 @@ add_executable(CAL1920
     src/Graph/GraphDrawer/GraphDrawer.h
     src/Graph/GraphLoader/GraphLoader.cpp
     src/Graph/GraphLoader/GraphLoader.h
-        src/Graph/graph.h
+    src/Graph/Edge.cpp
+    src/Graph/Edge.h
+        src/Graph/Graph.cpp
+        src/Graph/Graph.h
     src/Graph/Node.cpp
     src/Graph/Node.h
     src/GraphViewer/cpp/connection.cpp
@@ -25,4 +28,4 @@ add_executable(CAL1920
     src/Utils/Position.cpp
     src/Utils/Position.h
     src/Utils/utils.h
-    src/main.cpp src/Utils/MutablePriorityQueue.h)
+    src/main.cpp src/Utils/MutablePriorityQueue.cpp)

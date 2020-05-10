@@ -1,26 +1,19 @@
 
-#include <GraphLoader/GraphLoader.h>
-#include <chrono>
 #include "iostream"
-#include "Graph/graph.h"
+#include "Graph.h"
 #include "Graph/GraphDrawer/GraphDrawer.h"
+#include "Graph/GraphLoader/GraphLoader.h"
 
 
 int main()
 {
-    auto start = std::chrono::high_resolution_clock::now();
-    Graph<Node> * graph = new Graph<Node>();
+    Graph * graph = new Graph();
     GraphDrawer * drawer = new GraphDrawer(2000,2000);
     GraphLoader::loadGraph(graph);
-    auto finish = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed = finish - start;
-    cout<<elapsed.count()<<endl;
-
-    start = std::chrono::high_resolution_clock::now();
-    graph->dijkstraShortestPath(Node(40,0,0),Node(200,0,0));
-    finish = std::chrono::high_resolution_clock::now();
-    elapsed = finish - start;
-    cout<<elapsed.count()<<endl;
-
+    //cout <<to_string(zas->getX());
+    int origin=150;
+    int dest=151;
+    graph->Dijkstra(origin,dest,250);
+    graph->pointsToDraw = graph->getPath(origin,dest);
     drawer->drawFromGraph(graph);
 }
