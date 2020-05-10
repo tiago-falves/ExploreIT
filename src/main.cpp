@@ -4,8 +4,6 @@
 #include "Graph/GraphDrawer/GraphDrawer.h"
 #include "Graph/GraphLoader/GraphLoader.h"
 #include <chrono>
-#include <Graph/teste.h>
-#include "HelloWorld.h"
 
 
 int main()
@@ -43,8 +41,4 @@ int main()
     finish = std::chrono::high_resolution_clock::now();
     elapsed = finish - start;
     std::cout << "Drawer time: " << elapsed.count() << " s\n"<<endl;
-
-    HelloWorld h = HelloWorld();
-    teste();
-
 }
