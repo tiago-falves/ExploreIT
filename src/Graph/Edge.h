@@ -14,6 +14,7 @@ private:
     double weight;
     Node * destination;
     Node * origin;
+    double id;
 public:
     Edge(Node *origin, Node *destiny, double weight);
     Edge(float weight,Node *destination);

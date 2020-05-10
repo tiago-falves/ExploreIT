@@ -19,10 +19,8 @@ bool GraphLoader::loadNodes(Graph * graph) {
     double x, y;
     char c;
 
-    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-
-    cout<<"Started Nodes!"<<endl;
-    fstream file_node("../data/nodes.txt");
+    //fstream file_node("../data/nodes.txt");
+    fstream file_node("../data/PortugalMaps/Aveiro/nodes_x_y_aveiro.txt");
     if (!file_node.is_open())
     {
         cout << "Node File not found\n";
@@ -34,16 +32,11 @@ bool GraphLoader::loadNodes(Graph * graph) {
     for (int i = 0; i < numberNodes; i++) {
         file_node >> c >> id >> c >> x >> c >> y >> c;
         graph->addNode(id, x, y);
-        //cout << to_string(id) << " x:" << to_string(x) << "\n";
-        if(x>graph->max_x)
-            graph->max_x=x;
-        if(x<graph->min_x)
-            graph->min_x=x;
-
-        if(y>graph->max_y)
-            graph->max_y=y;
-        if(y<graph->min_y)
-            graph->min_y=y;
+        //cout << to_string(id) << " x:" << to_string(x) << " y:" << to_string(y) << "\n";
+        if(x>graph->max_x) graph->max_x=x;
+        if(x<graph->min_x) graph->min_x=x;
+        if(y>graph->max_y) graph->max_y=y;
+        if(y<graph->min_y) graph->min_y=y;
     }
     file_node.close();
 
@@ -57,7 +50,9 @@ bool GraphLoader::loadEdges(Graph * graph) {
     int numberEdges, originId, destId;
     char c;
 
-    ifstream edgesFile("../data/edges.txt");
+    //ifstream edgesFile("../data/edges.txt");
+    fstream edgesFile("../data/PortugalMaps/Aveiro/edges_aveiro.txt");
+
     if (!edgesFile.is_open()) return false;
     cout << "Started Edges\n";
     edgesFile >> numberEdges;
@@ -66,10 +61,10 @@ bool GraphLoader::loadEdges(Graph * graph) {
         edgesFile >> c >> originId >> c >> destId >> c;
         graph->addEdge(originId, destId);
     }
-
     edgesFile.close();
 
     cout << "Ended Edges\n";
 
     return true;
 }
+

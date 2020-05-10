@@ -9,8 +9,8 @@
 int main() {
     Graph *graph = new Graph();
     GraphDrawer *drawer = new GraphDrawer(2000, 2000);
-    int origin = 150;
-    int dest = 151;
+    int origin = 1330250426; //Aveiro
+    int dest = 1330250483;
 
     //load
     auto start = std::chrono::high_resolution_clock::now();
@@ -20,15 +20,15 @@ int main() {
     std::cout << "Load time: " << elapsed.count() << " s\n" << endl;
 
     //floyd
-    start = std::chrono::high_resolution_clock::now();
+    /*start = std::chrono::high_resolution_clock::now();
     graph->FloydWarshall();
     finish = std::chrono::high_resolution_clock::now();
     elapsed = finish - start;
-    std::cout << "Floyd time: " << elapsed.count() << " s\n" << endl;
+    std::cout << "Floyd time: " << elapsed.count() << " s\n" << endl;*/
 
     //dikstra
     start = std::chrono::high_resolution_clock::now();
-    graph->Dijkstra(origin, dest, 250);
+    graph->Dijkstra(origin, dest, 1000);
     finish = std::chrono::high_resolution_clock::now();
     elapsed = finish - start;
     std::cout << "Dijkstra time: " << elapsed.count() << " s\n" << endl;
@@ -37,6 +37,7 @@ int main() {
     start = std::chrono::high_resolution_clock::now();
     graph->pointsToDraw = graph->getPath(origin, dest);
     drawer->drawFromGraph(graph);
+
     finish = std::chrono::high_resolution_clock::now();
     elapsed = finish - start;
     std::cout << "Drawer time: " << elapsed.count() << " s\n" << endl;
