@@ -4,6 +4,7 @@
 #include "Graph/GraphDrawer/GraphDrawer.h"
 #include "Graph/GraphLoader/GraphLoader.h"
 #include <chrono>
+#include <climits>
 
 bool IS_TESTING = false;
 
@@ -47,7 +48,32 @@ void floydWarshall(Graph * graph){
     std::cout << "Floyd time: " << elapsed.count() << " s\n" << endl;
 }
 
+void cleanGraphRuntime(Graph * graph,int origin){
 
+    graph->DFSConnectivity(origin);
+    graph->removeUnvisited(graph);
+}
+
+void calculateMinMax(Graph* graph){
+
+    graph->min_x = INT_MAX;
+    graph->min_y = INT_MAX;
+    graph->max_x = 0;
+    graph->max_y = 0;
+
+
+
+    std::unordered_map<long, Node*>::iterator it = graph->getNodes().begin();
+    while(it != graph->getNodes().end()){
+        int x = it->second->getX();
+        int y = it->second->getY();
+        if(x > graph->max_x)  graph->max_x = x;
+        if(x < graph->min_x)  graph->min_x = x;
+        if(y > graph->max_y)  graph->max_y=y;
+        if(y < graph->min_y)  graph->min_y=y;
+    }
+
+}
 
 
 
@@ -66,21 +92,11 @@ int main() {
     }
 
     loadGraph(graph);
-    //dijkstra(graph,origin,dest);
-    //drawer(graph,origin, dest);
-    floydWarshall(graph);
+    cleanGraphRuntime(graph,origin);
+    dijkstra(graph,origin,dest);
+    drawer(graph,origin, dest);
 
-
-
-
-
-
-
-
-
-
-
-
+    //floydWarshall(graph);
 }
 
 

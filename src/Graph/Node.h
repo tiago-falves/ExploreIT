@@ -16,7 +16,7 @@ using namespace std;
 class Node {
 private:
     long int id = 0;
-    std::list<Edge *> edges;
+    std::vector<Edge *> edges;
     vector<string> tags;
     double x = 0, y = 0;
     double dist=0;
@@ -35,7 +35,7 @@ public:
     double getY() const;
     long getId() const;
 
-    std::list<Edge *> getEdges();
+    std::vector<Edge *> getEdges();
     vector<string> getTags();
     double getDist(){return dist;}
     double getDistTarget(){return dist_target;}
@@ -50,6 +50,7 @@ public:
 
     long operator()() {return id;}
 
+    void removeEdge(int destiny);
 };
 
 #endif //CAL1920_NODE_H

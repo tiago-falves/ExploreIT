@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include <string>
+#include <algorithm>
 #include "Node.h"
 using namespace std;
 
@@ -19,6 +20,16 @@ void Node::addEdge(Node *origin,Node *destination){
     double dy=abs(y-destination->y);
     distance=sqrt(dx*dx+dy*dy);
     edges.push_back(new Edge(origin,destination,distance));
+}
+
+void Node::removeEdge(int destiny){
+    for (int i = 0; i < edges.size(); ++i) {
+        if(edges[i]->getDestination()->getId() == destiny){
+            edges.erase(edges.begin() + i);
+            break;
+        }
+    }
+
 }
 void Node::addTag(string tag ){
     tags.push_back(tag);
@@ -36,7 +47,7 @@ long Node::getId() const{
 bool operator ==(Node a,Node b){
     return a.getId()==b.getId();
 }
-list<Edge*> Node::getEdges(){
+vector<Edge*> Node::getEdges(){
     return edges;
 }
 vector<string> Node::getTags(){

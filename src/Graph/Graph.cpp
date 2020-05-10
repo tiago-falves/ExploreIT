@@ -167,17 +167,38 @@ void Graph::resetVisited(){
     }
 }
 
-void Graph::removeNode(int id){
+
+void Graph::removeSymetricEdges(int id){
     Node * node = findNode(id);
     if(node != nullptr){
-        nodes.erase(id);
+        //Remove symmetric edges
+        for (Edge * edge : node->getEdges()) {
+            edge->getDestination()->removeEdge(id);
+        }
     }
 }
 
-void Graph::DFSConnectivity(Node * start) {
+void Graph::removeUnvisited(Graph * graph){
+    std::unordered_map<long, Node*>::iterator it = nodes.begin();
+    while(it != nodes.end()){
+        if(!it->second->visited){
+            removeSymetricEdges(it->first);
+            it = nodes.erase(it); //Remove from graph
+        } else it++;
+    }
     resetVisited();
-    DFSVisit(start);
 }
+
+void Graph::DFSConnectivity(int id) {
+    Node * node = findNode(id);
+    if(node != nullptr){
+        resetVisited();
+        DFSVisit(node);
+    }
+
+}
+
+
 void Graph::DFSVisit(Node * node) {
     node->visited = true;
     for (Edge * edge : node->getEdges())
