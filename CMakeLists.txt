@@ -7,10 +7,11 @@ if (WIN32)
     link_libraries(ws2_32 wsock32)
 endif (WIN32)
 
+
+include_directories(src)
 include_directories(src/Graph)
 include_directories(src/Graph/GraphDrawer)
 include_directories(src/Graph/GraphLoader)
-include_directories(src/GraphViewer)
 include_directories(src/GraphViewer/cpp)
 include_directories(src/Utils)
 
@@ -37,3 +38,4 @@ add_executable(CAL1920
         src/Utils/utils.h
         src/main.cpp
         GraphViewerController.jar)
+
