@@ -11,8 +11,11 @@
 class GraphLoader {
 public:
     static bool loadGraph(Graph *graph, bool isGrid);
+    static bool loadDifficulties(Graph *graph, string directory);
+
 
 private:
+    static unordered_map<int,int> edgeDiff;
     static bool loadEdges(Graph *graph,bool isGrid);
     static bool loadNodes(Graph *graph,bool isGrid);
     static bool loadTags(Graph *graph,bool isGrid);

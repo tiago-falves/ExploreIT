@@ -20,6 +20,8 @@ class Graph
 {
 private:
     unordered_map<long,Node*> nodes;
+    unordered_map<long,Edge*> edges;
+
     void initNodes(Node *origin,Node *target);
     bool relax(Node *v,Node *w, double weight,long int targetDistance);
     void DFSVisit(Node *v);
@@ -31,7 +33,8 @@ public:
     double min_y=8000000000000.0;
     double max_y=-800000000000.0;
 
-
+    const unordered_map<long,Edge*> getEdges();
+    void setEdges(const unordered_map<long, Edge*> edges);
     unordered_map<long,Node*> getNodes();
     vector<Node> getPath(long int origin,long int dest);
     Node *findNode(const int &id) const;

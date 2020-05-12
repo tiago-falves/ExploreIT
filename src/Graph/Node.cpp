@@ -14,12 +14,14 @@ Node::Node(long int id,double x,double y)
 
 Node::Node()
 {}
-void Node::addEdge(int edgeId,Node *origin,Node *destination){
+Edge * Node::addEdge(int edgeId,Node *origin,Node *destination){
     float distance=0;
     double dx=abs(x-destination->x);
     double dy=abs(y-destination->y);
     distance=sqrt(dx*dx+dy*dy);
-    edges.push_back(new Edge(edgeId,origin,destination,distance));
+    Edge * edge = new Edge(edgeId,origin,destination,distance);
+    edges.push_back(edge);
+    return edge;
 }
 
 void Node::removeEdge(int destiny){
@@ -37,6 +39,7 @@ Edge * Node::findEdge(int destiny){
             return edges[i];
         }
     }
+    return NULL;
 }
 void Node::addTag(string tag ){
     tags.push_back(tag);

@@ -10,19 +10,19 @@
 
 using namespace std;
 
-bool GraphLoader::loadGraph(Graph * graph, bool isGrid) {
-    return (loadNodes(graph,isGrid) && loadEdges(graph,isGrid) && loadTags(graph,isGrid));
+bool GraphLoader::loadGraph(Graph * graph, bool isTesting) {
+    return (loadNodes(graph,isTesting) && loadEdges(graph,isTesting) && loadTags(graph,isTesting));
 }
 
 
-bool GraphLoader::loadNodes(Graph * graph, bool isGrid) {
+bool GraphLoader::loadNodes(Graph * graph, bool isTesting) {
 
     int numberNodes, id;
     double x, y;
     char c;
     fstream file_node;
 
-    if(isGrid)  file_node.open("../data/nodes.txt");
+    if(isTesting)  file_node.open("../data/nodes.txt");
     else file_node.open("../data/PortugalMaps/Aveiro/nodes_x_y_aveiro.txt");
     if (!file_node.is_open())
     {
@@ -49,13 +49,13 @@ bool GraphLoader::loadNodes(Graph * graph, bool isGrid) {
 }
 
 
-bool GraphLoader::loadEdges(Graph * graph,bool isGrid) {
+bool GraphLoader::loadEdges(Graph * graph,bool isTesting) {
     int numberEdges, originId, destId;
     char c;
 
     ifstream edgesFile;
 
-    if(isGrid)  edgesFile.open("../data/edges.txt");
+    if(isTesting)  edgesFile.open("../data/edges.txt");
     else edgesFile.open("../data/PortugalMaps/Aveiro/edges_aveiro.txt");
 
     if (!edgesFile.is_open()) return false;
@@ -74,10 +74,10 @@ bool GraphLoader::loadEdges(Graph * graph,bool isGrid) {
     return true;
 }
 
-bool GraphLoader::loadTags(Graph * graph,bool isGrid) {
+bool GraphLoader::loadTags(Graph * graph,bool isTesting) {
     int totalTags, numberTags,nodeId;
     string tag;
-    if(isGrid) return true;
+    if(isTesting) return true;
     fstream TagsFile("../data/TagExamples/Aveiro/t03_tags_aveiro.txt"); //Turismo
 
     if (!TagsFile.is_open()) return false;
@@ -97,5 +97,17 @@ bool GraphLoader::loadTags(Graph * graph,bool isGrid) {
     return true;
 }
 
+bool GraphLoader::loadDifficulties(Graph * graph,string directory) {
+    int edgeId, difficulty;
+    char c;
+    fstream diffFile(directory + "difficulties.txt");
+    if (!diffFile.is_open()) return false;
+    while (diffFile >> c >> edgeId >> c >> difficulty >> c){
+        //GraphLoader::edgeDiff.insert(pair<int,int>(edgeId,difficulty));
+    }
+    diffFile.close();
+
+    return true;
+}
 
 

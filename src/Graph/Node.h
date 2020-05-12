@@ -47,7 +47,7 @@ public:
     void setWeight(double w){weight=w;}
 
     void addTag(std::string tag);
-    void addEdge(int edgeId,Node * origin,Node *destination);
+    Edge * addEdge(int edgeId,Node * origin,Node *destination);
 
     long operator()() {return id;}
 

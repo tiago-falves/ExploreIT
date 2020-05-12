@@ -10,17 +10,16 @@
 
 class Preprocessor {
 private:
-    Graph graph;
-
+    Graph * graph;
     static int randomGenerator(int min, int max);
     static int randomDifficultyCalculator(int currentHeight);
 public:
-    const Graph &getGraph() const;
-    void setGraph(const Graph &graph);
 
-    Preprocessor(const Graph &graph);
-
-    static void preProcessDifficulties(Graph *graph);
+    Preprocessor(Graph *graph);
+    void preProcessDifficulties();
+    int saveDifficulties(string directory);
+    Graph *getGraph() const;
+    void setGraph(Graph *graph);
 };
 
 

@@ -7,7 +7,10 @@
 #include <climits>
 #include <Graph/Preprocessor.h>
 
-bool IS_TESTING = true;
+bool IS_TESTING = false;
+bool IS_FIRST_TIME = false;
+string directory;
+
 
 void calculateHeights(Graph *pGraph);
 
@@ -26,6 +29,7 @@ void dijkstra(Graph * graph, int origin, int dest){
 void loadGraph(Graph * graph){
     //load
     auto start = std::chrono::high_resolution_clock::now();
+    if (!IS_FIRST_TIME) GraphLoader::loadDifficulties(graph,directory);
     GraphLoader::loadGraph(graph,IS_TESTING);
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
@@ -78,8 +82,10 @@ void calculateMinMax(Graph* graph){
 
 }
 
-void calculateDifficulties(Graph *graph) {
-    Preprocessor::preProcessDifficulties(graph);
+void preprocess(Graph *graph,string directory) {
+    Preprocessor preprocessor = Preprocessor(graph);
+    preprocessor.preProcessDifficulties();
+    preprocessor.saveDifficulties(directory);
 }
 
 
@@ -92,15 +98,17 @@ int main() {
     if(!IS_TESTING){
         origin = 26019978;
         dest = 26019992;
+        directory = "../data/PortugalMaps/Aveiro/";
+
     } else{
         origin = 12;
         dest = 22;
+        directory = "../data/";
     }
-
     loadGraph(&graph);
-    calculateDifficulties(&graph);
+    if(IS_FIRST_TIME) preprocess(&graph,directory);
     //cleanGraphRuntime(&graph,origin);
-    //dijkstra(&graph,origin,dest);
+    dijkstra(&graph,origin,dest);
     drawer(&graph,origin, dest);
 
     //floydWarshall(graph);

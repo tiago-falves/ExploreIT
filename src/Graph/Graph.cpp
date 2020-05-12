@@ -26,8 +26,11 @@ bool Graph::addEdge(int edgeId, int origId, int destId) {
     Node * orig = findNode(origId);
     Node * dest = findNode(destId);
     if(orig == nullptr || dest == nullptr) return false;
-    orig->addEdge(edgeId,orig, dest);
-    dest->addEdge(edgeId+1,dest, orig);
+    Edge * edge1 = orig->addEdge(edgeId,orig, dest);
+    Edge * edge2 = dest->addEdge(edgeId+1,dest, orig);
+    this->edges.insert(pair<int,Edge*>(edgeId, edge1));
+    this->edges.insert(pair<int,Edge*>(edgeId+1, edge2));
+
     return true;
 }
 
@@ -205,5 +208,13 @@ void Graph::DFSVisit(Node * node) {
 
 Edge * Graph::getSymetricEdge(Edge * edge){
     return edge->getDestination()->findEdge(edge->getOrigin()->getId());
+}
+
+
+const unordered_map<long,Edge*> Graph::getEdges(){
+    return edges;
+}
+void Graph::setEdges(const unordered_map<long, Edge*> edges) {
+    Graph::edges = edges;
 }
 

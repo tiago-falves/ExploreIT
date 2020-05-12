@@ -4,17 +4,10 @@
 
 #include "Preprocessor.h"
 
-Preprocessor::Preprocessor(const Graph &graph) : graph(graph) {}
+Preprocessor::Preprocessor(Graph *graph) : graph(graph) {}
 
-const Graph &Preprocessor::getGraph() const {
-    return graph;
-}
 
-void Preprocessor::setGraph(const Graph &graph) {
-    Preprocessor::graph = graph;
-}
-
-void Preprocessor::preProcessDifficulties(Graph * graph){
+void Preprocessor::preProcessDifficulties(){
     srand( time(NULL) );
 
     for(pair<long,Node *> node : graph->getNodes()) {
@@ -25,9 +18,8 @@ void Preprocessor::preProcessDifficulties(Graph * graph){
             symetricEdge->setDifficulty(currentDifficulty);
         }
     }
-    cout <<endl<< graph->getNodes().at(25)->getEdges().front()->getDifficulty() << "Diff\n";
-}
 
+}
 
 int Preprocessor::randomDifficultyCalculator(int currentHeight){
     int diff = randomGenerator(1,10);
@@ -41,13 +33,31 @@ int Preprocessor::randomDifficultyCalculator(int currentHeight){
         }
     }
     return diff;
-
-
-
-    return diff;
 }
 
 int Preprocessor::randomGenerator(int min, int max){
     return (rand() % max + min);
 }
+
+int Preprocessor::saveDifficulties(string directory){
+    ofstream myfile;
+    myfile.open (directory + "difficulties.txt");
+    for(pair<long,Node *> node : graph->getNodes()) {
+        for (Edge *edge :node.second->getEdges()) {
+            myfile << "(" << edge->getId() << "," << edge->getDifficulty() << ")\n";
+        }
+    }
+    myfile.close();
+    return 0;
+}
+
+Graph *Preprocessor::getGraph() const {
+    return graph;
+}
+
+void Preprocessor::setGraph(Graph *graph) {
+    Preprocessor::graph = graph;
+}
+
+
 
