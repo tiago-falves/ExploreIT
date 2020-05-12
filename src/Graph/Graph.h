@@ -48,14 +48,8 @@ public:
 
     void removeUnvisited(Graph *graph);
     void removeSymetricEdges(int id);
-
-    int randomGenerator(int min, int max);
-
-    int randomDifficultyCalculator(int currentHeight);
-
     Edge *getSymetricEdge(Edge *edge);
 
-    void calculateDifficulties(Graph *graph);
 };
 
 

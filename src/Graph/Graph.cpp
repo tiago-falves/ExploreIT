@@ -202,42 +202,8 @@ void Graph::DFSVisit(Node * node) {
         if (!edge->getDestination()->visited)
             DFSVisit(edge->getDestination());
 }
-void Graph::calculateDifficulties(Graph * graph){
-    srand( time(NULL) );
-
-    for(pair<long,Node *> node : graph->getNodes()) {
-        for (Edge *edge :node.second->getEdges()) {
-            int currentDifficulty = randomDifficultyCalculator(1);
-            Edge * symetricEdge = getSymetricEdge(edge);
-            edge->setDifficulty(currentDifficulty);
-            symetricEdge->setDifficulty(currentDifficulty);
-        }
-    }
-    cout <<endl<< graph->getNodes().at(25)->getEdges().front()->getDifficulty() << "Diff\n";
-}
 
 Edge * Graph::getSymetricEdge(Edge * edge){
     return edge->getDestination()->findEdge(edge->getOrigin()->getId());
 }
 
-
-int Graph::randomDifficultyCalculator(int currentHeight){
-    int diff = randomGenerator(1,10);
-    bool turnSmaller = (rand() % 100) < 50;
-    if(turnSmaller) {
-        if (diff > 7) {
-            diff = randomGenerator(1, 7);
-        }if (diff > 4) {
-            diff = randomGenerator(1, 4);
-        }
-    }
-    return diff;
-
-
-
-    return diff;
-}
-
-int Graph::randomGenerator(int min, int max){
-    return (rand() % max + min);
-}

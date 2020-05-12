@@ -5,6 +5,7 @@
 #include "Graph/GraphLoader/GraphLoader.h"
 #include <chrono>
 #include <climits>
+#include <Graph/Preprocessor.h>
 
 bool IS_TESTING = true;
 
@@ -78,7 +79,7 @@ void calculateMinMax(Graph* graph){
 }
 
 void calculateDifficulties(Graph *graph) {
-    graph->calculateDifficulties(graph);
+    Preprocessor::preProcessDifficulties(graph);
 }
 
 

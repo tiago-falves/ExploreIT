@@ -37,5 +37,5 @@ add_executable(CAL1920
         src/Utils/Position.h
         src/Utils/utils.h
         src/main.cpp
-        GraphViewerController.jar)
+        GraphViewerController.jar src/Graph/Preprocessor.cpp src/Graph/Preprocessor.h)
 
