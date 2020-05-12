@@ -29,7 +29,14 @@ void Node::removeEdge(int destiny){
             break;
         }
     }
+}
 
+Edge * Node::findEdge(int destiny){
+    for (int i = 0; i < edges.size(); ++i) {
+        if(edges[i]->getDestination()->getId() == destiny){
+            return edges[i];
+        }
+    }
 }
 void Node::addTag(string tag ){
     tags.push_back(tag);

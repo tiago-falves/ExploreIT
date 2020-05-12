@@ -26,7 +26,6 @@ bool Graph::addEdge(int origId, int destId) {
     Node * orig = findNode(origId);
     Node * dest = findNode(destId);
     if(orig == nullptr || dest == nullptr) return false;
-
     orig->addEdge(orig, dest);
     dest->addEdge(dest, orig);
     return true;
@@ -195,9 +194,7 @@ void Graph::DFSConnectivity(int id) {
         resetVisited();
         DFSVisit(node);
     }
-
 }
-
 
 void Graph::DFSVisit(Node * node) {
     node->visited = true;
@@ -205,5 +202,30 @@ void Graph::DFSVisit(Node * node) {
         if (!edge->getDestination()->visited)
             DFSVisit(edge->getDestination());
 }
+void Graph::calculateDifficulties(Graph * graph){
+    srand( time(NULL) );
+
+    for(pair<long,Node *> node : graph->getNodes()) {
+        for (Edge *edge :node.second->getEdges()) {
+            int currentDifficulty = randomDifficultyCalculator(1);
+            Edge * symetricEdge = getSymetricEdge(edge);
+            edge->setDifficulty(currentDifficulty);
+            symetricEdge->setDifficulty(currentDifficulty);
+        }
+    }
+
+    cout <<endl<< graph->getNodes().at(25)->getEdges().front()->getDifficulty() << "Diff\n";
+}
+
+Edge * Graph::getSymetricEdge(Edge * edge){
+    return edge->getDestination()->findEdge(edge->getOrigin()->getId());
+}
 
 
+int Graph::randomDifficultyCalculator(int currentHeight){
+    return randomGenerator(1,10);
+}
+
+int Graph::randomGenerator(int min, int max){
+    return (rand() % max + min);
+}

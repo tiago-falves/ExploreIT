@@ -9,6 +9,7 @@ Edge::Edge(Node * origin, Node * destiny, double weight){
     this->origin = origin;
     this->destination = destiny;
     this->weight = weight;
+    this->difficulty = 0;
 }
 
 Edge::Edge(float weight,Node *destination)
@@ -20,8 +21,14 @@ Node *Edge::getDestination(){
 double Edge::getWeight(){
     return weight;
 }
-
 Node *Edge::getOrigin() {
     return origin;
+}
+int Edge::getDifficulty() const {
+    return difficulty;
+}
+
+void Edge::setDifficulty(int difficulty) {
+    Edge::difficulty = difficulty;
 }
 

@@ -16,6 +16,7 @@ private:
     static bool loadEdges(Graph *graph,bool isGrid);
     static bool loadNodes(Graph *graph,bool isGrid);
     static bool loadTags(Graph *graph,bool isGrid);
+
 };
 
 

@@ -18,6 +18,8 @@ public:
     GraphDrawer(int width, int height);
 
     string parseColor(string tag);
+
+    void drawDifficulties(int edgeId, Edge *edge);
 };
 
 

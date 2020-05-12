@@ -6,9 +6,11 @@
 #include <chrono>
 #include <climits>
 
-bool IS_TESTING = false;
+bool IS_TESTING = true;
 
-void dijkstra(Graph * graph,int origin,int dest){
+void calculateHeights(Graph *pGraph);
+
+void dijkstra(Graph * graph, int origin, int dest){
     //dikstra
     auto start = std::chrono::high_resolution_clock::now();
     int distance;
@@ -75,28 +77,35 @@ void calculateMinMax(Graph* graph){
 
 }
 
+void calculateDifficulties(Graph *graph) {
+    graph->calculateDifficulties(graph);
+}
+
 
 
 int main() {
 
     int origin,dest;
-    Graph *graph = new Graph();
+    Graph graph = Graph();
 
 
     if(!IS_TESTING){
-        origin = 1330250426;
-        dest = 1330250483;
+        origin = 26019978;
+        dest = 26019992;
     } else{
         origin = 12;
         dest = 22;
     }
 
-    loadGraph(graph);
-    cleanGraphRuntime(graph,origin);
-    dijkstra(graph,origin,dest);
-    drawer(graph,origin, dest);
+    loadGraph(&graph);
+    calculateDifficulties(&graph);
+    //cleanGraphRuntime(&graph,origin);
+    //dijkstra(&graph,origin,dest);
+    drawer(&graph,origin, dest);
 
     //floydWarshall(graph);
 }
+
+
 
 

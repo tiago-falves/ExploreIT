@@ -22,6 +22,7 @@ private:
     double dist=0;
     double weight=0;
     double dist_target=0;
+    int height = 0;
 
 public:
     int queueIndex = 0;
@@ -51,6 +52,8 @@ public:
     long operator()() {return id;}
 
     void removeEdge(int destiny);
+
+    Edge *findEdge(int destiny);
 };
 
 #endif //CAL1920_NODE_H

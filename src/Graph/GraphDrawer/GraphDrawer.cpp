@@ -4,6 +4,7 @@
 
 //#include <zconf.h>
 #include <Utils/utils.h>
+#include <zconf.h>
 #include "Graph.h"
 #include "GraphDrawer.h"
 
@@ -45,6 +46,7 @@ void GraphDrawer::drawFromGraph(Graph * graph) {
     for(pair<long,Node *> node : graph->getNodes()) {
         for (Edge *edge :node.second->getEdges()) {
             graphViewer->addEdge(cont, node.first, edge->getDestination()->getId(), EdgeType::UNDIRECTED);
+            drawDifficulties(cont,edge);
             cont++;
         }
     }
@@ -60,13 +62,22 @@ void GraphDrawer::drawFromGraph(Graph * graph) {
 
 }
 string GraphDrawer::parseColor(string tag){
-
     string tagType;
     std::string::size_type pos = tag.find('=');
     if (pos != std::string::npos) tagType = tag.substr(0, pos);
 
     if(tagType == "tourism") return "orange";
     return "yellow";
+}
+void GraphDrawer::drawDifficulties(int edgeId,Edge * edge){
+    if(edge->getDifficulty() < 3) {
+        graphViewer->setEdgeColor(edgeId, "green");
+    }
+    else if(edge->getDifficulty() < 6) {
+        graphViewer->setEdgeColor(edgeId, "blue");
+    }
+    else graphViewer->setEdgeColor(edgeId,"red");
+
 }
 
 

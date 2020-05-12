@@ -15,6 +15,12 @@ private:
     Node * destination;
     Node * origin;
     double id;
+    int difficulty;
+public:
+    int getDifficulty() const;
+
+    void setDifficulty(int difficulty);
+
 public:
     Edge(Node *origin, Node *destiny, double weight);
     Edge(float weight,Node *destination);
