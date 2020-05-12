@@ -7,7 +7,7 @@
 #include <climits>
 #include <Graph/Preprocessor.h>
 
-bool IS_TESTING = false;
+bool IS_TESTING = true;
 bool IS_FIRST_TIME = false;
 string directory;
 

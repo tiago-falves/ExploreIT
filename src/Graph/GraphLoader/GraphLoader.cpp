@@ -65,9 +65,14 @@ bool GraphLoader::loadEdges(Graph * graph,bool isTesting) {
     int edgeId = 0;
 
     for (int i = 0; i < numberEdges; i++) {
+        int difficulty = 0;
+
         edgeId+=2;
+        if(graph->getEdgeDiff().size()>0){
+            difficulty = graph->getEdgeDiff().at(edgeId);
+        }
         edgesFile >> c >> originId >> c >> destId >> c;
-        graph->addEdge(edgeId,originId, destId);
+        graph->addEdge(edgeId,originId, destId,difficulty);
     }
     edgesFile.close();
 
@@ -102,8 +107,9 @@ bool GraphLoader::loadDifficulties(Graph * graph,string directory) {
     char c;
     fstream diffFile(directory + "difficulties.txt");
     if (!diffFile.is_open()) return false;
+
     while (diffFile >> c >> edgeId >> c >> difficulty >> c){
-        //GraphLoader::edgeDiff.insert(pair<int,int>(edgeId,difficulty));
+        graph->addEdgeDiff(edgeId,difficulty);
     }
     diffFile.close();
 

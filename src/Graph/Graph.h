@@ -21,6 +21,13 @@ class Graph
 private:
     unordered_map<long,Node*> nodes;
     unordered_map<long,Edge*> edges;
+    unordered_map<int,int> edgeDiff;
+public:
+    unordered_map<int,int> getEdgeDiff();
+
+    void setEdgeDiff(const unordered_map<int,int> edgeDiff);
+
+private:
 
     void initNodes(Node *origin,Node *target);
     bool relax(Node *v,Node *w, double weight,long int targetDistance);
@@ -39,7 +46,8 @@ public:
     vector<Node> getPath(long int origin,long int dest);
     Node *findNode(const int &id) const;
     bool addNode(const int &id, int x, int y);
-    bool addEdge(int edgeId,int origId, int destId);
+    bool addEdgeDiff(const int &id, int diff);
+    bool addEdge(int edgeId,int origId, int destId,int damage);
     void printMatrix(double** matrix);
     void resetVisited();
 

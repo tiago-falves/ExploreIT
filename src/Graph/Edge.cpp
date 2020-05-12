@@ -5,17 +5,20 @@
 #include "Edge.h"
 #include "Node.h"
 
-Edge::Edge(int id,Node * origin, Node * destiny, double weight){
+Edge::Edge(int id,Node * origin, Node * destiny, double weight,int difficulty){
     this->origin = origin;
     this->destination = destiny;
     this->weight = weight;
     this->difficulty = 0;
     this->id = id;
+    this->difficulty = difficulty;
+
 }
 
-Edge::Edge(int id,float weight,Node *destination)
+Edge::Edge(int id,float weight,Node *destination,int difficulty)
         :weight(weight),destination(destination) {
     this->id = id;
+    this->difficulty = difficulty;
 }
 
 Node *Edge::getDestination(){

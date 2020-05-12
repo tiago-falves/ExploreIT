@@ -20,8 +20,8 @@ private:
     int difficulty;
 public:
 
-    Edge(int id,Node *origin, Node *destiny, double weight);
-    Edge(int id,float weight,Node *destination);
+    Edge(int id,Node *origin, Node *destiny, double weight,int difficulty);
+    Edge(int id,float weight,Node *destination,int difficulty);
     Node * getDestination();
     Node * getOrigin();
     double getWeight();

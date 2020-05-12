@@ -22,12 +22,19 @@ bool Graph::addNode(const int &id, int x, int y) {
     return true;
 }
 
-bool Graph::addEdge(int edgeId, int origId, int destId) {
+bool Graph::addEdgeDiff(const int &id, int diff){
+
+    this->edgeDiff.insert(pair<int,int>(id, diff));
+    return true;
+}
+
+
+bool Graph::addEdge(int edgeId, int origId, int destId,int difficulty) {
     Node * orig = findNode(origId);
     Node * dest = findNode(destId);
     if(orig == nullptr || dest == nullptr) return false;
-    Edge * edge1 = orig->addEdge(edgeId,orig, dest);
-    Edge * edge2 = dest->addEdge(edgeId+1,dest, orig);
+    Edge * edge1 = orig->addEdge(edgeId,orig, dest,difficulty);
+    Edge * edge2 = dest->addEdge(edgeId+1,dest, orig,difficulty);
     this->edges.insert(pair<int,Edge*>(edgeId, edge1));
     this->edges.insert(pair<int,Edge*>(edgeId+1, edge2));
 
@@ -216,5 +223,14 @@ const unordered_map<long,Edge*> Graph::getEdges(){
 }
 void Graph::setEdges(const unordered_map<long, Edge*> edges) {
     Graph::edges = edges;
+}
+
+
+unordered_map<int,int> Graph::getEdgeDiff(){
+    return edgeDiff;
+}
+
+void Graph::setEdgeDiff(const unordered_map<int,int> edgeDiff){
+    Graph::edgeDiff = edgeDiff;
 }
 
