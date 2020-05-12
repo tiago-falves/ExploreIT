@@ -89,7 +89,6 @@ int main() {
     int origin,dest;
     Graph graph = Graph();
 
-
     if(!IS_TESTING){
         origin = 26019978;
         dest = 26019992;

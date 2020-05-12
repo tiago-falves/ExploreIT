@@ -36,7 +36,7 @@ public:
     vector<Node> getPath(long int origin,long int dest);
     Node *findNode(const int &id) const;
     bool addNode(const int &id, int x, int y);
-    bool addEdge(int origId, int destId);
+    bool addEdge(int edgeId,int origId, int destId);
     void printMatrix(double** matrix);
     void resetVisited();
 

@@ -62,9 +62,12 @@ bool GraphLoader::loadEdges(Graph * graph,bool isGrid) {
 
     edgesFile >> numberEdges;
 
+    int edgeId = 0;
+
     for (int i = 0; i < numberEdges; i++) {
+        edgeId+=2;
         edgesFile >> c >> originId >> c >> destId >> c;
-        graph->addEdge(originId, destId);
+        graph->addEdge(edgeId,originId, destId);
     }
     edgesFile.close();
 

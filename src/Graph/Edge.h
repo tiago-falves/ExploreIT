@@ -14,19 +14,21 @@ private:
     double weight;
     Node * destination;
     Node * origin;
-    double id;
+    int id;
+
+private:
     int difficulty;
 public:
-    int getDifficulty() const;
 
-    void setDifficulty(int difficulty);
-
-public:
-    Edge(Node *origin, Node *destiny, double weight);
-    Edge(float weight,Node *destination);
+    Edge(int id,Node *origin, Node *destiny, double weight);
+    Edge(int id,float weight,Node *destination);
     Node * getDestination();
     Node * getOrigin();
     double getWeight();
+    int getDifficulty() const;
+    void setDifficulty(int difficulty);
+    int getId() const;
+    void setId(int id);
 };
 
 

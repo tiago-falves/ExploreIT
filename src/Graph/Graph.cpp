@@ -22,12 +22,12 @@ bool Graph::addNode(const int &id, int x, int y) {
     return true;
 }
 
-bool Graph::addEdge(int origId, int destId) {
+bool Graph::addEdge(int edgeId, int origId, int destId) {
     Node * orig = findNode(origId);
     Node * dest = findNode(destId);
     if(orig == nullptr || dest == nullptr) return false;
-    orig->addEdge(orig, dest);
-    dest->addEdge(dest, orig);
+    orig->addEdge(edgeId,orig, dest);
+    dest->addEdge(edgeId+1,dest, orig);
     return true;
 }
 
