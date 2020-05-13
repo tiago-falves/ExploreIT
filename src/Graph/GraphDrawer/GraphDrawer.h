@@ -20,6 +20,7 @@ public:
     string parseColor(string tag);
 
     void drawDifficulties(int edgeId, Edge *edge);
+    void drawDetailedDifficulties(int edgeId,Edge * edge);
 };
 
 

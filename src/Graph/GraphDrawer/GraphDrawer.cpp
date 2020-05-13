@@ -54,7 +54,11 @@ void GraphDrawer::drawFromGraph(Graph * graph) {
     graphViewer->setVertexColor(graph->pointsToDraw.back()(),"blue");
 
     for(int it=0;it<graph->pointsToDraw.size()-1;it++){
-        graphViewer->addEdge(++cont,graph->pointsToDraw.at(it+1)(),graph->pointsToDraw.at(it)(),EdgeType::DIRECTED);
+        Node orig = graph->pointsToDraw.at(it+1);
+        Node dest = graph->pointsToDraw.at(it);
+        graphViewer->addEdge(cont,orig(),dest(),EdgeType::DIRECTED);
+        drawDetailedDifficulties(cont,graph->findEdge(orig, dest));
+        cont++;
     }
     graphViewer->rearrange();
     sleep(1000);
@@ -68,14 +72,48 @@ string GraphDrawer::parseColor(string tag){
     if(tagType == "tourism") return "orange";
     return "yellow";
 }
+
 void GraphDrawer::drawDifficulties(int edgeId,Edge * edge){
-    if(edge->getDifficulty() < 3) {
-        graphViewer->setEdgeColor(edgeId, "green");
+    if(edge->getDifficulty() < 2) {
+        graphViewer->setEdgeColor(edgeId, GREEN);
     }
     else if(edge->getDifficulty() < 6) {
-        graphViewer->setEdgeColor(edgeId, "blue");
+        graphViewer->setEdgeColor(edgeId, BLUE);
     }
-    else graphViewer->setEdgeColor(edgeId,"red");
+    else {
+        graphViewer->setEdgeColor(edgeId, RED);
+    }
+}
+
+void GraphDrawer::drawDetailedDifficulties(int edgeId,Edge * edge){
+    if(edge->getDifficulty() == 1) {
+        graphViewer->setEdgeColor(edgeId, GREEN);
+    }
+    else if(edge->getDifficulty() == 2) {
+        graphViewer->setEdgeColor(edgeId, YELLOW);
+    }
+    else if(edge->getDifficulty() == 3) {
+        graphViewer->setEdgeColor(edgeId, CYAN);
+    }
+    else if(edge->getDifficulty() == 4) {
+        graphViewer->setEdgeColor(edgeId, BLUE);
+    }
+    else if(edge->getDifficulty() == 5) {
+        graphViewer->setEdgeColor(edgeId, PINK);
+    }
+    else if(edge->getDifficulty() == 6) {
+        graphViewer->setEdgeColor(edgeId, ORANGE);
+    }
+    else if(edge->getDifficulty() == 7) {
+        graphViewer->setEdgeColor(edgeId, MAGENTA);
+    }
+    else if(edge->getDifficulty() == 8) {
+        graphViewer->setEdgeColor(edgeId, RED);
+    }
+    else if(edge->getDifficulty() == 9) {
+        graphViewer->setEdgeColor(edgeId, GRAY);
+    }
+    else graphViewer->setEdgeColor(edgeId,BLACK);
 
 }
 

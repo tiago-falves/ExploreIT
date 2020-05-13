@@ -48,6 +48,7 @@ public:
     bool addNode(const int &id, int x, int y);
     bool addEdgeDiff(const int &id, int diff);
     bool addEdge(int edgeId,int origId, int destId,int damage);
+    Edge *findEdge(Node orig, Node dest);
     void printMatrix(double** matrix);
     void resetVisited();
     bool difficultyRange(int difficulty, int edge_difficulty);

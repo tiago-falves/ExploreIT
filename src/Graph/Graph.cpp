@@ -239,3 +239,8 @@ bool Graph::difficultyRange(int difficulty, int edge_difficulty) {
     return edge_difficulty >= 0 && edge_difficulty <= difficulty + 1;
 }
 
+Edge *Graph::findEdge(Node orig, Node dest) {
+    for (Edge* e : orig.getEdges())
+        if (e->getDestination()->getId() == dest.getId()) return e;
+}
+
