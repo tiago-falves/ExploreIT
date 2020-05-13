@@ -30,7 +30,7 @@ public:
 private:
 
     void initNodes(Node *origin,Node *target);
-    bool relax(Node *v,Node *w, double weight,long int targetDistance);
+    bool relax(Node *v,Node *w, double weight,long int targetDistance, int edge_difficulty, int difficulty);
     void DFSVisit(Node *v);
 
 public:
@@ -50,11 +50,12 @@ public:
     bool addEdge(int edgeId,int origId, int destId,int damage);
     void printMatrix(double** matrix);
     void resetVisited();
+    bool difficultyRange(int difficulty, int edge_difficulty);
 
     //Algorithms
     void DFSConnectivity(int id);
     void FloydWarshall();
-    double Dijkstra(long int origin,long int  target,long int targetDistance);
+    double Dijkstra(long int origin,long int  target,long int targetDistance, int difficulty);
 
 
     void removeUnvisited(Graph *graph);

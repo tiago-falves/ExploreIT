@@ -8,7 +8,7 @@
 #include <Graph/Preprocessor.h>
 
 bool IS_TESTING = true;
-bool IS_FIRST_TIME = true;
+bool IS_FIRST_TIME = false;
 string directory;
 
 
@@ -20,7 +20,7 @@ void dijkstra(Graph * graph, int origin, int dest){
     int distance;
     if(IS_TESTING) distance = 10;
     else distance = 1000;
-    graph->Dijkstra(origin, dest, distance);
+    graph->Dijkstra(origin, dest, distance, 4);
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     std::cout << "Dijkstra time: " << elapsed.count() << " s\n" << endl;
@@ -101,8 +101,8 @@ int main() {
         directory = "../data/PortugalMaps/Aveiro/";
 
     } else{
-        origin = 12;
-        dest = 22;
+        origin = 24;
+        dest = 30;
         directory = "../data/";
     }
     loadGraph(&graph);

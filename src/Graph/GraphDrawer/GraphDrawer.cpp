@@ -2,9 +2,8 @@
 // Created by tiago on 08/05/2020.
 //
 
-//#include <zconf.h>
 #include <Utils/utils.h>
-#include <zconf.h>
+//#include <zconf.h>
 #include "Graph.h"
 #include "GraphDrawer.h"
 

@@ -56,12 +56,13 @@ void Graph::initNodes(Node *origin,Node *target){
 
 }
 
-bool Graph::relax(Node *v,Node *w, double weight,long int targetDistance){
-    if(abs(v->getWeight() + weight-targetDistance*37+w->getDistTarget()) < abs(w->getWeight()-targetDistance*37+w->getDistTarget()))
+bool Graph::relax(Node *v,Node *w, double weight, long int targetDistance, int edge_difficulty, int difficulty){
+    if(abs(v->getWeight() + weight-targetDistance*37+w->getDistTarget()) + abs(edge_difficulty - difficulty)
+           < abs(w->getWeight()-targetDistance*37+w->getDistTarget()) + abs(edge_difficulty - difficulty))
     {
-        if(v->path != w) {
-            w->setDist(abs(v->getWeight() + weight - targetDistance*37 + w->getDistTarget()));
-            w->setWeight(v->getWeight() + weight);
+        if(v->path != w /*&& difficultyRange(difficulty, edge_difficulty)*/) {
+            w->setDist(abs(v->getWeight() + weight - targetDistance*37 + w->getDistTarget()) + abs(edge_difficulty - difficulty));
+            w->setWeight(v->getWeight() + weight + edge_difficulty);
             w->path = v;
             return true;
         } else
@@ -71,7 +72,7 @@ bool Graph::relax(Node *v,Node *w, double weight,long int targetDistance){
         return false;
 }
 
-double Graph::Dijkstra(long int origin,long int  target,long int targetDistance){
+double Graph::Dijkstra(long int origin,long int  target, long int targetDistance, int difficulty){
     initNodes(nodes[origin],nodes[target]);
     MutablePriorityQueue q;
     q.insert((nodes[origin]));
@@ -89,7 +90,7 @@ double Graph::Dijkstra(long int origin,long int  target,long int targetDistance)
         for(auto e : v->getEdges())
         {
             auto oldDist = e->getDestination()->getDist();
-            if(!e->getDestination()->visited && relax(v, e->getDestination(), e->getWeight(),targetDistance))
+            if(!e->getDestination()->visited && relax(v, e->getDestination(), e->getWeight(), targetDistance, e->getDifficulty(), difficulty));
             {
                 if(oldDist == INF)
                     q.insert(e->getDestination());
@@ -232,5 +233,9 @@ unordered_map<int,int> Graph::getEdgeDiff(){
 
 void Graph::setEdgeDiff(const unordered_map<int,int> edgeDiff){
     Graph::edgeDiff = edgeDiff;
+}
+
+bool Graph::difficultyRange(int difficulty, int edge_difficulty) {
+    return edge_difficulty >= 0 && edge_difficulty <= difficulty + 1;
 }
 
