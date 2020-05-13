@@ -8,7 +8,7 @@
 #include <Graph/Preprocessor.h>
 
 bool IS_TESTING = true;
-bool IS_FIRST_TIME = false;
+bool IS_FIRST_TIME = true;
 string directory;
 
 
