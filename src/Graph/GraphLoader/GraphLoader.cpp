@@ -10,20 +10,26 @@
 
 using namespace std;
 
-bool GraphLoader::loadGraph(Graph * graph, bool isTesting) {
-    return (loadNodes(graph,isTesting) && loadEdges(graph,isTesting) && loadTags(graph,isTesting));
+
+GraphLoader::GraphLoader(Graph * graph,const string &directory, const string &nodeFile, const string &edgeFile,const string &tagPath) :
+    graph(graph), directory(directory), nodeFile(nodeFile), edgeFile(edgeFile),tagPath(tagPath) {}
+
+
+bool GraphLoader::loadGraph(bool isGrid) {
+    return (loadNodes() && loadEdges() &&  loadDifficulties() &&loadTags(isGrid));
 }
 
+bool GraphLoader::loadNodes( ) {
+    cout << "\tLoading nodes\n";
 
-bool GraphLoader::loadNodes(Graph * graph, bool isTesting) {
 
     int numberNodes, id;
     double x, y;
     char c;
-    fstream file_node;
+    ifstream file_node;
 
-    if(isTesting)  file_node.open("../data/nodes.txt");
-    else file_node.open("../data/PortugalMaps/Aveiro/nodes_x_y_aveiro.txt");
+    //file_node.open("zas.txt");
+    file_node.open(directory + nodeFile);
     if (!file_node.is_open())
     {
         cout << "Node File not found\n";
@@ -43,24 +49,29 @@ bool GraphLoader::loadNodes(Graph * graph, bool isTesting) {
     }
     file_node.close();
 
-    cout << "Ended Nodes\n";
     return true;
 
 }
 
 
-bool GraphLoader::loadEdges(Graph * graph,bool isTesting) {
+bool GraphLoader::loadEdges() {
+
+    cout << "\tLoading Edges\n";
+
     int numberEdges, originId, destId;
     char c;
 
-    ifstream edgesFile;
+    ifstream file;
 
-    if(isTesting)  edgesFile.open("../data/edges.txt");
-    else edgesFile.open("../data/PortugalMaps/Aveiro/edges_aveiro.txt");
 
-    if (!edgesFile.is_open()) return false;
+    file.open(directory + edgeFile);
+    if (!file.is_open()){
+        cout << "Error Opening edges file\n";
+        return false;
 
-    edgesFile >> numberEdges;
+    }
+
+    file >> numberEdges;
 
     int edgeId = 0;
 
@@ -71,21 +82,28 @@ bool GraphLoader::loadEdges(Graph * graph,bool isTesting) {
         if(graph->getEdgeDiff().size()>0){
             difficulty = graph->getEdgeDiff().at(edgeId);
         }
-        edgesFile >> c >> originId >> c >> destId >> c;
+        file >> c >> originId >> c >> destId >> c;
         graph->addEdge(edgeId,originId, destId,difficulty);
     }
-    edgesFile.close();
+    file.close();
 
     return true;
 }
 
-bool GraphLoader::loadTags(Graph * graph,bool isTesting) {
+bool GraphLoader::loadTags(bool isTesting) {
     int totalTags, numberTags,nodeId;
     string tag;
     if(isTesting) return true;
-    fstream TagsFile("../data/TagExamples/Aveiro/t03_tags_aveiro.txt"); //Turismo
 
-    if (!TagsFile.is_open()) return false;
+    cout << "\tLoading Tags\n";
+
+
+    ifstream TagsFile(tagPath); //Turismo
+
+    if (!TagsFile.is_open()){
+        cout << "Error Opening Tag file\n";
+        return false;
+    }
 
     TagsFile >> totalTags;
 
@@ -102,18 +120,49 @@ bool GraphLoader::loadTags(Graph * graph,bool isTesting) {
     return true;
 }
 
-bool GraphLoader::loadDifficulties(Graph * graph,string directory) {
+bool GraphLoader::loadDifficulties() {
     int edgeId, difficulty;
     char c;
-    fstream diffFile(directory + "difficulties.txt");
-    if (!diffFile.is_open()) return false;
+    ifstream diffFile(directory + "difficulties.txt");
+    if (!diffFile.is_open()){
+        cout << "Error opening difficulties file, please preprocess\n";
+        return false;
+    }
+
+    cout << "\tLoading Difficulties\n";
+
 
     while (diffFile >> c >> edgeId >> c >> difficulty >> c){
         graph->addEdgeDiff(edgeId,difficulty);
     }
     diffFile.close();
-
     return true;
 }
+
+const string &GraphLoader::getDirectory() const {
+    return directory;
+}
+
+void GraphLoader::setDirectory(const string &directory) {
+    GraphLoader::directory = directory;
+}
+
+const string &GraphLoader::getNodeFile() const {
+    return nodeFile;
+}
+
+void GraphLoader::setNodeFile(const string &nodeFile) {
+    GraphLoader::nodeFile = nodeFile;
+}
+
+const string &GraphLoader::getEdgeFile() const {
+    return edgeFile;
+}
+
+void GraphLoader::setEdgeFile(const string &edgeFile) {
+    GraphLoader::edgeFile = edgeFile;
+}
+
+
 
 

@@ -22,18 +22,13 @@ private:
     unordered_map<long,Node*> nodes;
     unordered_map<long,Edge*> edges;
     unordered_map<int,int> edgeDiff;
-public:
-    unordered_map<int,int> getEdgeDiff();
-
-    void setEdgeDiff(const unordered_map<int,int> edgeDiff);
-
-private:
-
     void initNodes(Node *origin,Node *target);
     bool relax(Node *v,Node *w, double weight,long int targetDistance, int edge_difficulty, int difficulty);
     void DFSVisit(Node *v);
-
 public:
+    unordered_map<int,int> getEdgeDiff();
+    void setEdgeDiff(const unordered_map<int,int> edgeDiff);
+
     vector<Node> pointsToDraw;
     double min_x=8000000000000.0;
     double max_x=-800000000000.0;
@@ -56,7 +51,7 @@ public:
     //Algorithms
     void DFSConnectivity(int id);
     void FloydWarshall();
-    double Dijkstra(long int origin,long int  target,long int targetDistance, int difficulty);
+    double AStar(long int origin,long int  target,long int targetDistance, int difficulty);
 
 
     void removeUnvisited(Graph *graph);

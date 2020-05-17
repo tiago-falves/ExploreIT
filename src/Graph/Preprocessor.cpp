@@ -18,7 +18,6 @@ void Preprocessor::preProcessDifficulties(){
             symetricEdge->setDifficulty(currentDifficulty);
         }
     }
-
 }
 
 int Preprocessor::randomDifficultyCalculator(int currentHeight){

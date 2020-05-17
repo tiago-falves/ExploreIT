@@ -72,11 +72,10 @@ bool Graph::relax(Node *v,Node *w, double weight, long int targetDistance, int e
         return false;
 }
 
-double Graph::Dijkstra(long int origin,long int  target, long int targetDistance, int difficulty){
+double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty){
     initNodes(nodes[origin],nodes[target]);
     MutablePriorityQueue q;
     q.insert((nodes[origin]));
-    cout<<((nodes[origin])<(nodes[target]))<<endl;
     while( ! q.empty())
     {
         auto v = q.extractMin();
@@ -240,7 +239,9 @@ bool Graph::difficultyRange(int difficulty, int edge_difficulty) {
 }
 
 Edge *Graph::findEdge(Node orig, Node dest) {
-    for (Edge* e : orig.getEdges())
+    for (Edge* e : orig.getEdges()) {
         if (e->getDestination()->getId() == dest.getId()) return e;
+    }
+    return NULL;
 }
 

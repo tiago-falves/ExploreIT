@@ -12,6 +12,9 @@ class GraphDrawer {
 private:
     int width, height;
     GraphViewer * graphViewer;
+
+    void drawNodes(Graph * graph);
+
 public:
     void resetGraphViewer();
     void drawFromGraph(Graph *graph);
@@ -21,6 +24,10 @@ public:
 
     void drawDifficulties(int edgeId, Edge *edge);
     void drawDetailedDifficulties(int edgeId,Edge * edge);
+
+    void drawEdges(Graph *graph, int &cont);
+
+    void drawPath(Graph *graph, int &cont);
 };
 
 

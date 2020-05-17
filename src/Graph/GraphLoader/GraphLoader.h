@@ -10,14 +10,36 @@
 
 class GraphLoader {
 public:
-    static bool loadGraph(Graph *graph, bool isGrid);
-    static bool loadDifficulties(Graph *graph, string directory);
 
+
+    GraphLoader(Graph * graph, const string &directory, const string &nodeFile, const string &edgeFile,const string &tagPath);
+
+    bool loadGraph(bool isGrid);
+
+    bool loadDifficulties( );
+
+    const string &getDirectory() const;
+
+    void setDirectory(const string &directory);
+
+    const string &getNodeFile() const;
+
+    void setNodeFile(const string &nodeFile);
+
+    const string &getEdgeFile() const;
+
+    void setEdgeFile(const string &edgeFile);
 
 private:
-    static bool loadEdges(Graph *graph,bool isGrid);
-    static bool loadNodes(Graph *graph,bool isGrid);
-    static bool loadTags(Graph *graph,bool isGrid);
+    string directory;
+    string nodeFile;
+    string edgeFile;
+    string tagPath;
+    Graph * graph;
+
+    bool loadEdges();
+    bool loadNodes();
+    bool loadTags(bool isGrid);
 
 };
 
