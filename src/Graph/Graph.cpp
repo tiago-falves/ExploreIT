@@ -199,10 +199,15 @@ void Graph::printMatrix(double **matrix, ostream& ost) {
 
     for (int i=0; i<n; i++){
         for (int j=0; j<n; j++){
+<<<<<<< HEAD
             if(matrix[i][j] != DBL_MAX)
                 ost << matrix[i][j] << " ";
             else
                 ost << -1 << " ";
+=======
+            if (matrix[i][j] == INF) ost << -1 << " ";
+            else ost << matrix[i][j] << " ";
+>>>>>>> 8e318c4af50ccd3c45c0901c7bd0434bdd52c923
         }
         ost << endl;
     }

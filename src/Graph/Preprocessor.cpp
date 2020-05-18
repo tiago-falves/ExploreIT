@@ -58,5 +58,15 @@ void Preprocessor::setGraph(Graph *graph) {
     Preprocessor::graph = graph;
 }
 
+//Generating (int) (1/10 no nodes na grid)
+void Preprocessor::setGridPOIs(int grid_type) {
+    int n = (grid_type+1)*(grid_type+1);
+    int nodeid;
+    srand(time(0));
+    for (int i = 0; i < n/10; i++){
+        nodeid = randomGenerator(0, n-1);
+        graph->findNode(nodeid)->addTag("tourism=information");
+    }
+}
 
 
