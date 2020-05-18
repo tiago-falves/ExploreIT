@@ -23,7 +23,6 @@ bool Graph::addNode(const int &id, int x, int y) {
 }
 
 bool Graph::addEdgeDiff(const int &id, int diff){
-
     this->edgeDiff.insert(pair<int,int>(id, diff));
     return true;
 }

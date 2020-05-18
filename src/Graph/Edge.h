@@ -15,9 +15,8 @@ private:
     Node * destination;
     Node * origin;
     int id;
-
-private:
     int difficulty;
+
 public:
 
     Edge(int id,Node *origin, Node *destiny, double weight,int difficulty);

@@ -3,8 +3,6 @@
 //
 
 #include <Utils/utils.h>
-#include <zconf.h>
-//#include <zconf.h>
 #include "Graph.h"
 #include "GraphDrawer.h"
 
@@ -107,7 +105,6 @@ void GraphDrawer::drawDifficulties(int edgeId,Edge * edge){
 
 void GraphDrawer::drawDetailedDifficulties(int edgeId,Edge * edge) {
     if (edge->getDifficulty() == 1) graphViewer->setEdgeColor(edgeId, GREEN);
-
     else if (edge->getDifficulty() == 2) graphViewer->setEdgeColor(edgeId, YELLOW);
     else if (edge->getDifficulty() == 3) graphViewer->setEdgeColor(edgeId, CYAN);
     else if (edge->getDifficulty() == 4) graphViewer->setEdgeColor(edgeId, BLUE);

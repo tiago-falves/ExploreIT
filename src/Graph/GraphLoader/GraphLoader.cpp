@@ -12,23 +12,22 @@ using namespace std;
 
 
 GraphLoader::GraphLoader(Graph * graph,const string &directory, const string &nodeFile, const string &edgeFile,const string &tagPath) :
-    graph(graph), directory(directory), nodeFile(nodeFile), edgeFile(edgeFile),tagPath(tagPath) {}
+    graph(graph), directory(directory), nodeFile(nodeFile), edgeFile(edgeFile),tagPath(tagPath) {
+}
 
 
 bool GraphLoader::loadGraph(bool isGrid) {
-    return (loadNodes() && loadEdges() &&  loadDifficulties() &&loadTags(isGrid));
+    return (loadNodes() && loadEdges() && loadTags(isGrid));
 }
 
 bool GraphLoader::loadNodes( ) {
     cout << "\tLoading nodes\n";
-
 
     int numberNodes, id;
     double x, y;
     char c;
     ifstream file_node;
 
-    //file_node.open("zas.txt");
     file_node.open(directory + nodeFile);
     if (!file_node.is_open())
     {
@@ -63,12 +62,10 @@ bool GraphLoader::loadEdges() {
 
     ifstream file;
 
-
     file.open(directory + edgeFile);
     if (!file.is_open()){
         cout << "Error Opening edges file\n";
         return false;
-
     }
 
     file >> numberEdges;
@@ -81,6 +78,7 @@ bool GraphLoader::loadEdges() {
         edgeId+=2;
         if(graph->getEdgeDiff().size()>0){
             difficulty = graph->getEdgeDiff().at(edgeId);
+            cout << "Was here!" << endl;
         }
         file >> c >> originId >> c >> destId >> c;
         graph->addEdge(edgeId,originId, destId,difficulty);

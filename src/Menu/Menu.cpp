@@ -137,7 +137,7 @@ void Menu::runMapMenu(){
             //16x16
             origin = 0;
             dest = 2;
-            setFolder("porto");
+            setFolder("16x16");
         }
 
         runMenu(origin,dest);
@@ -160,7 +160,7 @@ void Menu::setFolder(string graphDirectory){
     }else{
         directory = "../data/GridGraphs/" + graphDirectory + "/";
         nodeFileName = "nodes.txt";
-        edgesFileName += "edges.txt";
+        edgesFileName = "edges.txt";
     }
 
 }
@@ -173,17 +173,15 @@ void Menu::runMenu(int origin, int dest) {
 
     while(true) {
         menuSeparator();
-
-        cout << "Welcome to the National Football Team Manager! What do you want to do?" << endl << endl;
-        cout << "Please choose what is your option:" << endl << endl;
+        cout << endl << "Please choose what is your option:" << endl << endl;
 
         cout << "Exit                                                               [0]" << endl;
         cout << "Draw Graph                                                         [1]" << endl;
         cout << "Preprocess                                                         [2]" << endl;
         cout << "DFS Connectivity                                                   [3]" << endl;
         cout << "A* between 2 points                                                [4]" << endl;
-        cout << "Sports equipment                                                   [5]" << endl;
-        cout << "Save information and Exit                                          [6]" << endl << endl;
+        cout << "(nothing for now)                                                  [5]" << endl;
+        cout << "(nothing for now)                                                  [6]" << endl << endl;
         cout << "Insert the number correspondent to your option: ";
         cin >> option;
         validOption(option, 6);
@@ -192,7 +190,6 @@ void Menu::runMenu(int origin, int dest) {
 
         loadGraph();
         if(IS_FIRST_TIME) preprocess(directory);
-
 
         if (option == 0) { exit(0); }
         else if (option == 1) { drawer(origin,dest);  }
