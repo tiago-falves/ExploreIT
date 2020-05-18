@@ -36,7 +36,7 @@ void MutablePriorityQueue::decreaseKey(Node *x) {
 
 void MutablePriorityQueue::heapifyUp(unsigned i) {
     auto x = H[i];
-    while (i > 1 && x->getDist() < H[parent(i)]->getDist()) {
+    while (i > 1 && x->getWeight() < H[parent(i)]->getWeight()) {
         set(i, H[parent(i)]);
         i = parent(i);
     }
@@ -49,9 +49,9 @@ void MutablePriorityQueue::heapifyDown(unsigned i) {
         unsigned k = leftChild(i);
         if (k >= H.size())
             break;
-        if (k+1 < H.size() && H[k+1]->getDist() < H[k]->getDist())
+        if (k+1 < H.size() && H[k+1]->getWeight() < H[k]->getWeight())
             ++k; // right child of i
-        if ( ! (H[k]->getDist() < x->getDist()) )
+        if ( ! (H[k]->getWeight() < x->getWeight()) )
             break;
         set(i, H[k]);
         i = k;

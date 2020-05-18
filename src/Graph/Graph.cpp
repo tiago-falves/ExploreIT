@@ -1,8 +1,9 @@
 #include "Graph.h"
 #include "../Utils/utils.h"
-#include <chrono>
 #include <queue>
 #include <MutablePriorityQueue.h>
+#include <cfloat>
+#include <chrono>
 
 #define INF std::numeric_limits<double>::max()
 
@@ -44,6 +45,9 @@ void Graph::initNodes(Node *origin,Node *target){
     for(auto node:nodes){
         node.second->setWeight(INF);
         node.second->setDist(INF);
+        node.second->setSummedDifficulties(0);
+        node.second->visited= false;
+        node.second->violated_difficulty=false;
         double dx=abs(target->getX()-node.second->getX());
         double dy=abs(target->getY()-node.second->getY());
         //node.second->setDistTarget(sqrt(dx*dx+dy*dy));
@@ -55,24 +59,37 @@ void Graph::initNodes(Node *origin,Node *target){
 
 }
 
-bool Graph::relax(Node *v,Node *w, double weight, long int targetDistance, int edge_difficulty, int difficulty){
-    if(abs(v->getWeight() + weight-targetDistance*37+w->getDistTarget()) + abs(edge_difficulty - difficulty)
-           < abs(w->getWeight()-targetDistance*37+w->getDistTarget()) + abs(edge_difficulty - difficulty))
+bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int edge_difficulty, int difficulty){
+    double ave_diff = (v->getSummedDifficulties()+edge_difficulty*tam_edge)/(v->getDist()+tam_edge);
+    double localWeight = 0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 0.1*abs(float(ave_diff/5));
+    if(edge_difficulty<=difficulty+2)
     {
-        if(v->path != w /*&& difficultyRange(difficulty, edge_difficulty)*/) {
-            w->setDist(abs(v->getWeight() + weight - targetDistance*37 + w->getDistTarget()) + abs(edge_difficulty - difficulty));
-            w->setWeight(v->getWeight() + weight + edge_difficulty);
+        if((localWeight < w->getWeight()) && v->path != w) {
+            w->setDist( v->getDist()+tam_edge);
+            w->setWeight(localWeight);
             w->path = v;
+            w->violated_difficulty= false;
+            w->setSummedDifficulties((v->getSummedDifficulties()+edge_difficulty*tam_edge));
             return true;
-        } else
-            return false;
+        }
     }
-    else
-        return false;
+    else {
+        localWeight = 0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 4*abs(float(ave_diff/5));
+        if ((localWeight < w->getWeight()) && v->path != w) {
+            w->setDist(v->getDist() + tam_edge);
+            w->setWeight(localWeight);
+            w->path = v;
+            w->violated_difficulty= true;
+            w->setSummedDifficulties((v->getSummedDifficulties()+edge_difficulty*tam_edge));
+            return true;
+        }
+    }
+    return false;
 }
 
 double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty){
     initNodes(nodes[origin],nodes[target]);
+    cout<<difficulty<<endl;
     MutablePriorityQueue q;
     q.insert((nodes[origin]));
     while( ! q.empty())
@@ -80,9 +97,9 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
         auto v = q.extractMin();
         v->visited = true;
         if (v == nodes[target]) {
-            if((abs(v->getWeight()-targetDistance*37.0)/targetDistance/37.0)<0.10) {
-                cout << "Peso: " << v->getWeight() << endl;
-                break;
+            if((abs(v->getDist()-targetDistance)/targetDistance)<0.10) {
+                cout << "Peso: " << nodes[target]->getDist()<< " " << targetDistance << endl;
+                return 0;
             }
         }
         for(auto e : v->getEdges())
@@ -97,6 +114,7 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
             }
         }
     }
+    cout << "Peso: " << nodes[target]->getDist()<< " " << targetDistance << endl;
     return 0;
 }
 
@@ -104,12 +122,20 @@ vector<Node> Graph::getPath(long int origin,long int dest)
 {
     vector<Node> res;
     Node *v = nodes[dest];
+    float sum=0;
     if(v == nullptr)
         return res;
     else if (v->getDist() == INF)
         return res;
-    for( ; v != nullptr; v = v->path)
+    for( ; v != nullptr; v = v->path) {
+        if(v->violated_difficulty){
+            std::string cont;
+            cout<<"Difficulty was violated at point "<<v->getId()<<", press enter to continue:"<<endl;
+            getline(cin,cont);
+        }
         res.push_back(*v);
+        sum+=v->getDist();
+    }
     return res;
 }
 
@@ -160,18 +186,29 @@ void Graph::FloydWarshall(string directory) {
         file.close();
     }else cout << "Unable to open Floyd Warshall output file!" << endl;
 
-    //cout << getNodeDistance(0, 2) << endl;
+    cout << getNodeDistance(1, 150) << endl;
+    cout << getNodeDistance(1, 16) << endl;
+    cout << getNodeDistance(1, 3) << endl;
+    cout << getNodeDistance(1, 2) << endl;
+    cout << getNodeDistance(0, 288) << endl;
 }
 
 void Graph::printMatrix(double **matrix, ostream& ost) {
+    auto start = std::chrono::high_resolution_clock::now();
     unsigned n = getNodes().size();
 
     for (int i=0; i<n; i++){
         for (int j=0; j<n; j++){
-            ost << setw(15) << matrix[i][j] << " ";
+            if(matrix[i][j] != DBL_MAX)
+                ost << matrix[i][j] << " ";
+            else
+                ost << -1 << " ";
         }
         ost << endl;
     }
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = finish - start;
+    std::cout << "Write time: " << elapsed.count() << " s\n" << endl;
 }
 
 void Graph::resetVisited(){

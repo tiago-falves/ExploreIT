@@ -3,6 +3,8 @@ project(CAL1920)
 
 set(CMAKE_CXX_STANDARD 14)
 
+set (CMAKE_CXX_FLAGS "-pthread")
+
 if (WIN32)
     link_libraries(ws2_32 wsock32)
 endif (WIN32)

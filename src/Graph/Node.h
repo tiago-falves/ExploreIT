@@ -20,12 +20,14 @@ private:
     vector<string> tags;
     double x = 0, y = 0;
     double dist=0;
+    double summedDifficulties=0;
     double weight=0;
     double dist_target=0;
     int height = 0;
     int floydPosition;
 
 public:
+    bool violated_difficulty= false;
     int queueIndex = 0;
     Node *path;
     bool visited = false;
@@ -42,15 +44,19 @@ public:
     double getDist(){return dist;}
     double getDistTarget(){return dist_target;}
     double getWeight(){return weight;}
+    double getSummedDifficulties(){ return summedDifficulties;}
 
     void setDist(double d){dist=d;}
     void setDistTarget(double d){dist_target=d;}
     void setWeight(double w){weight=w;}
+    void setSummedDifficulties(double d){ summedDifficulties=d;}
+    void addDifficulty(double d){ summedDifficulties+=d;}
 
     void addTag(std::string tag);
     Edge * addEdge(int edgeId,Node * origin,Node *destination,int damage);
 
     long operator()() {return id;}
+    long operator==(Node a) {return a.getId()==id;}
 
     void removeEdge(int destiny);
 

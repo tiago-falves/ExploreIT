@@ -12,6 +12,7 @@
 #include <chrono>
 #include <climits>
 #include <Graph/Preprocessor.h>
+#include <thread>
 
 using namespace std;
 
@@ -197,23 +198,19 @@ void Menu::runMenu(int origin, int dest) {
         else if (option == 3) { cleanGraphRuntime(origin,dest); }
         else if (option == 4) { AStar(origin,dest); }
         else if (option == 5) { floydWarshall(graph); }
-        else if (option == 6) {  }
+        else if (option == 6) { return; }
     }
 }
 
 void calculateHeights(Graph *pGraph);
 
-void Menu::AStar(int origin, int dest){
-    //AStar
+void drawerS(int origin,int dest,Graph *graph){
+    GraphDrawer *drawer = new GraphDrawer(2000, 2000);
     auto start = std::chrono::high_resolution_clock::now();
-    int distance;
-    if(IS_TESTING) distance = 10;
-    else distance = 1000;
-    graph->AStar(origin, dest, distance, 4);
+    drawer->drawFromGraph(graph);
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
-    std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
-    drawer(origin,dest);
+    std::cout << "Drawer time: " << elapsed.count() << " s\n" << endl;
 }
 
 void Menu::drawer(int origin,int dest){
@@ -224,6 +221,81 @@ void Menu::drawer(int origin,int dest){
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     std::cout << "Drawer time: " << elapsed.count() << " s\n" << endl;
+}
+
+void Menu::AStar(int origin, int dest){
+    //AStar
+    vector<vector<Node>> vectors;
+    auto start = std::chrono::high_resolution_clock::now();
+    int distance;
+    if(IS_TESTING) distance = 5479;
+    else distance = 5479;
+    graph->AStar(origin, dest, distance, 3);
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = finish - start;
+    std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
+    graph->pointsToDraw = graph->getPath(origin, dest);
+    vectors.push_back(graph->pointsToDraw);
+    thread th1(drawerS,origin,dest,graph);
+    //drawer(origin,dest);
+
+
+
+    if(IS_TESTING) distance = 5479;
+    else distance = 5479;
+    graph->AStar(origin, dest, distance, 5);
+    finish = std::chrono::high_resolution_clock::now();
+    elapsed = finish - start;
+    std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
+    GraphViewer::port=7773;
+    graph->pointsToDraw = graph->getPath(origin, dest);
+    vectors.push_back(graph->pointsToDraw);
+    thread th2(drawerS,origin,dest,graph);
+
+
+    if(IS_TESTING) distance = 5479;
+    else distance = 5479;
+    graph->AStar(origin, dest, distance, 10);
+    finish = std::chrono::high_resolution_clock::now();
+    elapsed = finish - start;
+    std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
+    GraphViewer::port=7774;
+    graph->pointsToDraw = graph->getPath(origin, dest);
+    vectors.push_back(graph->pointsToDraw);
+
+    float diff1=0;
+    for(auto i:vectors.at(0)){
+        if(std::find(vectors.at(1).begin(), vectors.at(1).end(), i) == vectors.at(1).end()) {
+            diff1++;
+        }
+    }
+    diff1/=vectors.at(0).size();
+
+
+    float diff2=0;
+    for(auto i:vectors.at(0)){
+        if(std::find(vectors.at(2).begin(), vectors.at(2).end(), i) == vectors.at(2).end()) {
+            diff2++;
+        }
+    }
+    diff2/=vectors.at(0).size();
+
+
+    float diff3=0;
+    for(auto i:vectors.at(2)){
+        if(std::find(vectors.at(1).begin(), vectors.at(1).end(), i) == vectors.at(1).end()) {
+            diff3++;
+        }
+    }
+    diff3/=vectors.at(2).size();
+
+    cout<< "Diferença 0 1: "<<diff1 << endl;
+    cout<< "Diferença 0 2: "<<diff2 << endl;
+    cout<< "Diferença 1 2: "<<diff3 << endl;
+    thread th3(drawerS,origin,dest,graph);
+    th1.join();
+    th2.join();
+    th3.join();
 }
 
 
