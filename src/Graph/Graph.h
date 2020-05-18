@@ -25,6 +25,10 @@ private:
     void initNodes(Node *origin,Node *target);
     bool relax(Node *v,Node *w, double weight,long int targetDistance, int edge_difficulty, int difficulty);
     void DFSVisit(Node *v);
+
+    //FLoyd Warshall matrices
+    double ** W;   // dist
+    double **P;   // path
 public:
     unordered_map<int,int> getEdgeDiff();
     void setEdgeDiff(const unordered_map<int,int> edgeDiff);
@@ -44,13 +48,14 @@ public:
     bool addEdgeDiff(const int &id, int diff);
     bool addEdge(int edgeId,int origId, int destId,int damage);
     Edge *findEdge(Node orig, Node dest);
-    void printMatrix(double** matrix);
+    void printMatrix(double** matrix, ostream& ostream);
     void resetVisited();
     bool difficultyRange(int difficulty, int edge_difficulty);
+    int getNodeDistance(int origid, int destid);
 
     //Algorithms
     void DFSConnectivity(int id);
-    void FloydWarshall();
+    void FloydWarshall(string directory);
     double AStar(long int origin,long int  target,long int targetDistance, int difficulty);
 
 

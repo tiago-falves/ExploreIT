@@ -23,6 +23,7 @@ private:
     double weight=0;
     double dist_target=0;
     int height = 0;
+    int floydPosition;
 
 public:
     int queueIndex = 0;
@@ -54,6 +55,9 @@ public:
     void removeEdge(int destiny);
 
     Edge *findEdge(int destiny);
+
+    int setFloydPosition(int floydPosition) {this->floydPosition = floydPosition;}
+    int getFloydPostion() {return floydPosition;}
 };
 
 #endif //CAL1920_NODE_H

@@ -113,16 +113,16 @@ vector<Node> Graph::getPath(long int origin,long int dest)
     return res;
 }
 
-void Graph::FloydWarshall() {
+void Graph::FloydWarshall(string directory) {
     cout << "Started FloydWarshall algorithm" << endl;
 
-    double ** W;   // dist
-    double **P;   // path
     vector<Node*> temp;
+    int vec_pos = 0;
     unordered_map<long, Node*>::const_iterator it = nodes.begin();
     while(it != nodes.end()){
         temp.push_back(it->second);
-        it++;
+        it->second->setFloydPosition(vec_pos);
+        it++; vec_pos++;
     }
 
     unsigned n = temp.size();
@@ -154,18 +154,23 @@ void Graph::FloydWarshall() {
                 }
             }
 
-    cout << "W: " << endl;
-    printMatrix(W);
+    ofstream file; file.open(directory + "floydWarshallOutput.txt");
+    if (file.is_open()) {
+        printMatrix(W, file);
+        file.close();
+    }else cout << "Unable to open Floyd Warshall output file!" << endl;
+
+    //cout << getNodeDistance(0, 2) << endl;
 }
 
-void Graph::printMatrix(double **matrix) {
+void Graph::printMatrix(double **matrix, ostream& ost) {
     unsigned n = getNodes().size();
 
     for (int i=0; i<n; i++){
         for (int j=0; j<n; j++){
-            cout << setw(15) << matrix[i][j] << " ";
+            ost << setw(15) << matrix[i][j] << " ";
         }
-        cout << endl;
+        ost << endl;
     }
 }
 
@@ -242,5 +247,9 @@ Edge *Graph::findEdge(Node orig, Node dest) {
         if (e->getDestination()->getId() == dest.getId()) return e;
     }
     return NULL;
+}
+
+int Graph::getNodeDistance(int origid, int destid) {
+    return W[nodes.at(origid)->getFloydPostion()][nodes.at(destid)->getFloydPostion()];
 }
 

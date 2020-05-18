@@ -180,7 +180,7 @@ void Menu::runMenu(int origin, int dest) {
         cout << "Preprocess                                                         [2]" << endl;
         cout << "DFS Connectivity                                                   [3]" << endl;
         cout << "A* between 2 points                                                [4]" << endl;
-        cout << "(nothing for now)                                                  [5]" << endl;
+        cout << "Floyd Warshall                                                     [5]" << endl;
         cout << "(nothing for now)                                                  [6]" << endl << endl;
         cout << "Insert the number correspondent to your option: ";
         cin >> option;
@@ -196,7 +196,7 @@ void Menu::runMenu(int origin, int dest) {
         else if (option == 2) { preprocess(directory); }
         else if (option == 3) { cleanGraphRuntime(origin,dest); }
         else if (option == 4) { AStar(origin,dest); }
-        else if (option == 5) {  }
+        else if (option == 5) { floydWarshall(graph); }
         else if (option == 6) {  }
     }
 }
@@ -227,9 +227,9 @@ void Menu::drawer(int origin,int dest){
 }
 
 
-void floydWarshall(Graph * graph){
+void Menu::floydWarshall(Graph * graph){
     auto start = std::chrono::high_resolution_clock::now();
-    graph->FloydWarshall();
+    graph->FloydWarshall(directory);
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     std::cout << "Floyd time: " << elapsed.count() << " s\n" << endl;

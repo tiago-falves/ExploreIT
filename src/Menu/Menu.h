@@ -32,6 +32,8 @@ public:
 
     void AStar(int origin, int dest);
 
+    void floydWarshall(Graph * graph);
+
     void loadGraph();
 
     void drawer(int origin, int dest);
