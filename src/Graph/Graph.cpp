@@ -168,7 +168,8 @@ void Graph::printMatrix(double **matrix, ostream& ost) {
 
     for (int i=0; i<n; i++){
         for (int j=0; j<n; j++){
-            ost << setw(15) << matrix[i][j] << " ";
+            if (matrix[i][j] == INF) ost << -1 << " ";
+            else ost << matrix[i][j] << " ";
         }
         ost << endl;
     }

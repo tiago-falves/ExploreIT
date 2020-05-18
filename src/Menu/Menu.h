@@ -19,6 +19,7 @@ private:
     string nodeFileName;
     string edgesFileName;
     string tagFilePath;
+    int gridNum = 0;
 public:
     Menu(Graph * graph);
 

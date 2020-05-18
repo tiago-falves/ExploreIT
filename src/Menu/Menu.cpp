@@ -126,18 +126,21 @@ void Menu::runMapMenu(){
             origin = 0;
             dest = 2;
             setFolder("4x4");
+            gridNum = 4;
         }
         else if (option == 13) {
             //8x8
             origin = 0;
             dest = 2;
             setFolder("8x8");
+            gridNum = 8;
         }
         else if (option == 14) {
             //16x16
             origin = 0;
             dest = 2;
             setFolder("16x16");
+            gridNum = 16;
         }
 
         runMenu(origin,dest);
@@ -247,6 +250,7 @@ void Menu::preprocess(string directory) {
     Preprocessor preprocessor = Preprocessor(graph);
     preprocessor.preProcessDifficulties();
     preprocessor.saveDifficulties(directory);
+    if (IS_TESTING) preprocessor.setGridPOIs(gridNum);
 }
 
 
