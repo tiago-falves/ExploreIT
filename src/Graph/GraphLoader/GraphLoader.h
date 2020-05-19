@@ -18,6 +18,8 @@ public:
 
     bool loadDifficulties( );
 
+    bool loadConnectivity();
+
     const string &getDirectory() const;
 
     void setDirectory(const string &directory);
@@ -30,16 +32,26 @@ public:
 
     void setEdgeFile(const string &edgeFile);
 
+
+
 private:
     string directory;
     string nodeFile;
     string edgeFile;
     string tagPath;
+    string connectivityFile;
+public:
+    const string &getConnectivityFile() const;
+
+    void setConnectivityFile(const string &connectivityFile);
+
+private:
     Graph * graph;
 
     bool loadEdges();
     bool loadNodes();
     bool loadTags(bool isGrid);
+
 
 };
 

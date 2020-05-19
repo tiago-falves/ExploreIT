@@ -9,6 +9,7 @@
 #include <vector>
 #include <iomanip>
 #include <unordered_map>
+#include <unordered_set>
 #include "Node.h"
 #include "MutablePriorityQueue.h"
 
@@ -21,6 +22,9 @@ class Graph
 private:
     unordered_map<long,Node*> nodes;
     unordered_map<long,Edge*> edges;
+    vector<unordered_set<int>> graphs;
+    vector<vector<int>> graphsVector;
+
     unordered_map<int,int> edgeDiff;
     void initNodes(Node *origin,Node *target);
     bool relax(Node *v,Node *w, double weight,long int targetDistance, int edge_difficulty, int difficulty);
@@ -32,6 +36,10 @@ private:
 public:
     unordered_map<int,int> getEdgeDiff();
     void setEdgeDiff(const unordered_map<int,int> edgeDiff);
+    void setGraphs(const vector<unordered_set<int>> &graphs);
+    const vector<vector<int>> &getGraphsVector() const;
+    void setGraphsVector(const vector<vector<int>> &graphsVector);
+
 
     vector<Node> pointsToDraw;
     double min_x=8000000000000.0;
@@ -42,6 +50,7 @@ public:
     const unordered_map<long,Edge*> getEdges();
     void setEdges(const unordered_map<long, Edge*> edges);
     unordered_map<long,Node*> getNodes();
+    vector<unordered_set<int>> getGraphs();
     vector<Node> getPath(long int origin,long int dest);
     Node *findNode(const int &id) const;
     bool addNode(const int &id, int x, int y);
@@ -63,6 +72,7 @@ public:
     void removeSymetricEdges(int id);
     Edge *getSymetricEdge(Edge *edge);
 
+    int getMostConnected();
 };
 
 

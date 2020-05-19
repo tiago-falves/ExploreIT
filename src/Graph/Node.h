@@ -62,7 +62,7 @@ public:
 
     Edge *findEdge(int destiny);
 
-    int setFloydPosition(int floydPosition) {this->floydPosition = floydPosition;}
+    void setFloydPosition(int floydPosition) {this->floydPosition = floydPosition;}
     int getFloydPostion() {return floydPosition;}
 };
 

@@ -18,6 +18,50 @@ void Preprocessor::preProcessDifficulties(){
             symetricEdge->setDifficulty(currentDifficulty);
         }
     }
+
+}
+
+void Preprocessor::preprocessConnectivity(string directory){
+
+    ofstream myfile;
+    myfile.open (directory + "connectivity.txt");
+    vector<vector<int>> graphs = calculateConnectedGraphs();
+    myfile << graphs.size() << endl;
+    for (int i = 0; i < graphs.size(); ++i) {
+        myfile <<graphs[i].size() << endl;
+        for(int idNode : graphs[i]){
+            myfile << idNode << endl;
+        }
+    }
+    myfile.close();
+
+
+}
+
+vector<vector<int>> Preprocessor::calculateConnectedGraphs(){
+    vector<vector<int>> result;
+    graph->resetVisited();
+    for(auto IDNode : graph->getNodes()){
+        Node * node = IDNode.second;
+        if(!node->visited){
+            vector<int> connectedNodes;
+            DFSVisit(node,connectedNodes);
+            result.push_back(connectedNodes);
+        }
+    }
+    return result;
+
+}
+
+
+void Preprocessor::DFSVisit(Node * node,vector<int> &connectedNodes) {
+    node->visited = true;
+    for (Edge * edge : node->getEdges()) {
+        if (!edge->getDestination()->visited) {
+            DFSVisit(edge->getDestination(),connectedNodes);
+            connectedNodes.push_back(edge->getDestination()->getId());
+        }
+    }
 }
 
 int Preprocessor::randomDifficultyCalculator(int currentHeight){

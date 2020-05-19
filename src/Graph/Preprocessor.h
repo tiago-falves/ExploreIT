@@ -13,6 +13,8 @@ private:
     Graph * graph;
     static int randomGenerator(int min, int max);
     static int randomDifficultyCalculator(int currentHeight);
+    void DFSVisit(Node *node, vector<int> &connectedNodes);
+
 public:
 
     Preprocessor(Graph *graph);
@@ -21,6 +23,9 @@ public:
     Graph *getGraph() const;
     void setGraph(Graph *graph);
     void setGridPOIs(int grid_type);
+    vector<vector<int>> calculateConnectedGraphs();
+
+    void preprocessConnectivity(string directory);
 };
 
 

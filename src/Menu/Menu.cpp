@@ -63,83 +63,83 @@ void Menu::runMapMenu(){
         }
         else if (option == 2) {
             //Braga
-            origin = 450543314;
-            dest = 450543328;
+            //origin = 450543314;
+            //dest = 450543328;
             setFolder("braga");
         }
         else if (option == 3) {
             //Coimbra
-            origin = 206155873;
-            dest = 206155874;
+            //origin = 206155873;
+            //dest = 206155874;
             setFolder("coimbra");
 
         }
         else if (option == 4) {
             //Ermesinde
-            origin = 25449700;
-            dest = 25449701;
+            //origin = 25449700;
+            //dest = 25449701;
             setFolder("ermesinde");
         }
         else if (option == 5) {
             //Fafe
-            origin = 26130479;
-            dest = 26130480;
+            //origin = 26130479;
+            //dest = 26130480;
             setFolder("fafe");
         }
         else if (option == 6) {
             //Gondomar
-            origin = 112624356;
-            dest = 112624357;
+            //origin = 112624356;
+            //dest = 112624357;
             setFolder("gondomar");
         }
         else if (option == 7) {
             //Lisboa
-            origin = 582518621;
-            dest = 582518622;
+            //origin = 582518621;
+            //dest = 582518622;
             setFolder("lisboa");
         }
         else if (option == 8) {
             //Maia
-            origin = 26058104;
-            dest = 26058105;
+            //origin = 26058104;
+            //dest = 26058105;
             setFolder("maia");
         }
         else if (option == 9) {
             //Porto
-            origin = 90379613;
-            dest = 90379614;
+            //origin = 90379613;
+            //dest = 90379614;
             setFolder("porto");
         }
         else if (option == 10) {
             //Viseu
-            origin = 26023650;
-            dest = 26023652;
+            //origin = 26023650;
+            //dest = 26023652;
             setFolder("viseu");
         }
         else if (option == 11) {
             //Portugal
-            origin = 158862065;
-            dest = 158862066;
+            //origin = 158862065;
+            //dest = 158862066;
             setFolder("portugal");
         }
         else if (option == 12) {
             //4*4
-            origin = 0;
-            dest = 2;
+            //origin = 0;
+            //dest = 2;
             setFolder("4x4");
             gridNum = 4;
         }
         else if (option == 13) {
             //8x8
-            origin = 0;
-            dest = 2;
+            //origin = 0;
+            //dest = 2;
             setFolder("8x8");
             gridNum = 8;
         }
         else if (option == 14) {
             //16x16
-            origin = 0;
-            dest = 2;
+            //origin = 0;
+            //dest = 2;
             setFolder("16x16");
             gridNum = 16;
         }
@@ -154,13 +154,13 @@ void Menu::setFolder(string graphDirectory){
         edgesFileName = "edges_";
         nodeFileName += graphDirectory + ".txt";
         edgesFileName += graphDirectory + ".txt";
+        connectivityFileName = "connectivity.txt";
 
         string temp = graphDirectory;
         temp[0] = toupper(temp[0]);
         directory = "../data/PortugalMaps/" + temp + "/";
         tagFilePath = "../data/TagExamples/" + temp + "/t03_tags_" + graphDirectory + ".txt";
 
-        cout << directory << endl << directory+nodeFileName << endl << directory+edgesFileName << endl;
     }else{
         directory = "../data/GridGraphs/" + graphDirectory + "/";
         nodeFileName = "nodes.txt";
@@ -175,7 +175,15 @@ void Menu::setFolder(string graphDirectory){
 void Menu::runMenu(int origin, int dest) {
     int option;
 
+    loadGraph();
+    if(IS_FIRST_TIME) preprocess(directory);
+    //getOriginDest(origin, dest);
+
+
+
     while(true) {
+
+
         menuSeparator();
         cout << endl << "Please choose what is your option:" << endl << endl;
 
@@ -185,15 +193,13 @@ void Menu::runMenu(int origin, int dest) {
         cout << "DFS Connectivity                                                   [3]" << endl;
         cout << "A* between 2 points                                                [4]" << endl;
         cout << "Floyd Warshall                                                     [5]" << endl;
-        cout << "(nothing for now)                                                  [6]" << endl << endl;
+        cout << "AStar Threads                                                      [6]" << endl << endl;
         cout << "Insert the number correspondent to your option: ";
         cin >> option;
         validOption(option, 6);
 
         menuSeparator();
 
-        loadGraph();
-        if(IS_FIRST_TIME) preprocess(directory);
 
         if (option == 0) { exit(0); }
         else if (option == 1) { drawer(origin,dest);  }
@@ -201,7 +207,7 @@ void Menu::runMenu(int origin, int dest) {
         else if (option == 3) { cleanGraphRuntime(origin,dest); }
         else if (option == 4) { AStar(origin,dest); }
         else if (option == 5) { floydWarshall(graph); }
-        else if (option == 6) { return; }
+        else if (option == 6) { AStarThreads(origin,dest); }
     }
 }
 
@@ -228,10 +234,29 @@ void Menu::drawer(int origin,int dest){
 
 void Menu::AStar(int origin, int dest){
     //AStar
+
+    cleanGraphRuntime(origin, dest);
     vector<vector<Node>> vectors;
     auto start = std::chrono::high_resolution_clock::now();
     int distance;
-    if(IS_TESTING) distance = 5479;
+    if(IS_TESTING) distance = 15;
+    else distance = 5479;
+    graph->AStar(origin, dest, distance, 3);
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = finish - start;
+    std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
+    graph->pointsToDraw = graph->getPath(origin, dest);
+    vectors.push_back(graph->pointsToDraw);
+    drawer(origin,dest);
+
+}
+
+void Menu::AStarThreads(int origin, int dest){
+    //AStar
+    vector<vector<Node>> vectors;
+    auto start = std::chrono::high_resolution_clock::now();
+    int distance;
+    if(IS_TESTING) distance = 15;
     else distance = 5479;
     graph->AStar(origin, dest, distance, 3);
     auto finish = std::chrono::high_resolution_clock::now();
@@ -244,7 +269,7 @@ void Menu::AStar(int origin, int dest){
 
 
 
-    if(IS_TESTING) distance = 5479;
+    if(IS_TESTING) distance = 15;
     else distance = 5479;
     graph->AStar(origin, dest, distance, 5);
     finish = std::chrono::high_resolution_clock::now();
@@ -292,15 +317,14 @@ void Menu::AStar(int origin, int dest){
     }
     diff3/=vectors.at(2).size();
 
-    cout<< "Diferença 0 1: "<<diff1 << endl;
-    cout<< "Diferença 0 2: "<<diff2 << endl;
-    cout<< "Diferença 1 2: "<<diff3 << endl;
+    //cout<< "Diferença 0 1: "<<diff1 << endl;
+    //cout<< "Diferença 0 2: "<<diff2 << endl;
+    //cout<< "Diferença 1 2: "<<diff3 << endl;
     thread th3(drawerS,origin,dest,graph);
     th1.join();
     th2.join();
     th3.join();
 }
-
 
 void Menu::floydWarshall(Graph * graph){
     auto start = std::chrono::high_resolution_clock::now();
@@ -320,9 +344,10 @@ void Menu::cleanGraphRuntime(int origin,int dest){
 
 void Menu::preprocess(string directory) {
     Preprocessor preprocessor = Preprocessor(graph);
-    preprocessor.preProcessDifficulties();
-    preprocessor.saveDifficulties(directory);
-    if (IS_TESTING) preprocessor.setGridPOIs(gridNum);
+    //preprocessor.preProcessDifficulties();
+    //preprocessor.saveDifficulties(directory);
+    //if (IS_TESTING) preprocessor.setGridPOIs(gridNum);
+    preprocessor.preprocessConnectivity(directory);
 }
 
 
@@ -350,8 +375,9 @@ void Menu::loadGraph(){
     cout << "Loading Graph...\n";
     GraphLoader loader = GraphLoader(graph,directory,nodeFileName,edgesFileName,tagFilePath);
     auto start = std::chrono::high_resolution_clock::now();
-    if (!IS_FIRST_TIME) loader.loadDifficulties();
     loader.loadGraph(IS_TESTING);
+    loader.setConnectivityFile(directory+connectivityFileName);
+    loader.loadConnectivity();
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     std::cout << "Load time: " << elapsed.count() << " s\n" << endl;
@@ -381,5 +407,13 @@ void calculateMinMax(Graph* graph){
         if(y > graph->max_y)  graph->max_y=y;
         if(y < graph->min_y)  graph->min_y=y;
     }
+}
 
+void Menu::getOriginDest(int &origin,int &dest){
+    //Getting origin and dest
+    if(!graph->getGraphs().empty()){
+        int index = graph->getMostConnected();
+        origin = graph->getGraphsVector().at(index).at(0);
+        dest = graph->getGraphsVector().at(index).at(1);
+    }
 }

@@ -10,6 +10,9 @@
 unordered_map<long, Node *> Graph::getNodes(){
     return nodes;
 }
+vector<unordered_set<int>> Graph::getGraphs(){
+    return graphs;
+}
 
 Node* Graph::findNode(const int &id) const {
     unordered_map<long, Node*>::const_iterator it = nodes.find(id);
@@ -89,7 +92,6 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
 
 double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty){
     initNodes(nodes[origin],nodes[target]);
-    cout<<difficulty<<endl;
     MutablePriorityQueue q;
     q.insert((nodes[origin]));
     while( ! q.empty())
@@ -98,7 +100,6 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
         v->visited = true;
         if (v == nodes[target]) {
             if((abs(v->getDist()-targetDistance)/targetDistance)<0.10) {
-                cout << "Peso: " << nodes[target]->getDist()<< " " << targetDistance << endl;
                 return 0;
             }
         }
@@ -114,7 +115,7 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
             }
         }
     }
-    cout << "Peso: " << nodes[target]->getDist()<< " " << targetDistance << endl;
+    //cout << "Peso: " << nodes[target]->getDist()<< " " << targetDistance << endl;
     return 0;
 }
 
@@ -186,11 +187,6 @@ void Graph::FloydWarshall(string directory) {
         file.close();
     }else cout << "Unable to open Floyd Warshall output file!" << endl;
 
-    cout << getNodeDistance(1, 150) << endl;
-    cout << getNodeDistance(1, 16) << endl;
-    cout << getNodeDistance(1, 3) << endl;
-    cout << getNodeDistance(1, 2) << endl;
-    cout << getNodeDistance(0, 288) << endl;
 }
 
 void Graph::printMatrix(double **matrix, ostream& ost) {
@@ -237,6 +233,7 @@ void Graph::removeUnvisited(Graph * graph){
     resetVisited();
 }
 
+
 void Graph::DFSConnectivity(int id) {
     Node * node = findNode(id);
     if(node != nullptr){
@@ -251,6 +248,9 @@ void Graph::DFSVisit(Node * node) {
         if (!edge->getDestination()->visited)
             DFSVisit(edge->getDestination());
 }
+
+
+
 
 Edge * Graph::getSymetricEdge(Edge * edge){
     return edge->getDestination()->findEdge(edge->getOrigin()->getId());
@@ -287,4 +287,31 @@ Edge *Graph::findEdge(Node orig, Node dest) {
 int Graph::getNodeDistance(int origid, int destid) {
     return W[nodes.at(origid)->getFloydPostion()][nodes.at(destid)->getFloydPostion()];
 }
+
+void Graph::setGraphs(const vector<unordered_set<int>> &graphs) {
+    Graph::graphs = graphs;
+}
+int  Graph::getMostConnected(){
+    int max = 0;
+    int index;
+    for (int i = 0; i < graphsVector.size() ; ++i) {
+        if(graphsVector[i].size() >= max) {
+            max = graphsVector[i].size();
+            index = i;
+        }
+    }
+    return index;
+}
+
+const vector<vector<int>> &Graph::getGraphsVector() const {
+    return graphsVector;
+}
+
+void Graph::setGraphsVector(const vector<vector<int>> &graphsVector) {
+    Graph::graphsVector = graphsVector;
+}
+
+
+
+
 

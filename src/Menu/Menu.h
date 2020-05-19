@@ -14,10 +14,11 @@ class Menu {
 private:
     Graph * graph;
     bool IS_TESTING = false;
-    bool IS_FIRST_TIME = true;
+    bool IS_FIRST_TIME = false;
     string directory;
     string nodeFileName;
     string edgesFileName;
+    string connectivityFileName;
     string tagFilePath;
     int gridNum = 0;
 public:
@@ -48,6 +49,10 @@ public:
     const string &getTagFilePath() const;
 
     void setTagFilePath(const string &tagFilePath);
+
+    void AStarThreads(int origin, int dest);
+
+    void getOriginDest(int &origin, int &dest);
 };
 
 

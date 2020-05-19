@@ -17,7 +17,7 @@ GraphLoader::GraphLoader(Graph * graph,const string &directory, const string &no
 
 
 bool GraphLoader::loadGraph(bool isGrid) {
-    return (loadNodes() && loadEdges() && loadTags(isGrid));
+    return (loadNodes() && loadEdges() && loadTags(isGrid) && loadDifficulties());
 }
 
 bool GraphLoader::loadNodes( ) {
@@ -78,7 +78,6 @@ bool GraphLoader::loadEdges() {
         edgeId+=2;
         if(graph->getEdgeDiff().size()>0){
             difficulty = graph->getEdgeDiff().at(edgeId);
-            cout << "Was here!" << endl;
         }
         file >> c >> originId >> c >> destId >> c;
         graph->addEdge(edgeId,originId, destId,difficulty);
@@ -126,7 +125,6 @@ bool GraphLoader::loadDifficulties() {
         cout << "Error opening difficulties file, please preprocess\n";
         return false;
     }
-
     cout << "\tLoading Difficulties\n";
 
 
@@ -134,6 +132,43 @@ bool GraphLoader::loadDifficulties() {
         graph->addEdgeDiff(edgeId,difficulty);
     }
     diffFile.close();
+    return true;
+}
+
+bool GraphLoader::loadConnectivity() {
+
+    vector<unordered_set<int>> graphs;
+    vector<vector<int>> graphVector;
+    int totalGraphs,numberNodes,nodeId;
+
+    cout << "\tLoading Connectivity\n";
+
+    ifstream file(connectivityFile);
+
+    if (!file.is_open()){
+        cout << connectivityFile << endl;
+        cout << "Error Opening Connectivity file\n";
+        return false;
+    }
+
+    file >> totalGraphs;
+
+    for (int i = 0; i < totalGraphs; i++) {
+        file >> numberNodes;
+        unordered_set<int> nodes;
+        vector<int> nodeVector;
+        for (int j = 0; j < numberNodes; ++j) {
+            file >> nodeId;
+            nodes.insert(nodeId);
+            nodeVector.push_back(nodeId);
+        }
+        graphs.push_back(nodes);
+        graphVector.push_back(nodeVector);
+    }
+    file.close();
+
+    graph->setGraphs(graphs);
+    graph->setGraphsVector(graphVector);
     return true;
 }
 
@@ -159,6 +194,14 @@ const string &GraphLoader::getEdgeFile() const {
 
 void GraphLoader::setEdgeFile(const string &edgeFile) {
     GraphLoader::edgeFile = edgeFile;
+}
+
+const string &GraphLoader::getConnectivityFile() const {
+    return connectivityFile;
+}
+
+void GraphLoader::setConnectivityFile(const string &connectivityFile) {
+    GraphLoader::connectivityFile = connectivityFile;
 }
 
 
