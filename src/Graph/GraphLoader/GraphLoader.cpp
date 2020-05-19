@@ -17,7 +17,7 @@ GraphLoader::GraphLoader(Graph * graph,const string &directory, const string &no
 
 
 bool GraphLoader::loadGraph(bool isGrid) {
-    return (loadNodes() && loadEdges() && loadTags(isGrid) && loadDifficulties());
+    return (loadNodes() && loadDifficulties() && loadEdges() && loadTags(isGrid));
 }
 
 bool GraphLoader::loadNodes( ) {
