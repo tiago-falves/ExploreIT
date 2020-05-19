@@ -271,7 +271,9 @@ void Menu::floydWarshall(Graph * graph){
 
 void Menu::cleanGraphRuntime(int origin,int dest){
     graph->DFSConnectivity(origin);
+    cout << "Size " << graph->getNodes().size() << endl;
     graph->removeUnvisited(graph);
+    cout << "Size " << graph->getNodes().size() << endl;
     drawer(origin,dest);
 }
 

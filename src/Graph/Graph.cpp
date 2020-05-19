@@ -244,9 +244,10 @@ void Graph::DFSConnectivity(int id) {
 
 void Graph::DFSVisit(Node * node) {
     node->visited = true;
-    for (Edge * edge : node->getEdges())
+    for (Edge * edge : node->getEdges()) {
         if (!edge->getDestination()->visited)
             DFSVisit(edge->getDestination());
+    }
 }
 
 
