@@ -45,7 +45,13 @@ bool Graph::addEdge(int edgeId, int origId, int destId) {
 }
 
 void Graph::initNodes(Node *origin,Node *target){
+
+
+    cout << endl << nodes.size();
+
+
     for(auto node:nodes){
+
         node.second->setWeight(INF);
         node.second->setDist(INF);
         node.second->setSummedDifficulties(0);
@@ -91,11 +97,15 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
 }
 
 double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty){
+    cout << "Started A*\n";
+    cout << origin << " " << target;
     initNodes(nodes[origin],nodes[target]);
+    cout << "Inited Nodes\n";
     MutablePriorityQueue q;
     q.insert((nodes[origin]));
     while( ! q.empty())
     {
+
         auto v = q.extractMin();
         v->visited = true;
         if (v == nodes[target]) {
