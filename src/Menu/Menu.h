@@ -72,6 +72,8 @@ public:
     void runMasterpiece();
 
     void validDifficulty(int &option);
+
+    void drawer(vector<int> confluencePoints);
 };
 
 

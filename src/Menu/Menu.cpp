@@ -146,6 +146,26 @@ void Menu::drawer(int origin,int dest){
     std::cout << "Drawer time: " << elapsed.count() << " s\n" << endl;
 }
 
+void Menu::drawer(vector<int> confluencePoints){
+    GraphDrawer *drawer = new GraphDrawer(2000, 2000);
+    auto start = std::chrono::high_resolution_clock::now();
+    for (int i = 0; i < confluencePoints.size()-1 ; ++i) {
+        vector<Node> path = graph->getPath(confluencePoints[i], confluencePoints[i+1]);
+        graph->pointsToDraw.insert(graph->pointsToDraw.end(),path.begin(),path.end());
+        for (int j = 0; j < graph->pointsToDraw.size() ; ++j) {
+            cout << graph->pointsToDraw[i].getId() << " ";
+        }
+        cout << endl;
+    }
+    drawer->drawFromGraph(graph);
+
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = finish - start;
+    std::cout << "Drawer time: " << elapsed.count() << " s\n" << endl;
+
+}
+
+
 void Menu::AStar(int origin, int dest){
     //AStar
     //cleanGraphRuntime(origin, dest);
@@ -414,6 +434,7 @@ void Menu::initialVertices(int &origin,int &dest,int option){
     }
 }
 
+//Add default points
 void Menu::runMasterpiece(){
     int size = askForInt("How much confluence Points? ");
     vector<int> confluenceNodeIds;
@@ -438,7 +459,6 @@ void Menu::runMasterpiece(){
             cout << "Error, that point does not belong to same connected Graph\n";
             return;
         }
-        cout << "Rip\n";
         int confluenceHour = askForInt("Hour of confluence (Para ja e so distancia acumulada)");
         confluenceNodeIds.push_back(nodeId);
         times.push_back(confluenceHour);
@@ -450,6 +470,9 @@ void Menu::runMasterpiece(){
         difficulties.push_back(difficulty);
     }
     graph->calculateInterestingPath(confluenceNodeIds,times,difficulties,0);
+
+    drawer(confluenceNodeIds);
+
 }
 
 vector<string> Menu::askForStringVectorAll(string what){

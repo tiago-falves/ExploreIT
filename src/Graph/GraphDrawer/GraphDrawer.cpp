@@ -80,6 +80,7 @@ void GraphDrawer::drawPath(Graph *graph, int &cont) {
     cout << "\tDrawing Path...\n" << graph->pointsToDraw.size();
 
     for(int it=0;it<graph->pointsToDraw.size()-1;it++){
+        cout << it << endl;
         Node orig = graph->pointsToDraw.at(it+1);
         Node dest = graph->pointsToDraw.at(it);
         graphViewer->addEdge(cont,orig(),dest(),EdgeType::DIRECTED);
