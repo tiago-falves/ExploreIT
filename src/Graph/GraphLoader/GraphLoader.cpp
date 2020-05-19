@@ -17,7 +17,7 @@ GraphLoader::GraphLoader(Graph * graph,const string &directory, const string &no
 
 
 bool GraphLoader::loadGraph(bool isGrid) {
-    return (loadNodes() && loadDifficulties() && loadEdges() && loadTags(isGrid));
+    return (loadNodes() &&  loadEdges() && loadDifficulties() && loadTags(isGrid));
 }
 
 bool GraphLoader::loadNodes( ) {
@@ -74,13 +74,10 @@ bool GraphLoader::loadEdges() {
 
     for (int i = 0; i < numberEdges; i++) {
         int difficulty = 0;
-
         edgeId+=2;
-        if(graph->getEdgeDiff().size()>0){
-            difficulty = graph->getEdgeDiff().at(edgeId);
-        }
+
         file >> c >> originId >> c >> destId >> c;
-        graph->addEdge(edgeId,originId, destId,difficulty);
+        graph->addEdge(edgeId,originId, destId);
     }
     file.close();
 
@@ -129,7 +126,7 @@ bool GraphLoader::loadDifficulties() {
 
 
     while (diffFile >> c >> edgeId >> c >> difficulty >> c){
-        graph->addEdgeDiff(edgeId,difficulty);
+        graph->getEdges().at(edgeId)->setDifficulty(difficulty);
     }
     diffFile.close();
     return true;

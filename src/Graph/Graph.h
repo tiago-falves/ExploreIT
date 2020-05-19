@@ -55,7 +55,7 @@ public:
     Node *findNode(const int &id) const;
     bool addNode(const int &id, int x, int y);
     bool addEdgeDiff(const int &id, int diff);
-    bool addEdge(int edgeId,int origId, int destId,int damage);
+    bool addEdge(int edgeId,int origId, int destId);
     Edge *findEdge(Node orig, Node dest);
     void printMatrix(double** matrix, ostream& ostream);
     void resetVisited();

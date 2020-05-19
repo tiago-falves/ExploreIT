@@ -14,12 +14,12 @@ Node::Node(long int id,double x,double y)
 
 Node::Node()
 {}
-Edge * Node::addEdge(int edgeId,Node *origin,Node *destination,int damage){
+Edge * Node::addEdge(int edgeId,Node *origin,Node *destination){
     float distance=0;
     double dx=abs(x-destination->x);
     double dy=abs(y-destination->y);
     distance=sqrt(dx*dx+dy*dy);
-    Edge * edge = new Edge(edgeId,origin,destination,distance,damage);
+    Edge * edge = new Edge(edgeId,origin,destination,distance);
     edges.push_back(edge);
     return edge;
 }

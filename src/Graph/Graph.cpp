@@ -32,12 +32,12 @@ bool Graph::addEdgeDiff(const int &id, int diff){
 }
 
 
-bool Graph::addEdge(int edgeId, int origId, int destId,int difficulty) {
+bool Graph::addEdge(int edgeId, int origId, int destId) {
     Node * orig = findNode(origId);
     Node * dest = findNode(destId);
     if(orig == nullptr || dest == nullptr) return false;
-    Edge * edge1 = orig->addEdge(edgeId,orig, dest,difficulty);
-    Edge * edge2 = dest->addEdge(edgeId+1,dest, orig,difficulty);
+    Edge * edge1 = orig->addEdge(edgeId,orig, dest);
+    Edge * edge2 = dest->addEdge(edgeId+1,dest, orig);
     this->edges.insert(pair<int,Edge*>(edgeId, edge1));
     this->edges.insert(pair<int,Edge*>(edgeId+1, edge2));
 

@@ -53,7 +53,7 @@ public:
     void addDifficulty(double d){ summedDifficulties+=d;}
 
     void addTag(std::string tag);
-    Edge * addEdge(int edgeId,Node * origin,Node *destination,int damage);
+    Edge * addEdge(int edgeId,Node * origin,Node *destination);
 
     long operator()() {return id;}
     long operator==(Node a) {return a.getId()==id;}
