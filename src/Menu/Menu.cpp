@@ -169,29 +169,31 @@ void Menu::drawer(int origin,int dest){
 
 void Menu::AStar(int origin, int dest){
     //AStar
-
-    cleanGraphRuntime(origin, dest);
+    origin = 150;
+    dest = 151;
+    //cleanGraphRuntime(origin, dest);
     vector<vector<Node>> vectors;
     auto start = std::chrono::high_resolution_clock::now();
     int distance;
-    if(IS_TESTING) distance = 15;
+    if(IS_TESTING) distance = 5479;
     else distance = 5479;
     graph->AStar(origin, dest, distance, 3);
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
-    graph->pointsToDraw = graph->getPath(origin, dest);
-    vectors.push_back(graph->pointsToDraw);
     drawer(origin,dest);
 
 }
 
 void Menu::AStarThreads(int origin, int dest){
     //AStar
+    origin = 150;
+    dest = 151;
+    //cleanGraphRuntime(origin, dest);
     vector<vector<Node>> vectors;
     auto start = std::chrono::high_resolution_clock::now();
     int distance;
-    if(IS_TESTING) distance = 15;
+    if(IS_TESTING) distance = 5479;
     else distance = 5479;
     graph->AStar(origin, dest, distance, 3);
     auto finish = std::chrono::high_resolution_clock::now();
@@ -199,22 +201,15 @@ void Menu::AStarThreads(int origin, int dest){
     std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
     graph->pointsToDraw = graph->getPath(origin, dest);
     vectors.push_back(graph->pointsToDraw);
-    thread th1(drawerS,origin,dest,graph);
-    //drawer(origin,dest);
 
-
-
-    if(IS_TESTING) distance = 15;
+    if(IS_TESTING) distance = 5479;
     else distance = 5479;
     graph->AStar(origin, dest, distance, 5);
     finish = std::chrono::high_resolution_clock::now();
     elapsed = finish - start;
     std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
-    GraphViewer::port=7773;
     graph->pointsToDraw = graph->getPath(origin, dest);
     vectors.push_back(graph->pointsToDraw);
-    thread th2(drawerS,origin,dest,graph);
-
 
     if(IS_TESTING) distance = 5479;
     else distance = 5479;
@@ -222,7 +217,6 @@ void Menu::AStarThreads(int origin, int dest){
     finish = std::chrono::high_resolution_clock::now();
     elapsed = finish - start;
     std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
-    GraphViewer::port=7774;
     graph->pointsToDraw = graph->getPath(origin, dest);
     vectors.push_back(graph->pointsToDraw);
 
@@ -252,13 +246,10 @@ void Menu::AStarThreads(int origin, int dest){
     }
     diff3/=vectors.at(2).size();
 
-    //cout<< "Diferença 0 1: "<<diff1 << endl;
-    //cout<< "Diferença 0 2: "<<diff2 << endl;
-    //cout<< "Diferença 1 2: "<<diff3 << endl;
-    thread th3(drawerS,origin,dest,graph);
-    th1.join();
-    th2.join();
-    th3.join();
+    cout<< "Diferença 0 1: "<<diff1 << endl;
+    cout<< "Diferença 0 2: "<<diff2 << endl;
+    cout<< "Diferença 1 2: "<<diff3 << endl;
+    drawer(origin,dest);
 }
 
 void Menu::floydWarshall(Graph * graph){
@@ -312,7 +303,7 @@ void Menu::loadGraph(){
     auto start = std::chrono::high_resolution_clock::now();
     loader.loadGraph(IS_TESTING);
     loader.setConnectivityFile(directory+connectivityFileName);
-    loader.loadConnectivity();
+    //loader.loadConnectivity();
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     std::cout << "Load time: " << elapsed.count() << " s\n" << endl;
