@@ -90,11 +90,7 @@ void Menu::runMenu(int origin, int dest) {
     int option;
 
     loadGraph();
-    if(IS_FIRST_TIME)
-        preprocess(directory);
     getOriginDest(origin, dest);
-
-
 
     while(true) {
 
