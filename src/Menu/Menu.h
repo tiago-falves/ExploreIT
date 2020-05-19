@@ -14,7 +14,7 @@ class Menu {
 private:
     Graph * graph;
     bool IS_TESTING = false;
-    bool IS_FIRST_TIME = true;
+    bool IS_FIRST_TIME = false;
     string directory;
     string nodeFileName;
     string edgesFileName;
@@ -55,6 +55,22 @@ public:
     void getOriginDest(int &origin, int &dest);
 
     void initialVertices(int &origin, int &dest, int option);
+
+    string askForString(const string &what);
+
+    bool askForBool(string text);
+
+    vector<string> askForStringVectorAll(string what);
+
+    void validCin(int &option);
+
+    int askForId();
+
+    int askForInt(const string &what);
+
+    void runMasterpiece();
+
+    void validDifficulty(int &option);
 };
 
 

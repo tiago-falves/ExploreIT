@@ -104,10 +104,11 @@ void Menu::runMenu(int origin, int dest) {
         cout << "DFS Connectivity                                                   [3]" << endl;
         cout << "A* between 2 points                                                [4]" << endl;
         cout << "Floyd Warshall                                                     [5]" << endl;
-        cout << "AStar Threads                                                      [6]" << endl << endl;
+        cout << "AStar Threads                                                      [6]" << endl;
+        cout << "Algorithm with many confluence points                              [7]" << endl << endl;
         cout << "Insert the number correspondent to your option: ";
         cin >> option;
-        validOption(option, 6);
+        validOption(option, 7);
 
         menuSeparator();
 
@@ -118,6 +119,7 @@ void Menu::runMenu(int origin, int dest) {
         else if (option == 4) { AStar(origin,dest); }
         else if (option == 5) { floydWarshall(graph); }
         else if (option == 6) { AStarThreads(origin,dest); }
+        else if (option == 7) { runMasterpiece(); }
     }
 }
 
@@ -246,8 +248,8 @@ void Menu::cleanGraphRuntime(int origin,int dest){
 void Menu::preprocess(string directory) {
 
     Preprocessor preprocessor = Preprocessor(graph);
-    preprocessor.preProcessDifficulties();
-    preprocessor.saveDifficulties(directory);
+    //preprocessor.preProcessDifficulties();
+    //preprocessor.saveDifficulties(directory);
     //if (IS_TESTING) preprocessor.setGridPOIs(gridNum);
     //preprocessor.preprocessConnectivity(directory);
 }
@@ -279,7 +281,7 @@ void Menu::loadGraph(){
     auto start = std::chrono::high_resolution_clock::now();
     loader.loadGraph(IS_TESTING);
     loader.setConnectivityFile(directory+connectivityFileName);
-    //loader.loadConnectivity();
+    loader.loadConnectivity();
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     std::cout << "Load time: " << elapsed.count() << " s\n" << endl;
@@ -410,5 +412,149 @@ void Menu::initialVertices(int &origin,int &dest,int option){
         setFolder("16x16");
         gridNum = 16;
     }
+}
 
+void Menu::runMasterpiece(){
+    int size = askForInt("How much confluence Points? ");
+    vector<int> confluenceNodeIds;
+    vector<int> times;
+    vector<int> difficulties;
+
+    //First Node
+    int nodeId = askForId();
+    int confluenceHour = askForInt("Hour of confluence (Para ja e so distancia acumulada)");
+    confluenceNodeIds.push_back(nodeId);
+    times.push_back(confluenceHour);
+
+    int connectedGraph = graph->getNodeConnectedGraph(nodeId);
+    if(connectedGraph == -1){
+        cout << "Error getting connected Graph of the point\n";
+        return;
+    }
+
+    for (int i = 1; i < size; ++i) {
+        int nodeId = askForId();
+        if(!graph->isInConnectedGraph(connectedGraph,nodeId)){
+            cout << "Error, that point does not belong to same connected Graph\n";
+            return;
+        }
+        cout << "Rip\n";
+        int confluenceHour = askForInt("Hour of confluence (Para ja e so distancia acumulada)");
+        confluenceNodeIds.push_back(nodeId);
+        times.push_back(confluenceHour);
+    }
+    int difficultyNumber = askForInt("How many groups? ");
+    for (int j = 0; j < difficultyNumber; ++j) {
+        int difficulty = askForInt("Please insert difficulty: ");
+        validDifficulty(difficulty);
+        difficulties.push_back(difficulty);
+    }
+    graph->calculateInterestingPath(confluenceNodeIds,times,difficulties,0);
+}
+
+vector<string> Menu::askForStringVectorAll(string what){
+    cout << "Please Insert the " << what << ", click enter to exit" << endl;
+    vector<string> things;
+    while (true){
+        string x =askForString(what);
+        if(x == "") break;
+        things.push_back(x);
+    }
+    return things;
+}
+//Trim
+void trimRight(string &s) {
+    s.erase(s.find_last_not_of(" ") + 1);
+}
+void trimLeft(string &s) {
+    s.erase(0, s.find_first_not_of(" "));
+}
+void trim(string &s) {
+    trimRight(s);
+    trimLeft(s);
+}
+void validInt(string num) {
+    try {stoi(num);}
+    catch (std::invalid_argument ia){ throw;}
+}
+
+//Asks the user to insert a string of type what
+string Menu::askForString(const string &what){
+    string name;
+    cout << what << ": ";
+    getline(cin,name);
+    trimLeft(name);
+    return name;
+}
+
+bool Menu::askForBool(string text){
+    string name = askForString(text);
+
+    if(name == "Y" || name == "Yes" || name == "T" || name == "True" || name == "yes" || name == "y"){
+        return true;
+    }
+    else if(name == "N" || name == "No" || name == "F" || name == "False" || name == "no" || name == "n"){
+        return false;
+    }
+    else{
+        cout << "Please insert a valid input. The options are: True, Yes, T, Y, False, No, N, F.\n";
+        return askForBool(text);
+    }
+}
+
+int Menu::askForId(){
+    int id;
+    cout << "Please Insert Node ID: ";
+    cin >> id;
+    validCin(id);
+    cin.clear();
+    cin.ignore(100, '\n');
+    return id;
+}
+
+//Asks for a valid int until the user inputs it
+void Menu::validCin(int &option) {
+    while (cin.fail())
+    {
+        cout << "Invalid input, please insert your answer again: ";
+        cin.clear();
+        cin.ignore(100, '\n');
+        cin >> option;
+    }
+}
+
+int Menu::askForInt(const string &what) {
+    bool exceptionCatched = true;
+    string text;
+    cout << what << ": ";
+    cin >> text;
+
+    while(exceptionCatched) {
+        try {
+            validInt(text);
+            exceptionCatched = false;
+        }
+        catch (std::invalid_argument ia) {
+            cout << "Invalid number, please insert your answer again: ";
+            cin.clear();
+            cin.ignore(100, '\n');
+            cin >> text;
+        }
+
+    }
+    cin.clear();
+    cin.ignore(100, '\n');
+    return stoi(text);
+}
+
+void Menu::validDifficulty(int &option){
+    while (cin.fail() || option < 0 || option > 10)
+    {
+        cout << "Invalid Difficulty, please insert again: ";
+        cin.clear();
+        cin.ignore(100, '\n');
+        cin >> option;
+    }
+    cin.clear();
+    cin.ignore(100, '\n');
 }

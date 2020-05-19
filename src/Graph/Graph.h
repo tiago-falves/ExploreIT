@@ -75,6 +75,10 @@ public:
     int getMostConnected();
 
     bool calculateInterestingPath(vector<int> confluencePoints, vector<int> hours, vector<int> difficulties, int TMax);
+
+    int getNodeConnectedGraph(int node);
+
+    bool isInConnectedGraph(int index, int node);
 };
 
 

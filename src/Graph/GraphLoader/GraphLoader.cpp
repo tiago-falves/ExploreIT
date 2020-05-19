@@ -128,6 +128,7 @@ bool GraphLoader::loadDifficulties() {
     while (diffFile >> c >> edgeId >> c >> difficulty >> c){
         graph->getEdges().at(edgeId)->setDifficulty(difficulty);
     }
+    cout << "Error uphere\n";
     diffFile.close();
     return true;
 }
@@ -138,7 +139,6 @@ bool GraphLoader::loadConnectivity() {
     vector<vector<int>> graphVector;
     int totalGraphs,numberNodes,nodeId;
 
-    cout << "\tLoading Connectivity\n";
 
     ifstream file(connectivityFile);
 
@@ -147,6 +147,9 @@ bool GraphLoader::loadConnectivity() {
         cout << "Error Opening Connectivity file\n";
         return false;
     }
+
+    cout << "\tLoading Connectivity\n";
+
 
     file >> totalGraphs;
 
@@ -166,6 +169,7 @@ bool GraphLoader::loadConnectivity() {
 
     graph->setGraphs(graphs);
     graph->setGraphsVector(graphVector);
+
     return true;
 }
 

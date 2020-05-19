@@ -318,6 +318,24 @@ int  Graph::getMostConnected(){
     return index;
 }
 
+int  Graph::getNodeConnectedGraph(int node){
+    int index = -1;
+    for (int i = 0; i < graphs.size() ; ++i) {
+        if(graphs[i].find(node) != graphs[i].end()){
+            index = i;
+            return index;
+        }
+    }
+    return index;
+}
+
+bool  Graph::isInConnectedGraph(int index,int node){
+    if(graphs[index].find(node) != graphs[index].end()){
+        return true;
+    }
+    return false;
+}
+
 const vector<vector<int>> &Graph::getGraphsVector() const {
     return graphsVector;
 }
