@@ -53,6 +53,8 @@ public:
     void AStarThreads(int origin, int dest);
 
     void getOriginDest(int &origin, int &dest);
+
+    void initialVertices(int &origin, int &dest, int option);
 };
 
 
