@@ -14,7 +14,7 @@ class Menu {
 private:
     Graph * graph;
     bool IS_TESTING = false;
-    bool IS_FIRST_TIME = false;
+    bool IS_FIRST_TIME = true;
     string directory;
     string nodeFileName;
     string edgesFileName;

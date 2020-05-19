@@ -119,6 +119,20 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
     return 0;
 }
 
+bool Graph::calculateInterestingPath(vector<int> confluencePoints,vector<int> hours, vector<int> difficulties,int TMax){
+    if(confluencePoints.size() != hours.size()){
+        cout << "Each point does not have a corresponding hour\n";
+        return false;
+    }
+    for (int i = 0; i < confluencePoints.size()-1; ++i) {
+        for (int j = 0; j < difficulties.size(); ++j) {
+            AStar(confluencePoints[i],confluencePoints[i+1],hours[i+1]-hours[i],difficulties[i]);
+        }
+
+    }
+    return true;
+}
+
 vector<Node> Graph::getPath(long int origin,long int dest)
 {
     vector<Node> res;

@@ -111,7 +111,6 @@ void Menu::runMenu(int origin, int dest) {
 
         menuSeparator();
 
-
         if (option == 0) { exit(0); }
         else if (option == 1) { drawer(origin,dest);  }
         else if (option == 2) { preprocess(directory); }
@@ -121,6 +120,8 @@ void Menu::runMenu(int origin, int dest) {
         else if (option == 6) { AStarThreads(origin,dest); }
     }
 }
+
+
 
 void calculateHeights(Graph *pGraph);
 
@@ -245,8 +246,8 @@ void Menu::cleanGraphRuntime(int origin,int dest){
 void Menu::preprocess(string directory) {
 
     Preprocessor preprocessor = Preprocessor(graph);
-    //preprocessor.preProcessDifficulties();
-    //preprocessor.saveDifficulties(directory);
+    preprocessor.preProcessDifficulties();
+    preprocessor.saveDifficulties(directory);
     //if (IS_TESTING) preprocessor.setGridPOIs(gridNum);
     //preprocessor.preprocessConnectivity(directory);
 }

@@ -73,6 +73,8 @@ public:
     Edge *getSymetricEdge(Edge *edge);
 
     int getMostConnected();
+
+    bool calculateInterestingPath(vector<int> confluencePoints, vector<int> hours, vector<int> difficulties, int TMax);
 };
 
 
