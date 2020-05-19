@@ -77,14 +77,17 @@ void GraphDrawer::drawEdges(Graph *graph,int &cont) {
 }
 
 void GraphDrawer::drawPath(Graph *graph, int &cont) {
-    cout << "\tDrawing Path...\n" << graph->pointsToDraw.size();
+    cout << "\tDrawing Path... " << graph->pointsToDraw.size() << endl;
 
     for(int it=0;it<graph->pointsToDraw.size()-1;it++){
-        cout << it << endl;
+        cout << "Erro isto esta bem?\n";
         Node orig = graph->pointsToDraw.at(it+1);
         Node dest = graph->pointsToDraw.at(it);
-        graphViewer->addEdge(cont,orig(),dest(),EdgeType::DIRECTED);
+        graphViewer->addEdge(cont,orig.getId(),dest.getId(),EdgeType::DIRECTED);
+
         drawDetailedDifficulties(cont,graph->findEdge(orig, dest));
+        cout << "Provavelemente nao right?\n";
+
         cont++;
     }
 }

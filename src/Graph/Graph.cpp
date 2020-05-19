@@ -47,9 +47,6 @@ bool Graph::addEdge(int edgeId, int origId, int destId) {
 void Graph::initNodes(Node *origin,Node *target){
 
 
-    cout << endl << nodes.size();
-
-
     for(auto node:nodes){
 
         node.second->setWeight(INF);
@@ -97,15 +94,12 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
 }
 
 double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty){
-    cout << "Started A*\n";
-    cout << origin << " " << target;
+    cout << "Started A*: Origin" << origin << " Destiny: " << target << endl;
     initNodes(nodes[origin],nodes[target]);
-    cout << "Inited Nodes\n";
     MutablePriorityQueue q;
     q.insert((nodes[origin]));
     while( ! q.empty())
     {
-
         auto v = q.extractMin();
         v->visited = true;
         if (v == nodes[target]) {
@@ -137,7 +131,6 @@ bool Graph::calculateInterestingPath(vector<int> confluencePoints,vector<int> ho
         return false;
     }
     for (int i = 0; i < confluencePoints.size()-1; ++i) {
-        cout << "Calculating confluence point\n";
         for (int j = 0; j < difficulties.size(); ++j) {
             AStar(confluencePoints[i],confluencePoints[i+1],hours[i+1]-hours[i],difficulties[i]);
         }
@@ -159,7 +152,7 @@ vector<Node> Graph::getPath(long int origin,long int dest)
         if(v->violated_difficulty){
             std::string cont;
             cout<<"Difficulty was violated at point "<<v->getId()<<", press enter to continue:"<<endl;
-            getline(cin,cont);
+            //getline(cin,cont);
         }
         res.push_back(*v);
         sum+=v->getDist();

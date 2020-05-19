@@ -116,7 +116,9 @@ void Menu::runMenu(int origin, int dest) {
         if (option == 0) { exit(0); }
         else if (option == 1) { drawer(origin,dest);  }
         else if (option == 2) { preprocess(directory); }
-        else if (option == 3) { cleanGraphRuntime(origin,dest); }
+        else if (option == 3) {
+            cleanGraphRuntime(origin,dest);
+            drawer(origin,dest); }
         else if (option == 4) { AStar(origin,dest); }
         else if (option == 5) { floydWarshall(graph); }
         else if (option == 6) { AStarThreads(origin,dest); }
@@ -154,7 +156,7 @@ void Menu::drawer(vector<int> confluencePoints){
         vector<Node> path = graph->getPath(confluencePoints[i], confluencePoints[i+1]);
         graph->pointsToDraw.insert(graph->pointsToDraw.end(),path.begin(),path.end());
         for (int j = 0; j < graph->pointsToDraw.size() ; ++j) {
-            cout << graph->pointsToDraw[i].getId() << " ";
+            cout << graph->pointsToDraw[j].getId() << " ";
         }
         cout << endl;
     }
@@ -169,7 +171,7 @@ void Menu::drawer(vector<int> confluencePoints){
 
 void Menu::AStar(int origin, int dest){
     //AStar
-    //cleanGraphRuntime(origin, dest);
+    cleanGraphRuntime(origin, dest);
     vector<vector<Node>> vectors;
     auto start = std::chrono::high_resolution_clock::now();
     int distance;
@@ -261,7 +263,6 @@ void Menu::cleanGraphRuntime(int origin,int dest){
     cout << "Size " << graph->getNodes().size() << endl;
     graph->removeUnvisited(graph);
     cout << "Size " << graph->getNodes().size() << endl;
-    drawer(origin,dest);
 }
 
 
@@ -338,8 +339,10 @@ void Menu::getOriginDest(int &origin,int &dest){
     //Getting origin and dest
     if(!graph->getGraphs().empty()){
         int index = graph->getMostConnected();
-        origin = graph->getGraphsVector().at(index).at(0);
-        dest = graph->getGraphsVector().at(index).at(1);
+        int RandIndex = rand() % graph->getGraphsVector().at(index).size();
+        int RandIndex2 = rand() % graph->getGraphsVector().at(index).size();
+        origin = graph->getGraphsVector().at(index).at(RandIndex);
+        dest = graph->getGraphsVector().at(index).at(RandIndex2);
     }
 }
 
