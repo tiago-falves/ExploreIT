@@ -31,8 +31,8 @@ void GraphDrawer::drawFromGraph(Graph * graph) {
 
     int cont = 0;
     drawNodes(graph);
-    //drawEdges(graph,cont);
-    //drawPath(graph,cont);
+    drawEdges(graph,cont);
+    drawPath(graph,cont);
     cout << "Ended Drawing\n";
 
     graphViewer->rearrange();
