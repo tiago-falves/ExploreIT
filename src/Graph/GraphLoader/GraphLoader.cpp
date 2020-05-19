@@ -73,9 +73,7 @@ bool GraphLoader::loadEdges() {
     int edgeId = 0;
 
     for (int i = 0; i < numberEdges; i++) {
-        int difficulty = 0;
         edgeId+=2;
-
         file >> c >> originId >> c >> destId >> c;
         graph->addEdge(edgeId,originId, destId);
     }
@@ -126,6 +124,10 @@ bool GraphLoader::loadDifficulties() {
 
 
     while (diffFile >> c >> edgeId >> c >> difficulty >> c){
+         unordered_map<long,Edge*> edges = graph->getEdges();
+         cout << "ZOS\n";
+        Edge * edge = graph->getEdges().at(edgeId);
+        cout << "ZAS" << edge;
         graph->getEdges().at(edgeId)->setDifficulty(difficulty);
     }
     cout << "Error uphere\n";

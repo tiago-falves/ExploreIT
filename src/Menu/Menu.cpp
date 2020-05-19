@@ -72,10 +72,13 @@ void Menu::setFolder(string graphDirectory){
         directory = "../data/PortugalMaps/" + temp + "/";
         tagFilePath = "../data/TagExamples/" + temp + "/t03_tags_" + graphDirectory + ".txt";
 
+
     }else{
         directory = "../data/GridGraphs/" + graphDirectory + "/";
         nodeFileName = "nodes.txt";
         edgesFileName = "edges.txt";
+        connectivityFileName = "connectivity.txt";
+
     }
 
 }
@@ -87,7 +90,8 @@ void Menu::runMenu(int origin, int dest) {
     int option;
 
     loadGraph();
-    if(IS_FIRST_TIME) preprocess(directory);
+    if(IS_FIRST_TIME)
+        preprocess(directory);
     getOriginDest(origin, dest);
 
 
@@ -168,7 +172,7 @@ void Menu::AStarThreads(int origin, int dest){
     vector<vector<Node>> vectors;
     auto start = std::chrono::high_resolution_clock::now();
     int distance;
-    if(IS_TESTING) distance = 5479;
+    if(IS_TESTING) distance = 10;
     else distance = 5479;
     graph->AStar(origin, dest, distance, 3);
     auto finish = std::chrono::high_resolution_clock::now();
@@ -177,7 +181,7 @@ void Menu::AStarThreads(int origin, int dest){
     graph->pointsToDraw = graph->getPath(origin, dest);
     vectors.push_back(graph->pointsToDraw);
 
-    if(IS_TESTING) distance = 5479;
+    if(IS_TESTING) distance = 10;
     else distance = 5479;
     graph->AStar(origin, dest, distance, 5);
     finish = std::chrono::high_resolution_clock::now();
@@ -186,7 +190,7 @@ void Menu::AStarThreads(int origin, int dest){
     graph->pointsToDraw = graph->getPath(origin, dest);
     vectors.push_back(graph->pointsToDraw);
 
-    if(IS_TESTING) distance = 5479;
+    if(IS_TESTING) distance = 10;
     else distance = 5479;
     graph->AStar(origin, dest, distance, 10);
     finish = std::chrono::high_resolution_clock::now();
@@ -248,8 +252,8 @@ void Menu::cleanGraphRuntime(int origin,int dest){
 void Menu::preprocess(string directory) {
 
     Preprocessor preprocessor = Preprocessor(graph);
-    //preprocessor.preProcessDifficulties();
-    //preprocessor.saveDifficulties(directory);
+    preprocessor.preProcessDifficulties();
+    preprocessor.saveDifficulties(directory);
     //if (IS_TESTING) preprocessor.setGridPOIs(gridNum);
     //preprocessor.preprocessConnectivity(directory);
 }
