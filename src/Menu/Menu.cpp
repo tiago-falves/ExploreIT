@@ -53,31 +53,7 @@ void Menu::runMapMenu(){
         menuSeparator();
 
         if(option >= 12) IS_TESTING = true;
-
-        if (option == 0) { exit(0); }
-        else if (option == 1) setFolder("aveiro");
-        else if (option == 2) setFolder("braga");
-        else if (option == 3) setFolder("coimbra");
-        else if (option == 4) setFolder("ermesinde");
-        else if (option == 5) setFolder("fafe");
-        else if (option == 6) setFolder("gondomar");
-        else if (option == 7) setFolder("lisboa");
-        else if (option == 8) setFolder("maia");
-        else if (option == 9) setFolder("porto");
-        else if (option == 10) setFolder("viseu");
-        else if (option == 11) setFolder("portugal");
-        else if (option == 12){
-            setFolder("4x4");
-            gridNum = 4;
-        }
-        else if (option == 13) {
-            setFolder("8x8");
-            gridNum = 8;
-        }
-        else if (option == 14) {
-            setFolder("16x16");
-            gridNum = 16;
-        }
+        initialVertices(origin,dest,option);
 
         runMenu(origin,dest);
     }
@@ -169,8 +145,6 @@ void Menu::drawer(int origin,int dest){
 
 void Menu::AStar(int origin, int dest){
     //AStar
-    origin = 150;
-    dest = 151;
     //cleanGraphRuntime(origin, dest);
     vector<vector<Node>> vectors;
     auto start = std::chrono::high_resolution_clock::now();
@@ -187,8 +161,6 @@ void Menu::AStar(int origin, int dest){
 
 void Menu::AStarThreads(int origin, int dest){
     //AStar
-    origin = 150;
-    dest = 151;
     //cleanGraphRuntime(origin, dest);
     vector<vector<Node>> vectors;
     auto start = std::chrono::high_resolution_clock::now();
