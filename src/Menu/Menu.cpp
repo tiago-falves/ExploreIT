@@ -149,7 +149,7 @@ void Menu::AStar(int origin, int dest){
     vector<vector<Node>> vectors;
     auto start = std::chrono::high_resolution_clock::now();
     int distance;
-    if(IS_TESTING) distance = 5479;
+    if(IS_TESTING) distance = 20;
     else distance = 5479;
     graph->AStar(origin, dest, distance, 3);
     auto finish = std::chrono::high_resolution_clock::now();
@@ -234,9 +234,9 @@ void Menu::floydWarshall(Graph * graph){
 
 void Menu::cleanGraphRuntime(int origin,int dest){
     graph->DFSConnectivity(origin);
-    cout << graph->getNodes().size()<<endl;
+    cout << "Size " << graph->getNodes().size() << endl;
     graph->removeUnvisited(graph);
-    cout << graph->getNodes().size()<<endl;
+    cout << "Size " << graph->getNodes().size() << endl;
     drawer(origin,dest);
 }
 

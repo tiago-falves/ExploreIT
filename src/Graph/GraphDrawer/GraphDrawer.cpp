@@ -56,7 +56,6 @@ void GraphDrawer::drawNodes(Graph * graph){
                              (node.second->getY()-graph->min_y)/(graph->max_y-graph->min_y)*1990+5
         );
 
-        //graphViewer->addNode(node.second->getId(),node.second->getX()-graph->min_x,node.second->getY()-graph->min_y);
         if(node.second->getTags().size() != 0) {
             graphViewer->setVertexColor(node.second->getId(), parseColor(node.second->getTags()[0]));
         }
