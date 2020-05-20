@@ -19,6 +19,11 @@ Node* Graph::findNode(const int &id) const {
     return it == nodes.end() ? nullptr : it->second;
 }
 
+Edge* Graph::findEdge(const int &id) const{
+    unordered_map<long, Edge*>::const_iterator it = edges.find(id);
+    return it == edges.end() ? nullptr : it->second;
+}
+
 bool Graph::addNode(const int &id, int x, int y) {
     if (findNode(id) != nullptr) return false;
     Node * newNode = new Node(id, x, y);

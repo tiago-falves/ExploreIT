@@ -123,11 +123,9 @@ bool GraphLoader::loadDifficulties() {
     cout << "\tLoading Difficulties\n";
 
 
-    while (diffFile >> c >> edgeId >> c >> difficulty >> c){
-         unordered_map<long,Edge*> edges = graph->getEdges();
-        Edge * edge = graph->getEdges().at(edgeId);
-        graph->getEdges().at(edgeId)->setDifficulty(difficulty);
-    }
+    while (diffFile >> c >> edgeId >> c >> difficulty >> c)
+        graph->findEdge(edgeId)->setDifficulty(difficulty);
+
     diffFile.close();
     return true;
 }
