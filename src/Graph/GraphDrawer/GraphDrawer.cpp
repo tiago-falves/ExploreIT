@@ -31,12 +31,11 @@ void GraphDrawer::drawFromGraph(Graph * graph) {
 
     int cont = 0;
     drawNodes(graph);
-    drawEdges(graph,cont);
+    //drawEdges(graph,cont);
     drawPath(graph,cont);
     cout << "Ended Drawing\n";
 
     graphViewer->rearrange();
-
 
     sleep(1000);
 
@@ -84,21 +83,23 @@ void GraphDrawer::drawPath(Graph *graph, int &cont) {
     if(size == 0) return;
     int lastVectorSize = graph->pointsToDraw[size-1].size();
 
+    cout << "Tamanho: " << graph->pointsToDraw.size()<<endl;
     for(int it=graph->pointsToDraw.size()-1;it>= 0;it--){
         for (int j = graph->pointsToDraw[it].size()-1; j > 0 ; --j) {
             Node orig = graph->pointsToDraw[it][j];
             Node dest = graph->pointsToDraw[it][j -1];
             graphViewer->addEdge(cont,orig.getId(),dest.getId(),EdgeType::DIRECTED);
             drawDetailedDifficulties(cont,graph->findEdge(orig, dest));
+            //drawDifficulties(cont,graph->findEdge(orig, dest));
             cont++;
         }
-        graphViewer->setVertexColor(graph->pointsToDraw[it][graph->pointsToDraw[it].size()].getId(),"Cyan");
+        //graphViewer->setVertexColor(graph->pointsToDraw[it][graph->pointsToDraw[it].size()].getId(),"Cyan");
     }
     //LAST VERTICE
-    graphViewer->setVertexColor(graph->pointsToDraw[0][0].getId(),"red");
+    //graphViewer->setVertexColor(graph->pointsToDraw[0][0].getId(),"red");
 
     //First Vertice
-    graphViewer->setVertexColor(graph->pointsToDraw[size-1][lastVectorSize-1].getId(),"blue");
+    //graphViewer->setVertexColor(graph->pointsToDraw[size-1][lastVectorSize-1].getId(),"blue");
 }
 
 string GraphDrawer::parseColor(string tag){
@@ -126,5 +127,5 @@ void GraphDrawer::drawDetailedDifficulties(int edgeId,Edge * edge) {
     else if (edge->getDifficulty() == 7) graphViewer->setEdgeColor(edgeId, MAGENTA);
     else if (edge->getDifficulty() == 8) graphViewer->setEdgeColor(edgeId, RED);
     else if (edge->getDifficulty() == 9) graphViewer->setEdgeColor(edgeId, GRAY);
-    else graphViewer->setEdgeColor(edgeId, BLACK);
+    else if (edge->getDifficulty() == 9) graphViewer->setEdgeColor(edgeId, BLACK);
 }

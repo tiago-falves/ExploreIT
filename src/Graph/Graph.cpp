@@ -49,7 +49,7 @@ bool Graph::addEdge(int edgeId, int origId, int destId) {
     return true;
 }
 
-void Graph::initNodes(Node *origin,Node *target){
+void Graph::initNodes(Node *origin,Node *target,vector<Node> *nodesVisited){
 
 
     for(auto node:nodes){
@@ -65,6 +65,16 @@ void Graph::initNodes(Node *origin,Node *target){
         node.second->setDistTarget(dx+dy);
         node.second->path = nullptr;
     }
+
+    if(nodesVisited != nullptr){
+        for(auto i:*nodesVisited){
+            nodes[i.getId()]->visited = true;
+        }
+    }
+
+    nodes[origin->getId()]->visited = false;
+    nodes[target->getId()]->visited = false;
+
     nodes[origin->getId()]->setDist(0);
     nodes[origin->getId()]->setWeight(0);
 
@@ -95,7 +105,7 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
             return true;
         }
     }
-    //Caso a dificuldade for violada
+        //Caso a dificuldade for violada
     else {
         //Ele adiciona mais valor a dificuldade
         localWeight = 0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 4*abs(float(ave_diff/5));
@@ -147,12 +157,12 @@ void Graph::dijkstraShortestPath(const int &source, const int &dest){
     }
 }
 
-double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty){
+double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty,vector<Node> *nodesVisited){
     cout << "Started A*\n";
     cout <<  "\tOrigin: " << origin << endl;
     cout << " \tDestiny: " << target << endl;
     cout << " \tTarget Distance: " << targetDistance << endl;
-    initNodes(nodes[origin],nodes[target]);
+    initNodes(nodes[origin],nodes[target],nodesVisited);
     MutablePriorityQueue q;
     q.insert((nodes[origin]));
     while( ! q.empty())
@@ -161,18 +171,31 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
         v->visited = true;
         if (v == nodes[target]) {
             if((abs(v->getDist()-targetDistance)/targetDistance)<0.10) {
+                pointsToDraw.push_back(getPath(origin,target));
                 return 0;
             }
         }
         for(auto e : v->getEdges())
         {
             auto oldDist = e->getDestination()->getDist();
-            if(!e->getDestination()->visited && relax(v, e->getDestination(), e->getWeight(), targetDistance, e->getDifficulty(), difficulty));
+            if(!e->getDestination()->visited)
             {
-                if(oldDist == INF)
+                if(relax(v, e->getDestination(), e->getWeight(), targetDistance, e->getDifficulty(), difficulty)) {
+                    if (oldDist == INF) {
+                        q.insert(e->getDestination());
+                    }
+                    else {
+                        q.decreaseKey(e->getDestination());
+                    }
+                }
+            }
+            else if(relax(v, e->getDestination(), e->getWeight()*targetDistance, targetDistance, e->getDifficulty(), difficulty)){
+                if (oldDist == INF) {
                     q.insert(e->getDestination());
-                else
+                }
+                else {
                     q.decreaseKey(e->getDestination());
+                }
             }
         }
     }
@@ -191,21 +214,28 @@ bool Graph::calculateInterestingPath(vector<int> confluencePoints,vector<int> ho
         cout << "Each point does not have a corresponding hour\n";
         return false;
     }
-    for (int i = 0; i < confluencePoints.size()-1; ++i) {
-        AStar(confluencePoints[i],confluencePoints[i+1],hours[i+1]-hours[i],difficulties[i]);
-        cout << endl;
+    cout << endl;
 
-        for (int j = 0; j < pointsToDraw.size(); ++j) {
-            for (int k = 0; k < pointsToDraw[i].size(); ++k) {
-                cout << pointsToDraw[i][k].getId();
+    for (int i = 0; i < confluencePoints.size() - 1; ++i) {
+            cout << confluencePoints.at(i) << " ";
+    }
+    cout << endl;
+    for(auto i:difficulties) {
+        for (int i = 0; i < confluencePoints.size() - 1; ++i) {
+            vector<Node> nodes;
+            for(int i1=i-1;i1>=0;i1--){
+                nodes.insert(nodes.end(),pointsToDraw.at(i1).begin(),pointsToDraw.at(i1).end());
             }
-            cout << endl;
+            if(i==0)
+                AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties[i]);
+            else{
+                AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties[i],&nodes);
+            }
+            if(!pointsToDraw.back().size()){
+                AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties[i]);
+            }
+
         }
-
-        /*for (int j = 0; j < difficulties.size(); ++j) {
-            AStar(confluencePoints[i],confluencePoints[i+1],hours[i+1]-hours[i],difficulties[i]);
-        }*/
-
     }
     return true;
 }

@@ -25,7 +25,7 @@ private:
     vector<unordered_set<int>> graphs;
     vector<vector<int>> graphsVector;
     unordered_map<int,int> edgeDiff;
-    void initNodes(Node *origin,Node *target);
+    void initNodes(Node *origin,Node *target,vector<Node> *nodesVisited = nullptr);
     bool relax(Node *v,Node *w, double weight,long int targetDistance, int edge_difficulty, int difficulty);
     void DFSVisit(Node *v);
 
@@ -65,7 +65,7 @@ public:
     //Algorithms
     void DFSConnectivity(int id);
     void FloydWarshall(string directory);
-    double AStar(long int origin,long int  target,long int targetDistance, int difficulty);
+    double AStar(long int origin,long int  target,long int targetDistance, int difficulty,vector<Node> *nodesVisited = nullptr);
 
 
     void removeUnvisited(Graph *graph);

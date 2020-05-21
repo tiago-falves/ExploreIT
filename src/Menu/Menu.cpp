@@ -287,7 +287,7 @@ void Menu::preprocess(string directory) {
     preprocessor.preProcessDifficulties();
     preprocessor.saveDifficulties(directory);
     //if (IS_TESTING) preprocessor.setGridPOIs(gridNum);
-    //preprocessor.preprocessConnectivity(directory);
+    preprocessor.preprocessConnectivity(directory);
 }
 
 
