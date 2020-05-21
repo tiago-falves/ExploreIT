@@ -142,24 +142,36 @@ void drawerS(int origin,int dest,Graph *graph){
 void Menu::drawer(int origin,int dest){
     GraphDrawer *drawer = new GraphDrawer(2000, 2000);
     auto start = std::chrono::high_resolution_clock::now();
-    graph->pointsToDraw = graph->getPath(origin, dest);
+    //graph->pointsToDraw = graph->getPath(origin, dest);
     drawer->drawFromGraph(graph);
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     std::cout << "Drawer time: " << elapsed.count() << " s\n" << endl;
 }
 
+
+
+
+
 void Menu::drawer(vector<int> confluencePoints){
+
     GraphDrawer *drawer = new GraphDrawer(2000, 2000);
     auto start = std::chrono::high_resolution_clock::now();
-    for (int i = 0; i < confluencePoints.size()-1 ; ++i) {
+    /*for (int i = 0; i < confluencePoints.size()-1 ; ++i) {
         vector<Node> path = graph->getPath(confluencePoints[i], confluencePoints[i+1]);
-        graph->pointsToDraw.insert(graph->pointsToDraw.end(),path.begin(),path.end());
-        for (int j = 0; j < graph->pointsToDraw.size() ; ++j) {
-            cout << graph->pointsToDraw[j].getId() << " ";
+        //graph->pointsToDraw.insert(graph->pointsToDraw.end(),path.begin(),path.end());
+        for (int j = 0; j < path.size() ; ++j) {
+            cout << path.at(i).getId() << "zas ";
         }
         cout << endl;
-    }
+        path.insert(path.end(),graph->pointsToDraw.begin(),graph->pointsToDraw.end());
+        graph->pointsToDraw = path;
+
+    }*/
+
+    /*for (int k = 0; k < graph->pointsToDraw.size() ; ++k) {
+        cout << graph->pointsToDraw[k].getId() << " ";
+    }*/
     drawer->drawFromGraph(graph);
 
     auto finish = std::chrono::high_resolution_clock::now();
@@ -187,6 +199,7 @@ void Menu::AStar(int origin, int dest){
 
 void Menu::AStarThreads(int origin, int dest){
     //AStar
+    //TODO Por isto direito
     //cleanGraphRuntime(origin, dest);
     vector<vector<Node>> vectors;
     auto start = std::chrono::high_resolution_clock::now();
@@ -197,8 +210,8 @@ void Menu::AStarThreads(int origin, int dest){
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
-    graph->pointsToDraw = graph->getPath(origin, dest);
-    vectors.push_back(graph->pointsToDraw);
+    //graph->pointsToDraw = graph->getPath(origin, dest);
+    //vectors.push_back(graph->pointsToDraw);
 
     if(IS_TESTING) distance = 10;
     else distance = 5479;
@@ -206,8 +219,8 @@ void Menu::AStarThreads(int origin, int dest){
     finish = std::chrono::high_resolution_clock::now();
     elapsed = finish - start;
     std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
-    graph->pointsToDraw = graph->getPath(origin, dest);
-    vectors.push_back(graph->pointsToDraw);
+    //graph->pointsToDraw = graph->getPath(origin, dest);
+    //vectors.push_back(graph->pointsToDraw);
 
     if(IS_TESTING) distance = 10;
     else distance = 5479;
@@ -215,8 +228,8 @@ void Menu::AStarThreads(int origin, int dest){
     finish = std::chrono::high_resolution_clock::now();
     elapsed = finish - start;
     std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
-    graph->pointsToDraw = graph->getPath(origin, dest);
-    vectors.push_back(graph->pointsToDraw);
+    //graph->pointsToDraw = graph->getPath(origin, dest);
+    //vectors.push_back(graph->pointsToDraw);
 
     float diff1=0;
     for(auto i:vectors.at(0)){
@@ -466,6 +479,8 @@ void Menu::runMasterpiece(){
         int confluenceHour = askForInt("Hour of confluence (Para ja e so distancia acumulada)");
         confluenceNodeIds.push_back(nodeId);
         times.push_back(confluenceHour);
+
+
     }
     int difficultyNumber = askForInt("How many groups? ");
     for (int j = 0; j < difficultyNumber; ++j) {
@@ -476,8 +491,9 @@ void Menu::runMasterpiece(){
     graph->calculateInterestingPath(confluenceNodeIds,times,difficulties,0);
 
     drawer(confluenceNodeIds);
-
 }
+
+
 
 vector<string> Menu::askForStringVectorAll(string what){
     cout << "Please Insert the " << what << ", click enter to exit" << endl;

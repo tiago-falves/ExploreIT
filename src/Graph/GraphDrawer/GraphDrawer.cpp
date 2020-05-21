@@ -3,6 +3,7 @@
 //
 
 #include <Utils/utils.h>
+#include <zconf.h>
 #include "Graph.h"
 #include "GraphDrawer.h"
 
@@ -59,8 +60,9 @@ void GraphDrawer::drawNodes(Graph * graph){
             graphViewer->setVertexColor(node.second->getId(), parseColor(node.second->getTags()[0]));
         }
     }
-    graphViewer->setVertexColor(graph->pointsToDraw.front()(),"red");
-    graphViewer->setVertexColor(graph->pointsToDraw.back()(),"blue");
+    cout << graph->pointsToDraw.size();
+    //graphViewer->setVertexColor(graph->pointsToDraw[0][0].getId(),"red");
+    //graphViewer->setVertexColor(graph->pointsToDraw[graph->pointsToDraw.size()-1].back()(),"blue");
 }
 
 void GraphDrawer::drawEdges(Graph *graph,int &cont) {
@@ -76,19 +78,28 @@ void GraphDrawer::drawEdges(Graph *graph,int &cont) {
 }
 
 void GraphDrawer::drawPath(Graph *graph, int &cont) {
+
     cout << "\tDrawing Path... " << graph->pointsToDraw.size() << endl;
+    int size = graph->pointsToDraw.size();
+    if(size == 0) return;
+    int lastVectorSize = graph->pointsToDraw[size-1].size();
 
-    for(int it=0;it<graph->pointsToDraw.size()-1;it++){
-        cout << "Erro isto esta bem?\n";
-        Node orig = graph->pointsToDraw.at(it+1);
-        Node dest = graph->pointsToDraw.at(it);
-        graphViewer->addEdge(cont,orig.getId(),dest.getId(),EdgeType::DIRECTED);
-
-        drawDetailedDifficulties(cont,graph->findEdge(orig, dest));
-        cout << "Provavelemente nao right?\n";
-
-        cont++;
+    for(int it=0;it<graph->pointsToDraw.size();it++){
+        for (int j = 0; j < graph->pointsToDraw[it].size()-1; ++j) {
+            cout << "Erro isto esta bem?\n";
+            Node orig = graph->pointsToDraw[it][j];
+            Node dest = graph->pointsToDraw[it][j +1];
+            graphViewer->addEdge(cont,orig.getId(),dest.getId(),EdgeType::DIRECTED);
+            drawDetailedDifficulties(cont,graph->findEdge(orig, dest));
+            if(j==0){
+                graphViewer->setVertexColor(graph->pointsToDraw[it][0].getId(),"CYAN");
+            }
+            cout << "Provavelemente nao right?\n";
+            cont++;
+        }
     }
+    graphViewer->setVertexColor(graph->pointsToDraw[0][0].getId(),"red");
+    graphViewer->setVertexColor(graph->pointsToDraw[size-1][lastVectorSize-1].getId(),"blue");
 }
 
 string GraphDrawer::parseColor(string tag){

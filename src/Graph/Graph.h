@@ -24,7 +24,6 @@ private:
     unordered_map<long,Edge*> edges;
     vector<unordered_set<int>> graphs;
     vector<vector<int>> graphsVector;
-
     unordered_map<int,int> edgeDiff;
     void initNodes(Node *origin,Node *target);
     bool relax(Node *v,Node *w, double weight,long int targetDistance, int edge_difficulty, int difficulty);
@@ -41,7 +40,7 @@ public:
     void setGraphsVector(const vector<vector<int>> &graphsVector);
 
 
-    vector<Node> pointsToDraw;
+    vector<vector<Node>> pointsToDraw;
     double min_x=8000000000000.0;
     double max_x=-800000000000.0;
     double min_y=8000000000000.0;
@@ -80,6 +79,10 @@ public:
     int getNodeConnectedGraph(int node);
 
     bool isInConnectedGraph(int index, int node);
+
+    void dijkstraShortestPath(const int &source, const int &dest);
+
+    bool relaxDijkstra(Node *node, Edge *edge);
 };
 
 

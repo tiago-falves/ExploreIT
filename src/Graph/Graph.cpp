@@ -71,10 +71,21 @@ void Graph::initNodes(Node *origin,Node *target){
 }
 
 bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int edge_difficulty, int difficulty){
+    //Average difficulty
     double ave_diff = (v->getSummedDifficulties()+edge_difficulty*tam_edge)/(v->getDist()+tam_edge);
+
+    //Calculo da distancia v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance
+    //Pegas na soma atual somas a distancia aproximada
+    //Target distance
+    //Soma atual v->getDist()+tam_edge
+
+
     double localWeight = 0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 0.1*abs(float(ave_diff/5));
+
+    //Se dificuldade for 5 entao varia entre 3 e 7 entra neste if
     if(edge_difficulty<=difficulty+2)
     {
+        // Isto e a função de relax
         if((localWeight < w->getWeight()) && v->path != w) {
             w->setDist( v->getDist()+tam_edge);
             w->setWeight(localWeight);
@@ -84,7 +95,9 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
             return true;
         }
     }
+    //Caso a dificuldade for violada
     else {
+        //Ele adiciona mais valor a dificuldade
         localWeight = 0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 4*abs(float(ave_diff/5));
         if ((localWeight < w->getWeight()) && v->path != w) {
             w->setDist(v->getDist() + tam_edge);
@@ -96,6 +109,42 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
         }
     }
     return false;
+}
+
+bool Graph::relaxDijkstra(Node *node, Edge * edge) {//Vertex *w, double weight) {
+    double weight = edge->getWeight();
+    Node * w = edge->getDestination();
+    if (node->getDist() + weight < w->getDist()) {
+        w->setDist(node->getDist() + weight);
+        w->path = node;
+        return true;
+    }
+    else
+        return false;
+}
+
+void Graph::dijkstraShortestPath(const int &source, const int &dest){
+    Node * start = nodes[source];
+    Node * end = nodes[dest];
+    initNodes(start,end);
+    MutablePriorityQueue q;
+    q.insert(start);
+    while( ! q.empty() ) {
+        Node* v = q.extractMin();
+        v->visited = true;
+
+        if (v->getId() == dest) return;
+
+        for(Edge * e : v->getEdges()) {
+            double oldDist = e->getDestination()->getDist();
+            if (relaxDijkstra(v, e)) {//e.dest, e.weight)) {
+                if (oldDist == INF)
+                    q.insert(e->getDestination());
+                else
+                    q.decreaseKey(e->getDestination());
+            }
+        }
+    }
 }
 
 double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty){
@@ -124,8 +173,13 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
             }
         }
     }
+
+    pointsToDraw.push_back(getPath(origin,target));
+
     //cout << "Peso: " << nodes[target]->getDist()<< " " << targetDistance << endl;
     return 0;
+
+
 }
 
 bool Graph::calculateInterestingPath(vector<int> confluencePoints,vector<int> hours, vector<int> difficulties,int TMax){
@@ -136,11 +190,19 @@ bool Graph::calculateInterestingPath(vector<int> confluencePoints,vector<int> ho
         return false;
     }
     for (int i = 0; i < confluencePoints.size()-1; ++i) {
+        vector<Node> path;
+        AStar(confluencePoints[i],confluencePoints[i+1],hours[i+1]-hours[i],difficulties[i]);
+        path = getPath(confluencePoints[i],confluencePoints[i+1]);
+
         for (int j = 0; j < difficulties.size(); ++j) {
+            vector<Node> path;
             AStar(confluencePoints[i],confluencePoints[i+1],hours[i+1]-hours[i],difficulties[i]);
+            path = getPath(confluencePoints[i],confluencePoints[i+1]);
         }
 
     }
+
+
     return true;
 }
 
@@ -354,6 +416,8 @@ const vector<vector<int>> &Graph::getGraphsVector() const {
 void Graph::setGraphsVector(const vector<vector<int>> &graphsVector) {
     Graph::graphsVector = graphsVector;
 }
+
+
 
 
 
