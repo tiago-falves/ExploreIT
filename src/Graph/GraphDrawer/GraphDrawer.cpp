@@ -84,20 +84,16 @@ void GraphDrawer::drawPath(Graph *graph, int &cont) {
     if(size == 0) return;
     int lastVectorSize = graph->pointsToDraw[size-1].size();
 
-    for(int it=0;it<graph->pointsToDraw.size();it++){
-        for (int j = 0; j < graph->pointsToDraw[it].size()-1; ++j) {
-            cout << "Erro isto esta bem?\n";
+    for(int it=graph->pointsToDraw.size()-1;it>= 0;it--){
+        for (int j = graph->pointsToDraw[it].size()-1; j > 0 ; --j) {
             Node orig = graph->pointsToDraw[it][j];
-            Node dest = graph->pointsToDraw[it][j +1];
+            Node dest = graph->pointsToDraw[it][j -1];
             graphViewer->addEdge(cont,orig.getId(),dest.getId(),EdgeType::DIRECTED);
             drawDetailedDifficulties(cont,graph->findEdge(orig, dest));
-            if(j==0){
-                graphViewer->setVertexColor(graph->pointsToDraw[it][0].getId(),"CYAN");
-            }
-            cout << "Provavelemente nao right?\n";
             cont++;
         }
     }
+    //LAST VERTICE
     graphViewer->setVertexColor(graph->pointsToDraw[0][0].getId(),"red");
     graphViewer->setVertexColor(graph->pointsToDraw[size-1][lastVectorSize-1].getId(),"blue");
 }
