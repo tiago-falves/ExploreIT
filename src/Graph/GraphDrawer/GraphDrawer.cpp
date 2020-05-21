@@ -92,9 +92,12 @@ void GraphDrawer::drawPath(Graph *graph, int &cont) {
             drawDetailedDifficulties(cont,graph->findEdge(orig, dest));
             cont++;
         }
+        graphViewer->setVertexColor(graph->pointsToDraw[it][graph->pointsToDraw[it].size()].getId(),"Cyan");
     }
     //LAST VERTICE
     graphViewer->setVertexColor(graph->pointsToDraw[0][0].getId(),"red");
+
+    //First Vertice
     graphViewer->setVertexColor(graph->pointsToDraw[size-1][lastVectorSize-1].getId(),"blue");
 }
 

@@ -148,7 +148,10 @@ void Graph::dijkstraShortestPath(const int &source, const int &dest){
 }
 
 double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty){
-    cout << "Started A*: Origin" << origin << " Destiny: " << target << endl;
+    cout << "Started A*\n";
+    cout <<  "\tOrigin: " << origin << endl;
+    cout << " \tDestiny: " << target << endl;
+    cout << " \tTarget Distance: " << targetDistance << endl;
     initNodes(nodes[origin],nodes[target]);
     MutablePriorityQueue q;
     q.insert((nodes[origin]));
@@ -176,7 +179,6 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
 
     pointsToDraw.push_back(getPath(origin,target));
 
-    //cout << "Peso: " << nodes[target]->getDist()<< " " << targetDistance << endl;
     return 0;
 
 
@@ -190,19 +192,21 @@ bool Graph::calculateInterestingPath(vector<int> confluencePoints,vector<int> ho
         return false;
     }
     for (int i = 0; i < confluencePoints.size()-1; ++i) {
-        vector<Node> path;
         AStar(confluencePoints[i],confluencePoints[i+1],hours[i+1]-hours[i],difficulties[i]);
-        path = getPath(confluencePoints[i],confluencePoints[i+1]);
+        cout << endl;
 
-        for (int j = 0; j < difficulties.size(); ++j) {
-            vector<Node> path;
-            AStar(confluencePoints[i],confluencePoints[i+1],hours[i+1]-hours[i],difficulties[i]);
-            path = getPath(confluencePoints[i],confluencePoints[i+1]);
+        for (int j = 0; j < pointsToDraw.size(); ++j) {
+            for (int k = 0; k < pointsToDraw[i].size(); ++k) {
+                cout << pointsToDraw[i][k].getId();
+            }
+            cout << endl;
         }
 
+        /*for (int j = 0; j < difficulties.size(); ++j) {
+            AStar(confluencePoints[i],confluencePoints[i+1],hours[i+1]-hours[i],difficulties[i]);
+        }*/
+
     }
-
-
     return true;
 }
 

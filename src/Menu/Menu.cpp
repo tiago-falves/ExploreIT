@@ -477,7 +477,8 @@ void Menu::runMasterpiece(){
             cout << "Error, that point does not belong to same connected Graph\n";
             return;
         }
-        int confluenceHour = askForInt("Hour of confluence (Para ja e so distancia acumulada)");
+        //TIRAR 75 TODO
+        int confluenceHour = askForInt("Hour of confluence (Para ja e so distancia acumulada)") * 75;
         confluenceNodeIds.push_back(nodeId);
         times.push_back(confluenceHour);
 
