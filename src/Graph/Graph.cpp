@@ -98,12 +98,12 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
     }
     else{
         localWeight = 0.9 * abs(v->getDist() + tam_edge + w->getDistTarget() - targetDistance) / targetDistance +
-                      0.1 * abs(float((ave_diff-difficulty) / ave_diff))+1;
+                      0.1 * abs(float((ave_diff-difficulty) / ave_diff))+0.2;
     }
 
 
     //Se dificuldade for 5 entao varia entre 3 e 7 entra neste if
-    if(abs(edge_difficulty-difficulty)<=2)
+    if(abs(edge_difficulty)<=difficulty+2)
     //(edge_difficulty<=difficulty+2)
     {
         // Isto e a função de relax
@@ -121,10 +121,10 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
         //Ele adiciona mais valor a dificuldade
 
         if(w->getTags().size()) {
-            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 1.2*abs(float((ave_diff-difficulty) / ave_diff)));
+            localWeight = 1.05*(0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + abs(float((ave_diff-difficulty) / ave_diff)));
         }
         else{
-            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 1.2*abs(float((ave_diff-difficulty) / ave_diff))+1);
+            localWeight = 1.05*(0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + abs(float((ave_diff-difficulty) / ave_diff))+0.2);
         }
 
         if ((localWeight < w->getWeight()) && v->path != w) {
@@ -140,10 +140,10 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
         //Ele adiciona mais valor a dificuldade
 
         if(w->getTags().size()) {
-            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 1.4*abs(float((ave_diff-difficulty) / ave_diff)));
+            localWeight = 1.2*(0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + abs(float((ave_diff-difficulty) / ave_diff)));
         }
         else{
-            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 1.4*abs(float((ave_diff-difficulty) / ave_diff))+1);
+            localWeight = 1.2*(0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + abs(float((ave_diff-difficulty) / ave_diff))+0.2);
         }
 
         if ((localWeight < w->getWeight()) && v->path != w) {
@@ -207,10 +207,11 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
     {
         auto v = q.extractMin();
         v->visited = true;
-        if (v == nodes[target]) {
-            if((abs(v->getDist()-targetDistance)/targetDistance)<0.10) {
+        if (v->getId() == nodes[target]->getId()) {
+            if((abs(v->getDist()-targetDistance)/targetDistance) < 0.1) {
                 pointsToDraw.push_back(getPath(origin,target));
                 cout <<"Real Size: " << pointsToDraw.back().size() <<endl;
+                cout << v->getDist() << endl;
                 return 0;
             }
         }
@@ -228,20 +229,11 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
                     }
                 }
             }
-            else if(relax(v, e->getDestination(), e->getWeight(), targetDistance, e->getDifficulty(), difficulty*100)){
-                if (oldDist == INF) {
-                    q.insert(e->getDestination());
-                }
-                else {
-                    q.decreaseKey(e->getDestination());
-                }
-            }
         }
     }
 
     pointsToDraw.push_back(getPath(origin,target));
     cout <<"Real Size: " << pointsToDraw.back().size() <<endl;
-
     return 0;
 
 
