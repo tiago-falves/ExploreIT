@@ -79,81 +79,41 @@ bool Graph::getRelaxFunction(Node *v,Node *w, double tam_edge, long int targetDi
     return false;
 }
 
+bool nodeUpdate(double localWeight, Node * w,Node * v,double tam_edge,int edge_difficulty, bool violatedDifficulty) {
+    if((localWeight < w->getWeight()) && v->path != w) {
+        w->setDist( v->getDist()+tam_edge);
+        w->setWeight(localWeight);
+        w->path = v;
+        w->violated_difficulty= false;
+        w->setSummedDifficulties((v->getSummedDifficulties()+edge_difficulty*tam_edge));
+        return true;
+    }
+    return false;
+}
+
 
 bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int edge_difficulty, int difficulty){
     //Average difficulty
     double ave_diff = (v->getSummedDifficulties()+edge_difficulty*tam_edge)/(v->getDist()+tam_edge);
-
-    //Calculo da distancia v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance
-    //Pegas na soma atual somas a distancia aproximada
-    //Target distance
-    //Soma atual v->getDist()+tam_edge
-
-
-    double localWeight = 0;
-
-    if(w->getTags().size()) {
-        localWeight = 0.9 * abs(v->getDist() + tam_edge + w->getDistTarget() - targetDistance) / targetDistance +
-                      0.1 * abs(float((ave_diff-difficulty) / ave_diff));
-    }
-    else{
-        localWeight = 0.9 * abs(v->getDist() + tam_edge + w->getDistTarget() - targetDistance) / targetDistance +
-                      0.1 * abs(float((ave_diff-difficulty) / ave_diff))+1;
-    }
-
+    float medDiff = abs(float((ave_diff-difficulty) / ave_diff));
+    double medDist =abs(v->getDist() + tam_edge + w->getDistTarget() - targetDistance) / targetDistance;
+    double localWeight = 0.9 * medDist +  0.1 * medDiff;
+    if(!w->getTags().size()) localWeight++;
 
     //Se dificuldade for 5 entao varia entre 3 e 7 entra neste if
-    if(abs(edge_difficulty)<=difficulty+2)
-    //(edge_difficulty<=difficulty+2)
-    {
-        // Isto e a função de relax
-        if((localWeight < w->getWeight()) && v->path != w) {
-            w->setDist( v->getDist()+tam_edge);
-            w->setWeight(localWeight);
-            w->path = v;
-            w->violated_difficulty= false;
-            w->setSummedDifficulties((v->getSummedDifficulties()+edge_difficulty*tam_edge));
-            return true;
-        }
+    if(abs(edge_difficulty)<=difficulty+2){
+        if(nodeUpdate(localWeight,w,v,tam_edge,edge_difficulty,false)) return true;
     }
-        //Caso a dificuldade for violada
-    else if(abs(edge_difficulty-difficulty)<=4 || edge_difficulty-difficulty < 0){
-        //Ele adiciona mais valor a dificuldade
-
-        if(w->getTags().size()) {
-            localWeight = 1.05*(0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + abs(float((ave_diff-difficulty) / ave_diff)));
-        }
-        else{
-            localWeight = 1.05*(0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + abs(float((ave_diff-difficulty) / ave_diff))+1);
-        }
-
-        if ((localWeight < w->getWeight()) && v->path != w) {
-            w->setDist(v->getDist() + tam_edge);
-            w->setWeight(localWeight);
-            w->path = v;
-            w->violated_difficulty= true;
-            w->setSummedDifficulties((v->getSummedDifficulties()+edge_difficulty*tam_edge));
-            return true;
-        }
+    //Ele adiciona mais valor a dificuldade
+    else if(abs(edge_difficulty-difficulty) <= 4 || edge_difficulty-difficulty < 0){
+        localWeight = 1.05*(0.9* medDist + medDiff);
+        if(!w->getTags().size()) localWeight += 1.05;
+        if(nodeUpdate(localWeight,w,v,tam_edge,edge_difficulty,false)) return true;
     }
-    else {
-        //Ele adiciona mais valor a dificuldade
-
-        if(w->getTags().size()) {
-            localWeight = 1.2*(0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + abs(float((ave_diff-difficulty) / ave_diff)));
-        }
-        else{
-            localWeight = 1.2*(0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + abs(float((ave_diff-difficulty) / ave_diff))+1);
-        }
-
-        if ((localWeight < w->getWeight()) && v->path != w) {
-            w->setDist(v->getDist() + tam_edge);
-            w->setWeight(localWeight);
-            w->path = v;
-            w->violated_difficulty= true;
-            w->setSummedDifficulties((v->getSummedDifficulties()+edge_difficulty*tam_edge));
-            return true;
-        }
+    else { //Ele adiciona mais valor a dificuldade
+        localWeight = 1.2*(0.9*medDist + medDiff);
+        if(!w->getTags().size()) localWeight += 1.2;
+        if(nodeUpdate(localWeight,w,v,tam_edge,edge_difficulty, true)) return true;
     }
     return false;
 }
