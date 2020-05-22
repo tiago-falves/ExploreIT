@@ -93,7 +93,7 @@ public:
 
     bool getRelaxFunction(Node *v, Node *w, double tam_edge, long targetDistance, int edge_difficulty, int difficulty,string type);
 
-    bool relaxDistance(Node *v, Node *w, double tam_edge, long targetDistance);
+    bool relaxDistance(Node *v, Node *w, double tam_edge, long targetDistance,int edge_difficulty);
 };
 
 

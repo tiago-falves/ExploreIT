@@ -75,7 +75,7 @@ void Graph::initNodes(Node *origin,Node *target,vector<Node> *nodesVisited){
 
 bool Graph::getRelaxFunction(Node *v,Node *w, double tam_edge, long int targetDistance, int edge_difficulty, int difficulty,string type = ""){
     if(type == "") return relax(v,w, tam_edge, targetDistance, edge_difficulty, difficulty);
-    else if(type == "distance") return relaxDistance(v,w,tam_edge, targetDistance);
+    else if(type == "distance") return relaxDistance(v,w,tam_edge, targetDistance,edge_difficulty);
     if(type == "diff") return relax(v,w, tam_edge, targetDistance, edge_difficulty, difficulty,false);
     return false;
 }
@@ -85,7 +85,7 @@ bool nodeUpdate(double localWeight, Node * w,Node * v,double tam_edge,int edge_d
         w->setDist( v->getDist()+tam_edge);
         w->setWeight(localWeight);
         w->path = v;
-        w->violated_difficulty= false;
+        w->violated_difficulty= violatedDifficulty;
         w->setSummedDifficulties((v->getSummedDifficulties()+edge_difficulty*tam_edge));
         return true;
     }
@@ -124,25 +124,27 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
     return false;
 }
 
-
-bool Graph::relaxDistance(Node *v,Node *w, double tam_edge, long int targetDistance){
+bool Graph::relaxDistance(Node *v,Node *w, double tam_edge, long int targetDistance,int edge_difficulty){
     double localWeight = 0;
     localWeight = abs(v->getDist() + tam_edge + w->getDistTarget() - targetDistance);
     if((localWeight < w->getWeight()) && v->path != w) {
         w->setDist( v->getDist()+tam_edge);
         w->setWeight(localWeight);
         w->path = v;
+        w->setSummedDifficulties((v->getSummedDifficulties()+edge_difficulty*tam_edge));
+
         return true;
     }
     return false;
 }
 
 double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty,vector<Node> *nodesVisited,string AStarType){
-    cout << "Difficuldade: "<<difficulty << endl;
     cout << "Started A*\n";
+
     cout <<  "\tOrigin: " << origin << endl;
-    cout << " \tDestiny: " << target << endl;
-    cout << " \tTarget Distance: " << targetDistance << endl;
+    cout << "\tDestiny: " << target << endl;
+    cout << "\tPretended Difficulty: "<<difficulty << endl;
+    cout << "\tTarget Distance: " << targetDistance << endl;
     initNodes(nodes[origin],nodes[target],nodesVisited);
     MutablePriorityQueue q;
     q.insert((nodes[origin]));
@@ -154,7 +156,9 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
         if (v->getId() == nodes[target]->getId()) {
             if((abs(v->getDist()-targetDistance)/targetDistance) < 0.1) {
                 pointsToDraw.push_back(getPath(origin,target));
-                cout <<"Real Size: " << nodes[target]->getDist() <<endl<<endl;
+                cout <<"\tReal Distance: " << nodes[target]->getDist() <<endl;
+                cout <<"\tAverage Difficulty: " << nodes[target]->getSummedDifficulties() / nodes[target]->getDist()<<endl<<endl;
+                cout << "\tNumber Pois: ";
                 return 0;
             }
         }
