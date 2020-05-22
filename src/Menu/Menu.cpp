@@ -286,7 +286,8 @@ void Menu::preprocess(string directory) {
     Preprocessor preprocessor = Preprocessor(graph);
     preprocessor.preProcessDifficulties();
     preprocessor.saveDifficulties(directory);
-    //if (IS_TESTING) preprocessor.setGridPOIs(gridNum);
+    //if (IS_TESTING)
+    preprocessor.setGridPOIs(gridNum);
     preprocessor.preprocessConnectivity(directory);
 }
 
@@ -490,6 +491,10 @@ void Menu::runMasterpiece(){
         validDifficulty(difficulty);
         difficulties.push_back(difficulty);
     }
+    for(auto i: difficulties){
+        cout << i << " ";
+    }
+    cout << endl;
     graph->calculateInterestingPath(confluenceNodeIds,times,difficulties,0);
 
     drawer(confluenceNodeIds);
@@ -596,10 +601,8 @@ void Menu::validDifficulty(int &option){
     while (cin.fail() || option < 0 || option > 10)
     {
         cout << "Invalid Difficulty, please insert again: ";
+        cin >> option;
         cin.clear();
         cin.ignore(100, '\n');
-        cin >> option;
     }
-    cin.clear();
-    cin.ignore(100, '\n');
 }

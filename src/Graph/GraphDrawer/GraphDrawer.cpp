@@ -60,6 +60,12 @@ void GraphDrawer::drawNodes(Graph * graph){
         }
     }
     cout << graph->pointsToDraw.size();
+    for(auto v: graph->pointsToDraw){
+        if(v.size()) {
+            graphViewer->setVertexColor(v[0].getId(), "red");
+            graphViewer->setVertexColor(v.back()(), "blue");
+        }
+    }
     //graphViewer->setVertexColor(graph->pointsToDraw[0][0].getId(),"red");
     //graphViewer->setVertexColor(graph->pointsToDraw[graph->pointsToDraw.size()-1].back()(),"blue");
 }
@@ -107,7 +113,7 @@ string GraphDrawer::parseColor(string tag){
     std::string::size_type pos = tag.find('=');
     if (pos != std::string::npos) tagType = tag.substr(0, pos);
 
-    if(tagType == "tourism") return "orange";
+    if(tagType == "tourism") return "green";
     return "yellow";
 }
 

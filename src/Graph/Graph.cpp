@@ -64,8 +64,8 @@ void Graph::initNodes(Node *origin,Node *target,vector<Node> *nodesVisited){
         //node.second->setDistTarget(sqrt(dx*dx+dy*dy));
         node.second->setDistTarget(dx+dy);
         node.second->path = nullptr;
+        node.second->setSummedDifficulties(0);
     }
-
     if(nodesVisited != nullptr){
         for(auto i:*nodesVisited){
             nodes[i.getId()]->visited = true;
@@ -90,10 +90,20 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
     //Soma atual v->getDist()+tam_edge
 
 
-    double localWeight = 0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 0.1*abs(float(ave_diff/5));
+    double localWeight = 0;
+
+    if(w->getTags().size()) {
+        localWeight = 0.9 * abs(v->getDist() + tam_edge + w->getDistTarget() - targetDistance) / targetDistance +
+                      0.1 * abs(float((ave_diff-difficulty) / ave_diff));
+    }
+    else{
+        localWeight = 0.9 * abs(v->getDist() + tam_edge + w->getDistTarget() - targetDistance) / targetDistance +
+                      0.1 * abs(float((ave_diff-difficulty) / ave_diff))+1;
+    }
+
 
     //Se dificuldade for 5 entao varia entre 3 e 7 entra neste if
-    if(edge_difficulty<=difficulty+2)
+    if(abs(edge_difficulty-difficulty)<=2)
     {
         // Isto e a função de relax
         if((localWeight < w->getWeight()) && v->path != w) {
@@ -106,9 +116,35 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
         }
     }
         //Caso a dificuldade for violada
+    else if(abs(edge_difficulty-difficulty)<=4 || edge_difficulty-difficulty < 0){
+        //Ele adiciona mais valor a dificuldade
+
+        if(w->getTags().size()) {
+            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 4*abs(float((ave_diff-difficulty) / ave_diff)));
+        }
+        else{
+            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 4*abs(float((ave_diff-difficulty) / ave_diff))+1);
+        }
+
+        if ((localWeight < w->getWeight()) && v->path != w) {
+            w->setDist(v->getDist() + tam_edge);
+            w->setWeight(localWeight);
+            w->path = v;
+            w->violated_difficulty= true;
+            w->setSummedDifficulties((v->getSummedDifficulties()+edge_difficulty*tam_edge));
+            return true;
+        }
+    }
     else {
         //Ele adiciona mais valor a dificuldade
-        localWeight = 0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 4*abs(float(ave_diff/5));
+
+        if(w->getTags().size()) {
+            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 8*abs(float((ave_diff-difficulty) / ave_diff)));
+        }
+        else{
+            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 8*abs(float((ave_diff-difficulty) / ave_diff))+1);
+        }
+
         if ((localWeight < w->getWeight()) && v->path != w) {
             w->setDist(v->getDist() + tam_edge);
             w->setWeight(localWeight);
@@ -158,6 +194,7 @@ void Graph::dijkstraShortestPath(const int &source, const int &dest){
 }
 
 double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty,vector<Node> *nodesVisited){
+    cout << "Difficuldade: "<<difficulty << endl;
     cout << "Started A*\n";
     cout <<  "\tOrigin: " << origin << endl;
     cout << " \tDestiny: " << target << endl;
@@ -172,6 +209,7 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
         if (v == nodes[target]) {
             if((abs(v->getDist()-targetDistance)/targetDistance)<0.10) {
                 pointsToDraw.push_back(getPath(origin,target));
+                cout <<"Real Size: " << pointsToDraw.back().size() <<endl;
                 return 0;
             }
         }
@@ -189,7 +227,7 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
                     }
                 }
             }
-            else if(relax(v, e->getDestination(), e->getWeight()*targetDistance, targetDistance, e->getDifficulty(), difficulty)){
+            else if(relax(v, e->getDestination(), e->getWeight(), targetDistance, e->getDifficulty(), difficulty*100)){
                 if (oldDist == INF) {
                     q.insert(e->getDestination());
                 }
@@ -201,6 +239,7 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
     }
 
     pointsToDraw.push_back(getPath(origin,target));
+    cout <<"Real Size: " << pointsToDraw.back().size() <<endl;
 
     return 0;
 
@@ -217,24 +256,23 @@ bool Graph::calculateInterestingPath(vector<int> confluencePoints,vector<int> ho
     cout << endl;
 
     for (int i = 0; i < confluencePoints.size() - 1; ++i) {
-            cout << confluencePoints.at(i) << " ";
+        cout << confluencePoints.at(i);
     }
     cout << endl;
-    for(auto i:difficulties) {
+    for(auto d:difficulties) {
         for (int i = 0; i < confluencePoints.size() - 1; ++i) {
             vector<Node> nodes;
             for(int i1=i-1;i1>=0;i1--){
                 nodes.insert(nodes.end(),pointsToDraw.at(i1).begin(),pointsToDraw.at(i1).end());
             }
             if(i==0)
-                AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties[i]);
+                AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], d);
             else{
-                AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties[i],&nodes);
+                AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], d,&nodes);
             }
             if(!pointsToDraw.back().size()){
-                AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties[i]);
+                AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], d);
             }
-
         }
     }
     return true;
@@ -249,11 +287,17 @@ vector<Node> Graph::getPath(long int origin,long int dest)
         return res;
     else if (v->getDist() == INF)
         return res;
+
     for( ; v != nullptr; v = v->path) {
         if(v->violated_difficulty){
             std::string cont;
             cout<<"Difficulty was violated at point "<<v->getId()<<", press enter to continue:"<<endl;
             //getline(cin,cont);
+        }
+        if(v->path != nullptr) {
+            Edge *ed = findEdge(*v, *v->path);
+            if (ed != nullptr)
+                cout << ed->getDifficulty() << endl;
         }
         res.push_back(*v);
         sum+=v->getDist();
