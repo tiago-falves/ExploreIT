@@ -104,6 +104,7 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
 
     //Se dificuldade for 5 entao varia entre 3 e 7 entra neste if
     if(abs(edge_difficulty-difficulty)<=2)
+    //(edge_difficulty<=difficulty+2)
     {
         // Isto e a função de relax
         if((localWeight < w->getWeight()) && v->path != w) {
@@ -120,10 +121,10 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
         //Ele adiciona mais valor a dificuldade
 
         if(w->getTags().size()) {
-            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 4*abs(float((ave_diff-difficulty) / ave_diff)));
+            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 1.2*abs(float((ave_diff-difficulty) / ave_diff)));
         }
         else{
-            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 4*abs(float((ave_diff-difficulty) / ave_diff))+1);
+            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 1.2*abs(float((ave_diff-difficulty) / ave_diff))+1);
         }
 
         if ((localWeight < w->getWeight()) && v->path != w) {
@@ -139,10 +140,10 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
         //Ele adiciona mais valor a dificuldade
 
         if(w->getTags().size()) {
-            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 8*abs(float((ave_diff-difficulty) / ave_diff)));
+            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 1.4*abs(float((ave_diff-difficulty) / ave_diff)));
         }
         else{
-            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 8*abs(float((ave_diff-difficulty) / ave_diff))+1);
+            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 1.4*abs(float((ave_diff-difficulty) / ave_diff))+1);
         }
 
         if ((localWeight < w->getWeight()) && v->path != w) {
