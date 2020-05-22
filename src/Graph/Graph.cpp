@@ -122,7 +122,6 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
 bool Graph::relaxDistance(Node *v,Node *w, double tam_edge, long int targetDistance){
     double localWeight = 0;
     localWeight = abs(v->getDist() + tam_edge + w->getDistTarget() - targetDistance);
-
     if((localWeight < w->getWeight()) && v->path != w) {
         w->setDist( v->getDist()+tam_edge);
         w->setWeight(localWeight);
@@ -131,10 +130,6 @@ bool Graph::relaxDistance(Node *v,Node *w, double tam_edge, long int targetDista
     }
     return false;
 }
-
-
-
-
 
 double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty,vector<Node> *nodesVisited,string AStarType){
     cout << "Difficuldade: "<<difficulty << endl;
@@ -152,7 +147,6 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
         if (v->getId() == nodes[target]->getId()) {
             if((abs(v->getDist()-targetDistance)/targetDistance) < 0.1) {
                 pointsToDraw.push_back(getPath(origin,target));
-
                 cout <<"Real Size: " << nodes[target]->getDist() <<endl<<endl;
                 return 0;
             }
@@ -186,14 +180,11 @@ bool Graph::calculateInterestingPath(vector<int> confluencePoints,vector<int> ho
         for (int i = 0; i < confluencePoints.size() - 1; ++i) {
             vector<Node> nodes;
             for(int i1=d*(confluencePoints.size()-1);i1<d*(confluencePoints.size()-1)+i;i1++){
-                //cout<< "TESTE ERRO: "<<d*difficulties.size()<< " " << d << " " << i << " "<<pointsToDraw.size()<<endl;
                 nodes.insert(nodes.end(),pointsToDraw.at(i1).begin(),pointsToDraw.at(i1).end());
             }
-            if(i==0)
-                AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties.at(d));
-            else{
-                AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties.at(d),&nodes);
-            }
+            if(i==0) AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties.at(d));
+            else AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties.at(d),&nodes);
+
             if(!pointsToDraw.back().size()){
                 pointsToDraw.pop_back();
                 AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties.at(d));
@@ -217,12 +208,8 @@ vector<Node> Graph::getPath(long int origin,long int dest)
         if(v->violated_difficulty){
             std::string cont;
             cout<<"Difficulty was violated at point "<<v->getId()<<", press enter to continue:"<<endl;
-            //getline(cin,cont);
         }
-        /*if(v->path != nullptr) {
-            Edge *ed = findEdge(*v, *v->path);
 
-        }*/
         res.push_back(*v);
         sum+=v->getDist();
     }
