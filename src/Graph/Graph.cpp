@@ -264,6 +264,7 @@ bool Graph::calculateInterestingPath(vector<int> confluencePoints,vector<int> ho
                 AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties.at(d),&nodes);
             }
             if(!pointsToDraw.back().size()){
+                pointsToDraw.pop_back();
                 AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties.at(d));
             }
         }
