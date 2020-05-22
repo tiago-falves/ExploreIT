@@ -7,6 +7,7 @@
 
 
 #include <Graph/Graph.h>
+#include <Graph/Preprocessor.h>
 
 class Menu {
 
@@ -22,6 +23,8 @@ private:
     string connectivityFileName;
     string tagFilePath;
     int gridNum = 0;
+    Preprocessor *preprocessor;
+
 public:
     Menu(Graph * graph);
 

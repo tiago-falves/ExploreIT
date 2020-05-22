@@ -3,7 +3,6 @@
 //
 
 #include <Utils/utils.h>
-#include <zconf.h>
 #include "Graph.h"
 #include "GraphDrawer.h"
 

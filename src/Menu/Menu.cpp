@@ -17,8 +17,7 @@
 using namespace std;
 
 Menu::Menu(Graph * graph) : graph(graph) {
-
-
+    this->preprocessor = new Preprocessor(graph);
 }
 
 void Menu::runMapMenu(){
@@ -92,7 +91,7 @@ void Menu::runMenu(int origin, int dest) {
 
     loadGraph();
     getOriginDest(origin, dest);
-
+    if (gridNum != 0) preprocessor->setGridPOIs(gridNum);
 
     while(true) {
 
@@ -282,13 +281,11 @@ void Menu::cleanGraphRuntime(int origin,int dest){
 
 
 void Menu::preprocess(string directory) {
-
-    Preprocessor preprocessor = Preprocessor(graph);
-    preprocessor.preProcessDifficulties();
-    preprocessor.saveDifficulties(directory);
+    preprocessor->preProcessDifficulties();
+    preprocessor->saveDifficulties(directory);
     //if (IS_TESTING)
-    preprocessor.setGridPOIs(gridNum);
-    preprocessor.preprocessConnectivity(directory);
+    preprocessor->setGridPOIs(gridNum);
+    preprocessor->preprocessConnectivity(directory);
 }
 
 
