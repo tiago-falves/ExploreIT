@@ -94,18 +94,15 @@ bool nodeUpdate(double localWeight, Node * w,Node * v,double tam_edge,int edge_d
 
 
 bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int edge_difficulty, int difficulty,bool withPoi){
-    //Average difficulty
     double ave_diff = (v->getSummedDifficulties()+edge_difficulty*tam_edge)/(v->getDist()+tam_edge);
-    //calcula a parte da heuristica da dificuldade e normaliza-a
     float medDiff = abs(float((ave_diff-difficulty) / ave_diff));
-    //calcula a parte da heuristica da distância e normaliza-a
     double medDist =abs(v->getDist() + tam_edge + w->getDistTarget() - targetDistance) / targetDistance;
-    //soma as pasrtes da heuristica e multiplica por um fator de importância
+    //Soma as partes da heuristica e divide-as conferme a importancia
     double localWeight = 0.9 * medDist +  0.1 * medDiff;
     //se o nó w não tive um POI aumenta o weight em 1.
     if(!w->getTags().size()) localWeight++;
 
-    //Se dificuldade for 5 entao varia entre 3 e 7 entra neste if
+    //Se a dificuldade media variar entre +- 2
     if(abs(edge_difficulty)<=difficulty+2){
         if(nodeUpdate(localWeight,w,v,tam_edge,edge_difficulty,false)) return true;
     }
@@ -132,7 +129,6 @@ bool Graph::relaxDistance(Node *v,Node *w, double tam_edge, long int targetDista
         w->setWeight(localWeight);
         w->path = v;
         w->setSummedDifficulties((v->getSummedDifficulties()+edge_difficulty*tam_edge));
-
         return true;
     }
     return false;

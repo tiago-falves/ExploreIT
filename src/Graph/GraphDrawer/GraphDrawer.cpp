@@ -104,7 +104,7 @@ string GraphDrawer::parseColor(string tag){
     std::string::size_type pos = tag.find('=');
     if (pos != std::string::npos) tagType = tag.substr(0, pos);
 
-    if(tagType == "tourism") return "green";
+    if(tagType == "tourism") return "orange";
     return "yellow";
 }
 
