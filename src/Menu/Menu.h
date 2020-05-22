@@ -78,6 +78,8 @@ public:
     void drawer(vector<int> confluencePoints);
 
     void showBiggestConnectedGraph(int origin, int dest);
+
+    void defaultRun(string directory);
 };
 
 
