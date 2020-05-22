@@ -66,7 +66,6 @@ void Menu::setFolder(string graphDirectory){
         nodeFileName += graphDirectory + ".txt";
         edgesFileName += graphDirectory + ".txt";
         connectivityFileName = "connectivity.txt";
-
         string temp = graphDirectory;
         temp[0] = toupper(temp[0]);
         directory = "../data/PortugalMaps/" + temp + "/";
@@ -78,7 +77,6 @@ void Menu::setFolder(string graphDirectory){
         nodeFileName = "nodes.txt";
         edgesFileName = "edges.txt";
         connectivityFileName = "connectivity.txt";
-
     }
 
 }
@@ -105,24 +103,21 @@ void Menu::runMenu(int origin, int dest) {
         cout << "DFS Connectivity                                                   [3]" << endl;
         cout << "A* between 2 points                                                [4]" << endl;
         cout << "Floyd Warshall                                                     [5]" << endl;
-        cout << "AStar Threads                                                      [6]" << endl;
-        cout << "Algorithm with many confluence points                              [7]" << endl << endl;
+        cout << "Algorithm with many confluence points                              [6]" << endl << endl;
         cout << "Insert the number correspondent to your option: ";
         cin >> option;
-        validOption(option, 7);
+        validOption(option, 6);
 
         menuSeparator();
 
         if (option == 0) { exit(0); }
         else if (option == 1) { drawer(origin,dest);  }
         else if (option == 2) { preprocess(directory); }
-        else if (option == 3) {
-            cleanGraphRuntime(origin,dest);
-            drawer(origin,dest); }
+        else if (option == 3) { showBiggestConnectedGraph(origin,dest);
+             }
         else if (option == 4) { AStar(origin,dest); }
         else if (option == 5) { floydWarshall(graph); }
-        else if (option == 6) { AStarThreads(origin,dest); }
-        else if (option == 7) { runMasterpiece(); }
+        else if (option == 6) { runMasterpiece(); }
     }
 }
 
@@ -157,23 +152,7 @@ void Menu::drawer(vector<int> confluencePoints){
 
     GraphDrawer *drawer = new GraphDrawer(2000, 2000);
     auto start = std::chrono::high_resolution_clock::now();
-    /*for (int i = 0; i < confluencePoints.size()-1 ; ++i) {
-        vector<Node> path = graph->getPath(confluencePoints[i], confluencePoints[i+1]);
-        //graph->pointsToDraw.insert(graph->pointsToDraw.end(),path.begin(),path.end());
-        for (int j = 0; j < path.size() ; ++j) {
-            cout << path.at(i).getId() << "zas ";
-        }
-        cout << endl;
-        path.insert(path.end(),graph->pointsToDraw.begin(),graph->pointsToDraw.end());
-        graph->pointsToDraw = path;
-
-    }*/
-
-    /*for (int k = 0; k < graph->pointsToDraw.size() ; ++k) {
-        cout << graph->pointsToDraw[k].getId() << " ";
-    }*/
     drawer->drawFromGraph(graph);
-
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     std::cout << "Drawer time: " << elapsed.count() << " s\n" << endl;
@@ -190,11 +169,10 @@ void Menu::AStar(int origin, int dest){
     vector<vector<Node>> vectors;
     auto start = std::chrono::high_resolution_clock::now();
     int distance;
-    if(IS_TESTING) distance = 20 * 75;
-    else distance = 5479;
+    distance = 20;
     graph->setSelectedDiff(difficulties);
 
-    graph->AStar(origin, dest, distance, diff);
+    graph->AStar(origin, dest, distance * distanceEdges, diff);
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
@@ -213,9 +191,9 @@ void Menu::floydWarshall(Graph * graph){
 
 void Menu::cleanGraphRuntime(int origin,int dest){
     graph->DFSConnectivity(origin);
-    cout << "Size " << graph->getNodes().size() << endl;
+    cout << "Initial Size: " << graph->getNodes().size() << endl;
     graph->removeUnvisited(graph);
-    cout << "Size " << graph->getNodes().size() << endl;
+    cout << "Connected Graph Size: " << graph->getNodes().size() << endl;
 }
 
 
@@ -223,7 +201,6 @@ void Menu::cleanGraphRuntime(int origin,int dest){
 void Menu::preprocess(string directory) {
     preprocessor->preProcessDifficulties();
     preprocessor->saveDifficulties(directory);
-    //if (IS_TESTING)
     preprocessor->setGridPOIs(gridNum);
     preprocessor->preprocessConnectivity(directory);
 }
@@ -300,6 +277,7 @@ void Menu::getOriginDest(int &origin,int &dest){
 
 void Menu::initialVertices(int &origin,int &dest,int option){
     if (option == 0) { exit(0); }
+    if(!IS_TESTING) distanceEdges = 100; //Varios blocos de 100 metros
     else if (option == 1) {
         //Aveiro
         /*origin = 26019978;
@@ -369,22 +347,18 @@ void Menu::initialVertices(int &origin,int &dest,int option){
     }
     else if (option == 12) {
         //4*4
-        //origin = 0;
-        //dest = 2;
+        distanceEdges = 150;
         setFolder("4x4");
         gridNum = 4;
     }
-    else if (option == 13) {
-        //8x8
-        //origin = 0;
-        //dest = 2;
+    else if (option == 13) {        //8x8
+        distanceEdges = 75;
         setFolder("8x8");
         gridNum = 8;
     }
     else if (option == 14) {
         //16x16
-        //origin = 0;
-        //dest = 2;
+        distanceEdges = 37;
         setFolder("16x16");
         gridNum = 16;
     }
@@ -416,8 +390,7 @@ void Menu::runMasterpiece(){
             cout << "Error, that point does not belong to same connected Graph\n";
             return;
         }
-        //TIRAR 75 TODO
-        int confluenceHour = askForInt("Hour of confluence (Para ja e so distancia acumulada)") * 75;
+        int confluenceHour = askForInt("Hour of confluence (Para ja e so distancia acumulada)") * distanceEdges;
         confluenceNodeIds.push_back(nodeId);
         times.push_back(confluenceHour);
 
@@ -543,69 +516,8 @@ void Menu::validDifficulty(int &option){
     }
 }
 
-
-void Menu::AStarThreads(int origin, int dest){
-    //AStar
-    //TODO Por isto direito
-    //cleanGraphRuntime(origin, dest);
-    vector<vector<Node>> vectors;
-    auto start = std::chrono::high_resolution_clock::now();
-    int distance;
-    if(IS_TESTING) distance = 10;
-    else distance = 5479;
-    graph->AStar(origin, dest, distance, 3);
-    auto finish = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed = finish - start;
-    std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
-    //graph->pointsToDraw = graph->getPath(origin, dest);
-    //vectors.push_back(graph->pointsToDraw);
-
-    if(IS_TESTING) distance = 10;
-    else distance = 5479;
-    graph->AStar(origin, dest, distance, 5);
-    finish = std::chrono::high_resolution_clock::now();
-    elapsed = finish - start;
-    std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
-    //graph->pointsToDraw = graph->getPath(origin, dest);
-    //vectors.push_back(graph->pointsToDraw);
-
-    if(IS_TESTING) distance = 10;
-    else distance = 5479;
-    graph->AStar(origin, dest, distance, 10);
-    finish = std::chrono::high_resolution_clock::now();
-    elapsed = finish - start;
-    std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
-    //graph->pointsToDraw = graph->getPath(origin, dest);
-    //vectors.push_back(graph->pointsToDraw);
-
-    float diff1=0;
-    for(auto i:vectors.at(0)){
-        if(std::find(vectors.at(1).begin(), vectors.at(1).end(), i) == vectors.at(1).end()) {
-            diff1++;
-        }
-    }
-    diff1/=vectors.at(0).size();
-
-
-    float diff2=0;
-    for(auto i:vectors.at(0)){
-        if(std::find(vectors.at(2).begin(), vectors.at(2).end(), i) == vectors.at(2).end()) {
-            diff2++;
-        }
-    }
-    diff2/=vectors.at(0).size();
-
-
-    float diff3=0;
-    for(auto i:vectors.at(2)){
-        if(std::find(vectors.at(1).begin(), vectors.at(1).end(), i) == vectors.at(1).end()) {
-            diff3++;
-        }
-    }
-    diff3/=vectors.at(2).size();
-
-    cout<< "Diferença 0 1: "<<diff1 << endl;
-    cout<< "Diferença 0 2: "<<diff2 << endl;
-    cout<< "Diferença 1 2: "<<diff3 << endl;
+void Menu::showBiggestConnectedGraph(int origin, int dest){
+    cleanGraphRuntime(origin,dest);
     drawer(origin,dest);
 }
+

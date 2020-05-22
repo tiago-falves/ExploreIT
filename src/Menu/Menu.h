@@ -24,6 +24,7 @@ private:
     string tagFilePath;
     int gridNum = 0;
     Preprocessor *preprocessor;
+    int distanceEdges;
 
 public:
     Menu(Graph * graph);
@@ -54,8 +55,6 @@ public:
 
     void setTagFilePath(const string &tagFilePath);
 
-    void AStarThreads(int origin, int dest);
-
     void getOriginDest(int &origin, int &dest);
 
     void initialVertices(int &origin, int &dest, int option);
@@ -77,6 +76,8 @@ public:
     void validDifficulty(int &option);
 
     void drawer(vector<int> confluencePoints);
+
+    void showBiggestConnectedGraph(int origin, int dest);
 };
 
 
