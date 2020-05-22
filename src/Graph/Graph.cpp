@@ -95,9 +95,13 @@ bool nodeUpdate(double localWeight, Node * w,Node * v,double tam_edge,int edge_d
 bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int edge_difficulty, int difficulty){
     //Average difficulty
     double ave_diff = (v->getSummedDifficulties()+edge_difficulty*tam_edge)/(v->getDist()+tam_edge);
+    //calcula a parte da heuristica da dificuldade e normaliza-a
     float medDiff = abs(float((ave_diff-difficulty) / ave_diff));
+    //calcula a parte da heuristica da distância e normaliza-a
     double medDist =abs(v->getDist() + tam_edge + w->getDistTarget() - targetDistance) / targetDistance;
+    //soma as pasrtes da heuristica e multiplica por um fator de importância
     double localWeight = 0.9 * medDist +  0.1 * medDiff;
+    //se o nó w não tive um POI aumenta o weight em 1.
     if(!w->getTags().size()) localWeight++;
 
     //Se dificuldade for 5 entao varia entre 3 e 7 entra neste if
@@ -155,8 +159,10 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
         }
         for(auto e : v->getEdges()){
             auto oldDist = e->getDestination()->getDist();
+            //apenas tem em conta pontos não explorados
             if(!e->getDestination()->visited){
                 if(getRelaxFunction(v, e->getDestination(), e->getWeight(), targetDistance, e->getDifficulty(), difficulty,AStarType)) {
+                    //se a o valor do weight for inferior ao anterior atualiza a posição do node na fila
                     if (oldDist == INF) q.insert(e->getDestination());
                     else q.decreaseKey(e->getDestination());
                 }
@@ -181,9 +187,11 @@ bool Graph::calculateInterestingPath(vector<int> confluencePoints,vector<int> ho
     for(int d = 0;d<difficulties.size();d++) {
         for (int i = 0; i < confluencePoints.size() - 1; ++i) {
             vector<Node> nodes;
+            //preenche o vetor nodes com os pontos já visitados pelo grupo atual
             for(int i1=d*(confluencePoints.size()-1);i1<d*(confluencePoints.size()-1)+i;i1++){
                 nodes.insert(nodes.end(),pointsToDraw.at(i1).begin(),pointsToDraw.at(i1).end());
             }
+
             AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties.at(d),&nodes);
 
             //se não for possivel reconstruir o caminho, recalcula-se o caminho, sem ter em conta os pontos já visitados
