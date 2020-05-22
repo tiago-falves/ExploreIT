@@ -3,6 +3,7 @@
 //
 
 #include <Utils/utils.h>
+#include <zconf.h>
 #include "Graph.h"
 #include "GraphDrawer.h"
 
@@ -58,7 +59,6 @@ void GraphDrawer::drawNodes(Graph * graph){
             graphViewer->setVertexColor(node.second->getId(), parseColor(node.second->getTags()[0]));
         }
     }
-    cout << graph->pointsToDraw.size();
     for(auto v: graph->pointsToDraw){
         if(v.size()) {
             graphViewer->setVertexColor(v[0].getId(), "red");
@@ -83,12 +83,11 @@ void GraphDrawer::drawEdges(Graph *graph,int &cont) {
 
 void GraphDrawer::drawPath(Graph *graph, int &cont) {
 
-    cout << "\tDrawing Path... " << graph->pointsToDraw.size() << endl;
+    cout << "\tDrawing Path...\n" ;
     int size = graph->pointsToDraw.size();
     if(size == 0) return;
     int lastVectorSize = graph->pointsToDraw[size-1].size();
 
-    cout << "Tamanho: " << graph->pointsToDraw.size()<<endl;
     for(int it=graph->pointsToDraw.size()-1;it>= 0;it--){
         for (int j = graph->pointsToDraw[it].size()-1; j > 0 ; --j) {
             Node orig = graph->pointsToDraw[it][j];
@@ -97,10 +96,11 @@ void GraphDrawer::drawPath(Graph *graph, int &cont) {
 
             //UNCOMMENT INTENDED OPTION
             //DESIGN [OPTION 1: One color per group]
+
             graphViewer->setEdgeColor(cont, getColor(graph->getSelectedDiff()[it/(graph->getNumOfConfluencePoints()-1)]));
             drawDetailedThicknesses(cont, graph->findEdge(orig, dest));
 
-            //DESIGN [OPTION 2: We are lgbt]
+            //DESIGN [OPTION 2: We are lgbt <3]
             //graphViewer->setEdgeThickness(cont, graph->getSelectedDiff()[it/(graph->getNumOfConfluencePoints()-1)]*3);
             //drawDetailedDifficulties(cont,graph->findEdge(orig, dest));
 

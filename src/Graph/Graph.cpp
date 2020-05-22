@@ -210,7 +210,8 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
         if (v == nodes[target]) {
             if((abs(v->getDist()-targetDistance)/targetDistance)<0.10) {
                 pointsToDraw.push_back(getPath(origin,target));
-                cout <<"Real Size: " << pointsToDraw.back().size() <<endl;
+                cout <<"\tReal Size: zas" << v->getDist() <<endl;
+
                 return 0;
             }
         }
@@ -240,11 +241,9 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
     }
 
     pointsToDraw.push_back(getPath(origin,target));
-    cout <<"Real Size: " << pointsToDraw.back().size() <<endl;
+    cout <<"\tReal Size: "  <<endl;
 
     return 0;
-
-
 }
 
 bool Graph::calculateInterestingPath(vector<int> confluencePoints,vector<int> hours, vector<int> difficulties,int TMax){
@@ -254,12 +253,7 @@ bool Graph::calculateInterestingPath(vector<int> confluencePoints,vector<int> ho
         cout << "Each point does not have a corresponding hour\n";
         return false;
     }
-    cout << endl;
 
-    for (int i = 0; i < confluencePoints.size() - 1; ++i) {
-        cout << confluencePoints.at(i);
-    }
-    cout << endl;
     for(auto d:difficulties) {
         for (int i = 0; i < confluencePoints.size() - 1; ++i) {
             vector<Node> nodes;
@@ -297,8 +291,8 @@ vector<Node> Graph::getPath(long int origin,long int dest)
         }
         if(v->path != nullptr) {
             Edge *ed = findEdge(*v, *v->path);
-            if (ed != nullptr)
-                cout << ed->getDifficulty() << endl;
+            /*if (ed != nullptr)
+                cout << ed->getDifficulty() << endl;*/
         }
         res.push_back(*v);
         sum+=v->getDist();
