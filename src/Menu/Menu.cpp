@@ -113,8 +113,7 @@ void Menu::runMenu(int origin, int dest) {
         if (option == 0) { exit(0); }
         else if (option == 1) { drawer(origin,dest);  }
         else if (option == 2) { preprocess(directory); }
-        else if (option == 3) { showBiggestConnectedGraph(origin,dest);
-             }
+        else if (option == 3) { showBiggestConnectedGraph(origin,dest); }
         else if (option == 4) { AStar(origin,dest); }
         else if (option == 5) { floydWarshall(graph); }
         else if (option == 6) { runMasterpiece(); }
@@ -177,8 +176,8 @@ void Menu::AStar(int origin, int dest){
     std::chrono::duration<double> elapsed = finish - start;
     std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
     drawer(origin,dest);
-
 }
+
 
 
 void Menu::floydWarshall(Graph * graph){

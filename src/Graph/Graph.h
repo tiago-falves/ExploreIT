@@ -74,7 +74,7 @@ public:
     //Algorithms
     void DFSConnectivity(int id);
     void FloydWarshall(string directory);
-    double AStar(long int origin,long int  target,long int targetDistance, int difficulty,vector<Node> *nodesVisited = nullptr);
+    double AStar(long int origin,long int  target,long int targetDistance, int difficulty,vector<Node> *nodesVisited = nullptr,string AStarType = "");
 
 
     void removeUnvisited(Graph *graph);
@@ -95,6 +95,11 @@ public:
 
     void setSelectedDiff(vector<int> selected_difficulties){this->selected_difficulties = selected_difficulties;}
     vector<int> getSelectedDiff() {return selected_difficulties;}
+
+    bool getRelaxFunction(Node *v, Node *w, double tam_edge, long targetDistance, int edge_difficulty, int difficulty,
+                          string type);
+
+    bool relaxDistance(Node *v, Node *w, double tam_edge, long targetDistance);
 };
 
 

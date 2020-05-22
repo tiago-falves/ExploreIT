@@ -51,9 +51,7 @@ bool Graph::addEdge(int edgeId, int origId, int destId) {
 
 void Graph::initNodes(Node *origin,Node *target,vector<Node> *nodesVisited){
 
-
     for(auto node:nodes){
-
         node.second->setWeight(INF);
         node.second->setDist(INF);
         node.second->setSummedDifficulties(0);
@@ -67,18 +65,20 @@ void Graph::initNodes(Node *origin,Node *target,vector<Node> *nodesVisited){
         node.second->setSummedDifficulties(0);
     }
     if(nodesVisited != nullptr){
-        for(auto i:*nodesVisited){
-            nodes[i.getId()]->visited = true;
-        }
+        for(auto i:*nodesVisited) nodes[i.getId()]->visited = true;
     }
-
     nodes[origin->getId()]->visited = false;
     nodes[target->getId()]->visited = false;
-
     nodes[origin->getId()]->setDist(0);
     nodes[origin->getId()]->setWeight(0);
-
 }
+
+bool Graph::getRelaxFunction(Node *v,Node *w, double tam_edge, long int targetDistance, int edge_difficulty, int difficulty,string type = ""){
+    if(type == "") return relax(v,w, tam_edge, targetDistance, edge_difficulty, difficulty);
+    else if(type == "distance") return relaxDistance(v,w,tam_edge, targetDistance);
+    return false;
+}
+
 
 bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int edge_difficulty, int difficulty){
     //Average difficulty
@@ -98,12 +98,12 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
     }
     else{
         localWeight = 0.9 * abs(v->getDist() + tam_edge + w->getDistTarget() - targetDistance) / targetDistance +
-                      0.1 * abs(float((ave_diff-difficulty) / ave_diff))+1;
+                      0.1 * abs(float((ave_diff-difficulty) / ave_diff))+0.2;
     }
 
 
     //Se dificuldade for 5 entao varia entre 3 e 7 entra neste if
-    if(abs(edge_difficulty-difficulty)<=2)
+    if(abs(edge_difficulty)<=difficulty+2)
     //(edge_difficulty<=difficulty+2)
     {
         // Isto e a função de relax
@@ -121,10 +121,10 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
         //Ele adiciona mais valor a dificuldade
 
         if(w->getTags().size()) {
-            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 1.2*abs(float((ave_diff-difficulty) / ave_diff)));
+            localWeight = 1.05*(0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + abs(float((ave_diff-difficulty) / ave_diff)));
         }
         else{
-            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 1.2*abs(float((ave_diff-difficulty) / ave_diff))+1);
+            localWeight = 1.05*(0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + abs(float((ave_diff-difficulty) / ave_diff))+0.2);
         }
 
         if ((localWeight < w->getWeight()) && v->path != w) {
@@ -140,10 +140,10 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
         //Ele adiciona mais valor a dificuldade
 
         if(w->getTags().size()) {
-            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 1.4*abs(float((ave_diff-difficulty) / ave_diff)));
+            localWeight = 1.2*(0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + abs(float((ave_diff-difficulty) / ave_diff)));
         }
         else{
-            localWeight = (0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + 1.4*abs(float((ave_diff-difficulty) / ave_diff))+1);
+            localWeight = 1.2*(0.9*abs(v->getDist()+tam_edge + w->getDistTarget() - targetDistance)/targetDistance + abs(float((ave_diff-difficulty) / ave_diff))+0.2);
         }
 
         if ((localWeight < w->getWeight()) && v->path != w) {
@@ -158,43 +158,25 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
     return false;
 }
 
-bool Graph::relaxDijkstra(Node *node, Edge * edge) {//Vertex *w, double weight) {
-    double weight = edge->getWeight();
-    Node * w = edge->getDestination();
-    if (node->getDist() + weight < w->getDist()) {
-        w->setDist(node->getDist() + weight);
-        w->path = node;
+
+bool Graph::relaxDistance(Node *v,Node *w, double tam_edge, long int targetDistance){
+    double localWeight = 0;
+    localWeight = abs(v->getDist() + tam_edge + w->getDistTarget() - targetDistance);
+
+    if((localWeight < w->getWeight()) && v->path != w) {
+        w->setDist( v->getDist()+tam_edge);
+        w->setWeight(localWeight);
+        w->path = v;
         return true;
     }
-    else
-        return false;
+    return false;
 }
 
-void Graph::dijkstraShortestPath(const int &source, const int &dest){
-    Node * start = nodes[source];
-    Node * end = nodes[dest];
-    initNodes(start,end);
-    MutablePriorityQueue q;
-    q.insert(start);
-    while( ! q.empty() ) {
-        Node* v = q.extractMin();
-        v->visited = true;
 
-        if (v->getId() == dest) return;
 
-        for(Edge * e : v->getEdges()) {
-            double oldDist = e->getDestination()->getDist();
-            if (relaxDijkstra(v, e)) {//e.dest, e.weight)) {
-                if (oldDist == INF)
-                    q.insert(e->getDestination());
-                else
-                    q.decreaseKey(e->getDestination());
-            }
-        }
-    }
-}
 
-double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty,vector<Node> *nodesVisited){
+
+double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty,vector<Node> *nodesVisited,string AStarType){
     cout << "Difficuldade: "<<difficulty << endl;
     cout << "Started A*\n";
     cout <<  "\tOrigin: " << origin << endl;
@@ -207,42 +189,27 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
     {
         auto v = q.extractMin();
         v->visited = true;
-        if (v == nodes[target]) {
-            if((abs(v->getDist()-targetDistance)/targetDistance)<0.10) {
+        if (v->getId() == nodes[target]->getId()) {
+            if((abs(v->getDist()-targetDistance)/targetDistance) < 0.1) {
                 pointsToDraw.push_back(getPath(origin,target));
-                cout <<"\tReal Size: zas" << v->getDist() <<endl;
-
+                cout <<"\tReal Size: " << v->getDist() <<endl;
                 return 0;
             }
         }
-        for(auto e : v->getEdges())
-        {
+        for(auto e : v->getEdges()){
             auto oldDist = e->getDestination()->getDist();
-            if(!e->getDestination()->visited)
-            {
-                if(relax(v, e->getDestination(), e->getWeight(), targetDistance, e->getDifficulty(), difficulty)) {
-                    if (oldDist == INF) {
-                        q.insert(e->getDestination());
-                    }
-                    else {
-                        q.decreaseKey(e->getDestination());
-                    }
-                }
-            }
-            else if(relax(v, e->getDestination(), e->getWeight(), targetDistance, e->getDifficulty(), difficulty*100)){
-                if (oldDist == INF) {
-                    q.insert(e->getDestination());
-                }
-                else {
-                    q.decreaseKey(e->getDestination());
+            if(!e->getDestination()->visited){
+                if(getRelaxFunction(v, e->getDestination(), e->getWeight(), targetDistance, e->getDifficulty(), difficulty,AStarType)) {
+                    if (oldDist == INF) q.insert(e->getDestination());
+                    else q.decreaseKey(e->getDestination());
                 }
             }
         }
     }
 
     pointsToDraw.push_back(getPath(origin,target));
-    cout <<"\tReal Size: "  <<endl;
-
+    cout << "Reached the very end of A*\n";
+    cout <<"Real Size: " << pointsToDraw.back().size() <<endl;
     return 0;
 }
 
@@ -494,7 +461,41 @@ int Graph::getNumOfConfluencePoints() const {return numOfConfluencePoints;}
 void Graph::setNumOfConfluencePoints(int numOfConfluencePoints) {Graph::numOfConfluencePoints = numOfConfluencePoints;}
 
 
+bool Graph::relaxDijkstra(Node *node, Edge * edge) {//Vertex *w, double weight) {
+    double weight = edge->getWeight();
+    Node * w = edge->getDestination();
+    if (node->getDist() + weight < w->getDist()) {
+        w->setDist(node->getDist() + weight);
+        w->path = node;
+        return true;
+    }
+    else
+        return false;
+}
 
+void Graph::dijkstraShortestPath(const int &source, const int &dest){
+    Node * start = nodes[source];
+    Node * end = nodes[dest];
+    initNodes(start,end);
+    MutablePriorityQueue q;
+    q.insert(start);
+    while( ! q.empty() ) {
+        Node* v = q.extractMin();
+        v->visited = true;
+
+        if (v->getId() == dest) return;
+
+        for(Edge * e : v->getEdges()) {
+            double oldDist = e->getDestination()->getDist();
+            if (relaxDijkstra(v, e)) {//e.dest, e.weight)) {
+                if (oldDist == INF)
+                    q.insert(e->getDestination());
+                else
+                    q.decreaseKey(e->getDestination());
+            }
+        }
+    }
+}
 
 
 
