@@ -101,12 +101,14 @@ void Menu::runMenu(int origin, int dest) {
         cout << "Draw Graph                                                         [1]" << endl;
         cout << "Preprocess                                                         [2]" << endl;
         cout << "DFS Connectivity                                                   [3]" << endl;
-        cout << "A* between 2 points                                                [4]" << endl;
-        cout << "Floyd Warshall                                                     [5]" << endl;
-        cout << "Algorithm with many confluence points                              [6]" << endl << endl;
+        cout << "Best path considering distance                                     [4]" << endl;
+        cout << "Best path with distance and difficulty                             [5]" << endl;
+        cout << "A* between 2 points                                                [6]" << endl;
+        cout << "Floyd Warshall                                                     [7]" << endl;
+        cout << "Algorithm with many confluence points                              [8]" << endl << endl;
         cout << "Insert the number correspondent to your option: ";
         cin >> option;
-        validOption(option, 6);
+        validOption(option, 8);
 
         menuSeparator();
 
@@ -114,12 +116,13 @@ void Menu::runMenu(int origin, int dest) {
         else if (option == 1) { drawer(origin,dest);  }
         else if (option == 2) { preprocess(directory); }
         else if (option == 3) { showBiggestConnectedGraph(origin,dest); }
-        else if (option == 4) { AStar(origin,dest); }
-        else if (option == 5) { floydWarshall(graph); }
-        else if (option == 6) { runMasterpiece(); }
+        else if (option == 4) { AStar(origin,dest,"distance"); }
+        else if (option == 5) { AStar(origin,dest,"diff"); }
+        else if (option == 6) { AStar(origin,dest); }
+        else if (option == 7) { floydWarshall(graph); }
+        else if (option == 8) { runMasterpiece(); }
     }
 }
-
 
 
 void calculateHeights(Graph *pGraph);
@@ -159,10 +162,10 @@ void Menu::drawer(vector<int> confluencePoints){
 }
 
 
-void Menu::AStar(int origin, int dest){
+void Menu::AStar(int origin, int dest,string option){
     //AStar
     vector<int> difficulties;
-    int diff = 3;
+    int diff = 6;
     difficulties.push_back(diff);
     cleanGraphRuntime(origin, dest);
     vector<vector<Node>> vectors;
@@ -170,8 +173,7 @@ void Menu::AStar(int origin, int dest){
     int distance;
     distance = 20;
     graph->setSelectedDiff(difficulties);
-
-    graph->AStar(origin, dest, distance * distanceEdges, diff);
+    graph->AStar(origin, dest, distance * distanceEdges, diff, nullptr,option);
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     std::cout << "A* time: " << elapsed.count() << " s\n" << endl;

@@ -25,23 +25,18 @@ private:
     vector<unordered_set<int>> graphs;
     vector<vector<int>> graphsVector;
     unordered_map<int,int> edgeDiff;
+    //FLoyd Warshall matrices
+    double ** W;   // dist
+    double **P;   // path
     void initNodes(Node *origin,Node *target,vector<Node> *nodesVisited = nullptr);
-    bool relax(Node *v,Node *w, double weight,long int targetDistance, int edge_difficulty, int difficulty);
+    bool relax(Node *v,Node *w, double weight,long int targetDistance, int edge_difficulty, int difficulty,bool withPoi = true);
     void DFSVisit(Node *v);
 
     vector<int> selected_difficulties;
     int numOfConfluencePoints;
 public:
     int getNumOfConfluencePoints() const;
-
     void setNumOfConfluencePoints(int numOfConfluencePoints);
-
-private:
-
-    //FLoyd Warshall matrices
-    double ** W;   // dist
-    double **P;   // path
-public:
     unordered_map<int,int> getEdgeDiff();
     void setEdgeDiff(const unordered_map<int,int> edgeDiff);
     void setGraphs(const vector<unordered_set<int>> &graphs);
@@ -96,8 +91,7 @@ public:
     void setSelectedDiff(vector<int> selected_difficulties){this->selected_difficulties = selected_difficulties;}
     vector<int> getSelectedDiff() {return selected_difficulties;}
 
-    bool getRelaxFunction(Node *v, Node *w, double tam_edge, long targetDistance, int edge_difficulty, int difficulty,
-                          string type);
+    bool getRelaxFunction(Node *v, Node *w, double tam_edge, long targetDistance, int edge_difficulty, int difficulty,string type);
 
     bool relaxDistance(Node *v, Node *w, double tam_edge, long targetDistance);
 };

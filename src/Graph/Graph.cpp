@@ -76,6 +76,7 @@ void Graph::initNodes(Node *origin,Node *target,vector<Node> *nodesVisited){
 bool Graph::getRelaxFunction(Node *v,Node *w, double tam_edge, long int targetDistance, int edge_difficulty, int difficulty,string type = ""){
     if(type == "") return relax(v,w, tam_edge, targetDistance, edge_difficulty, difficulty);
     else if(type == "distance") return relaxDistance(v,w,tam_edge, targetDistance);
+    if(type == "diff") return relax(v,w, tam_edge, targetDistance, edge_difficulty, difficulty,false);
     return false;
 }
 
@@ -92,7 +93,7 @@ bool nodeUpdate(double localWeight, Node * w,Node * v,double tam_edge,int edge_d
 }
 
 
-bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int edge_difficulty, int difficulty){
+bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int edge_difficulty, int difficulty,bool withPoi){
     //Average difficulty
     double ave_diff = (v->getSummedDifficulties()+edge_difficulty*tam_edge)/(v->getDist()+tam_edge);
     //calcula a parte da heuristica da dificuldade e normaliza-a
@@ -112,12 +113,12 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
     //Se a dificuldade for 5 então varia entre 0 e 9
     else if(abs(edge_difficulty-difficulty) <= 4 || edge_difficulty-difficulty < 0){
         localWeight = 1.05*(0.9* medDist + medDiff);
-        if(!w->getTags().size()) localWeight += 1.05;
+        if(!w->getTags().size() && withPoi) localWeight += 1.05;
         if(nodeUpdate(localWeight,w,v,tam_edge,edge_difficulty,false)) return true;
     }
     else { //Ele adiciona mais valor a dificuldade
         localWeight = 1.2*(0.9*medDist + medDiff);
-        if(!w->getTags().size()) localWeight += 1.2;
+        if(!w->getTags().size() && withPoi) localWeight += 1.2;
         if(nodeUpdate(localWeight,w,v,tam_edge,edge_difficulty, true)) return true;
     }
     return false;
@@ -191,7 +192,6 @@ bool Graph::calculateInterestingPath(vector<int> confluencePoints,vector<int> ho
             for(int i1=d*(confluencePoints.size()-1);i1<d*(confluencePoints.size()-1)+i;i1++){
                 nodes.insert(nodes.end(),pointsToDraw.at(i1).begin(),pointsToDraw.at(i1).end());
             }
-
             AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties.at(d),&nodes);
 
             //se não for possivel reconstruir o caminho, recalcula-se o caminho, sem ter em conta os pontos já visitados
