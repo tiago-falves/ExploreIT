@@ -492,6 +492,7 @@ void Menu::runMasterpiece(){
         cout << i << " ";
     }
     cout << endl;
+    graph->setSelectedDiff(difficulties);
     graph->calculateInterestingPath(confluenceNodeIds,times,difficulties,0);
 
     drawer(confluenceNodeIds);

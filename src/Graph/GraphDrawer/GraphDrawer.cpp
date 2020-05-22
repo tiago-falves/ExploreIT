@@ -94,7 +94,16 @@ void GraphDrawer::drawPath(Graph *graph, int &cont) {
             Node orig = graph->pointsToDraw[it][j];
             Node dest = graph->pointsToDraw[it][j -1];
             graphViewer->addEdge(cont,orig.getId(),dest.getId(),EdgeType::DIRECTED);
-            drawDetailedDifficulties(cont,graph->findEdge(orig, dest));
+
+            //UNCOMMENT INTENDED OPTION
+            //DESIGN [OPTION 1: One color per group]
+            graphViewer->setEdgeColor(cont, getColor(graph->getSelectedDiff()[it/graph->getSelectedDiff().size()]));
+            drawDetailedThicknesses(cont, graph->findEdge(orig, dest));
+
+            //DESIGN [OPTION 2: We are lgbt]
+            //graphViewer->setEdgeThickness(cont, graph->getSelectedDiff()[it/graph->getSelectedDiff().size()]*3);
+            //drawDetailedDifficulties(cont,graph->findEdge(orig, dest));
+
             //drawDifficulties(cont,graph->findEdge(orig, dest));
             cont++;
         }
@@ -132,5 +141,32 @@ void GraphDrawer::drawDetailedDifficulties(int edgeId,Edge * edge) {
     else if (edge->getDifficulty() == 7) graphViewer->setEdgeColor(edgeId, MAGENTA);
     else if (edge->getDifficulty() == 8) graphViewer->setEdgeColor(edgeId, RED);
     else if (edge->getDifficulty() == 9) graphViewer->setEdgeColor(edgeId, GRAY);
-    else if (edge->getDifficulty() == 9) graphViewer->setEdgeColor(edgeId, BLACK);
+    else graphViewer->setEdgeColor(edgeId, BLACK);
 }
+
+void GraphDrawer::drawDetailedThicknesses(int edgeId, Edge *edge) {
+    if (edge->getDifficulty() == 1) graphViewer->setEdgeThickness(edgeId, 1);
+    else if (edge->getDifficulty() == 2) graphViewer->setEdgeThickness(edgeId, 2);
+    else if (edge->getDifficulty() == 3) graphViewer->setEdgeThickness(edgeId, 3);
+    else if (edge->getDifficulty() == 4) graphViewer->setEdgeThickness(edgeId, 4);
+    else if (edge->getDifficulty() == 5) graphViewer->setEdgeThickness(edgeId, 5);
+    else if (edge->getDifficulty() == 6) graphViewer->setEdgeThickness(edgeId, 6);
+    else if (edge->getDifficulty() == 7) graphViewer->setEdgeThickness(edgeId, 7);
+    else if (edge->getDifficulty() == 8) graphViewer->setEdgeThickness(edgeId, 8);
+    else if (edge->getDifficulty() == 9) graphViewer->setEdgeThickness(edgeId, 9);
+    else graphViewer->setEdgeThickness(edgeId, 10);
+}
+
+string GraphDrawer::getColor(int diff){
+    if (diff == 1) return GREEN;
+    if (diff == 2) return YELLOW;
+    if (diff == 3) return CYAN;
+    if (diff == 4) return BLUE;
+    if (diff == 5) return PINK;
+    if (diff == 6) return ORANGE;
+    if (diff == 7) return MAGENTA;
+    if (diff == 8) return RED;
+    if (diff == 9) return GRAY;
+    return BLACK;
+}
+

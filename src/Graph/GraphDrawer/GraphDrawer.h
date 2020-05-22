@@ -23,7 +23,10 @@ public:
     string parseColor(string tag);
 
     void drawDifficulties(int edgeId, Edge *edge);
-    void drawDetailedDifficulties(int edgeId,Edge * edge);
+    void drawDetailedDifficulties(int edgeId, Edge * edge);
+
+    void drawDetailedThicknesses(int edgeId,Edge * edge);
+    string getColor(int diff);
 
     void drawEdges(Graph *graph, int &cont);
 

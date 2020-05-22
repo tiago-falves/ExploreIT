@@ -29,6 +29,7 @@ private:
     bool relax(Node *v,Node *w, double weight,long int targetDistance, int edge_difficulty, int difficulty);
     void DFSVisit(Node *v);
 
+    vector<int> selected_difficulties;
     //FLoyd Warshall matrices
     double ** W;   // dist
     double **P;   // path
@@ -83,6 +84,9 @@ public:
     void dijkstraShortestPath(const int &source, const int &dest);
 
     bool relaxDijkstra(Node *node, Edge *edge);
+
+    void setSelectedDiff(vector<int> selected_difficulties){this->selected_difficulties = selected_difficulties;}
+    vector<int> getSelectedDiff() {return selected_difficulties;}
 };
 
 
