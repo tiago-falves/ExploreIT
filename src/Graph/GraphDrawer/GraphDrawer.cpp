@@ -97,11 +97,11 @@ void GraphDrawer::drawPath(Graph *graph, int &cont) {
 
             //UNCOMMENT INTENDED OPTION
             //DESIGN [OPTION 1: One color per group]
-            graphViewer->setEdgeColor(cont, getColor(graph->getSelectedDiff()[it/graph->getSelectedDiff().size()]));
+            graphViewer->setEdgeColor(cont, getColor(graph->getSelectedDiff()[it/(graph->getNumOfConfluencePoints()-1)]));
             drawDetailedThicknesses(cont, graph->findEdge(orig, dest));
 
             //DESIGN [OPTION 2: We are lgbt]
-            //graphViewer->setEdgeThickness(cont, graph->getSelectedDiff()[it/graph->getSelectedDiff().size()]*3);
+            //graphViewer->setEdgeThickness(cont, graph->getSelectedDiff()[it/(graph->getNumOfConfluencePoints()-1)]*3);
             //drawDetailedDifficulties(cont,graph->findEdge(orig, dest));
 
             //drawDifficulties(cont,graph->findEdge(orig, dest));

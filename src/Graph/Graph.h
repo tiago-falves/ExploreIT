@@ -30,6 +30,14 @@ private:
     void DFSVisit(Node *v);
 
     vector<int> selected_difficulties;
+    int numOfConfluencePoints;
+public:
+    int getNumOfConfluencePoints() const;
+
+    void setNumOfConfluencePoints(int numOfConfluencePoints);
+
+private:
+
     //FLoyd Warshall matrices
     double ** W;   // dist
     double **P;   // path

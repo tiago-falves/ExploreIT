@@ -453,6 +453,7 @@ void Menu::initialVertices(int &origin,int &dest,int option){
 //Add default points
 void Menu::runMasterpiece(){
     int size = askForInt("How much confluence Points? ");
+    graph->setNumOfConfluencePoints(size);
     vector<int> confluenceNodeIds;
     vector<int> times;
     vector<int> difficulties;

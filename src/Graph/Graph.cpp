@@ -495,6 +495,9 @@ void Graph::setGraphsVector(const vector<vector<int>> &graphsVector) {
     Graph::graphsVector = graphsVector;
 }
 
+int Graph::getNumOfConfluencePoints() const {return numOfConfluencePoints;}
+void Graph::setNumOfConfluencePoints(int numOfConfluencePoints) {Graph::numOfConfluencePoints = numOfConfluencePoints;}
+
 
 
 
