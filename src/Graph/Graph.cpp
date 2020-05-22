@@ -64,7 +64,7 @@ void Graph::initNodes(Node *origin,Node *target,vector<Node> *nodesVisited){
         node.second->path = nullptr;
         node.second->setSummedDifficulties(0);
     }
-    if(nodesVisited != nullptr){
+    if(nodesVisited != nullptr && nodesVisited->size()){
         for(auto i:*nodesVisited) nodes[i.getId()]->visited = true;
     }
     nodes[origin->getId()]->visited = false;
@@ -105,6 +105,7 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
         if(nodeUpdate(localWeight,w,v,tam_edge,edge_difficulty,false)) return true;
     }
     //Ele adiciona mais valor a dificuldade
+    //Se a dificuldade for 5 então varia entre 0 e 9
     else if(abs(edge_difficulty-difficulty) <= 4 || edge_difficulty-difficulty < 0){
         localWeight = 1.05*(0.9* medDist + medDiff);
         if(!w->getTags().size()) localWeight += 1.05;
@@ -144,6 +145,7 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
     {
         auto v = q.extractMin();
         v->visited = true;
+        //se estiver a explorar o ponto target e se o caminho for aceitável
         if (v->getId() == nodes[target]->getId()) {
             if((abs(v->getDist()-targetDistance)/targetDistance) < 0.1) {
                 pointsToDraw.push_back(getPath(origin,target));
@@ -182,9 +184,9 @@ bool Graph::calculateInterestingPath(vector<int> confluencePoints,vector<int> ho
             for(int i1=d*(confluencePoints.size()-1);i1<d*(confluencePoints.size()-1)+i;i1++){
                 nodes.insert(nodes.end(),pointsToDraw.at(i1).begin(),pointsToDraw.at(i1).end());
             }
-            if(i==0) AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties.at(d));
-            else AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties.at(d),&nodes);
+            AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties.at(d),&nodes);
 
+            //se não for possivel reconstruir o caminho, recalcula-se o caminho, sem ter em conta os pontos já visitados
             if(!pointsToDraw.back().size()){
                 pointsToDraw.pop_back();
                 AStar(confluencePoints[i], confluencePoints[i + 1], hours[i + 1] - hours[i], difficulties.at(d));
@@ -206,10 +208,8 @@ vector<Node> Graph::getPath(long int origin,long int dest)
 
     for( ; v != nullptr; v = v->path) {
         if(v->violated_difficulty){
-            std::string cont;
             cout<<"Difficulty was violated at point "<<v->getId()<<", press enter to continue:"<<endl;
         }
-
         res.push_back(*v);
         sum+=v->getDist();
     }
