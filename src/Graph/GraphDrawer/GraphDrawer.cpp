@@ -3,7 +3,6 @@
 //
 
 #include <Utils/utils.h>
-#include <zconf.h>
 #include "Graph.h"
 #include "GraphDrawer.h"
 
@@ -31,7 +30,7 @@ void GraphDrawer::drawFromGraph(Graph * graph) {
 
     int cont = 0;
     drawNodes(graph);
-    //drawEdges(graph,cont);
+    drawEdges(graph,cont);
     drawPath(graph,cont);
     cout << "Ended Drawing\n";
 
@@ -55,16 +54,23 @@ void GraphDrawer::drawNodes(Graph * graph){
                              (node.second->getY()-graph->min_y)/(graph->max_y-graph->min_y)*1990+5
         );
 
+        string color;
         if(node.second->getTags().size() != 0) {
-            graphViewer->setVertexColor(node.second->getId(), parseColor(node.second->getTags()[0]));
+            color = parseColor(node.second->getTags()[0]);
+            graphViewer->setVertexColor(node.second->getId(), color);
+            if (color == ORANGE) graphViewer->setVertexSize(node.second->getId(), 10);
         }
+        if (color != ORANGE) graphViewer->setVertexSize(node.second->getId(), 0.1);
     }
     for(auto v: graph->pointsToDraw){
         if(v.size()) {
-            graphViewer->setVertexColor(v[0].getId(), "red");
-            graphViewer->setVertexColor(v.back()(), "blue");
+            graphViewer->setVertexColor(v[0](), RED);
+            graphViewer->setVertexSize(v[0](), 20);
+            graphViewer->setVertexColor(v.back()(), BLUE);
+            graphViewer->setVertexSize(v.back()(), 20);
         }
     }
+    graphViewer->setVertexColor(graph->pointsToDraw[0].back()(), GREEN);
     //graphViewer->setVertexColor(graph->pointsToDraw[0][0].getId(),"red");
     //graphViewer->setVertexColor(graph->pointsToDraw[graph->pointsToDraw.size()-1].back()(),"blue");
 }
@@ -75,7 +81,7 @@ void GraphDrawer::drawEdges(Graph *graph,int &cont) {
     for(pair<long,Node *> node : graph->getNodes()) {
         for (Edge *edge :node.second->getEdges()) {
             graphViewer->addEdge(cont, node.first, edge->getDestination()->getId(), EdgeType::UNDIRECTED);
-            drawDifficulties(cont,edge);
+            //drawDifficulties(cont,edge);
             cont++;
         }
     }
@@ -121,8 +127,8 @@ string GraphDrawer::parseColor(string tag){
     std::string::size_type pos = tag.find('=');
     if (pos != std::string::npos) tagType = tag.substr(0, pos);
 
-    if(tagType == "tourism") return "green";
-    return "yellow";
+    if(tagType == "tourism") return ORANGE;
+    return YELLOW;
 }
 
 void GraphDrawer::drawDifficulties(int edgeId,Edge * edge){

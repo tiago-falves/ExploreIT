@@ -53,6 +53,7 @@ void Menu::runMapMenu(){
 
         if(option >= 12) IS_TESTING = true;
         else IS_TESTING = false;
+
         initialVertices(origin,dest,option);
 
         runMenu(origin,dest);
@@ -70,15 +71,12 @@ void Menu::setFolder(string graphDirectory){
         temp[0] = toupper(temp[0]);
         directory = "../data/PortugalMaps/" + temp + "/";
         tagFilePath = "../data/TagExamples/" + temp + "/t03_tags_" + graphDirectory + ".txt";
-
-
     }else{
         directory = "../data/GridGraphs/" + graphDirectory + "/";
         nodeFileName = "nodes.txt";
         edgesFileName = "edges.txt";
         connectivityFileName = "connectivity.txt";
     }
-
 }
 
 
@@ -103,10 +101,11 @@ void Menu::runMenu(int origin, int dest) {
         cout << "DFS Connectivity                                                   [3]" << endl;
         cout << "A* between 2 points                                                [4]" << endl;
         cout << "Floyd Warshall                                                     [5]" << endl;
-        cout << "Algorithm with many confluence points                              [6]" << endl << endl;
+        cout << "Algorithm with many confluence points                              [6]" << endl;
+        cout << "Default algorithm for map (only for fafe for now)                  [7]" << endl << endl;
         cout << "Insert the number correspondent to your option: ";
         cin >> option;
-        validOption(option, 6);
+        validOption(option, 7);
 
         menuSeparator();
 
@@ -117,6 +116,7 @@ void Menu::runMenu(int origin, int dest) {
         else if (option == 4) { AStar(origin,dest); }
         else if (option == 5) { floydWarshall(graph); }
         else if (option == 6) { runMasterpiece(); }
+        else if (option == 7) { defaultRun(directory); }
     }
 }
 
@@ -227,6 +227,7 @@ void Menu::validOption(int &option,int optionsNumber){
 
 void Menu::loadGraph(){
     cout << "Loading Graph...\n";
+
     GraphLoader loader = GraphLoader(graph,directory,nodeFileName,edgesFileName,tagFilePath);
     auto start = std::chrono::high_resolution_clock::now();
     loader.loadGraph(IS_TESTING);
@@ -271,12 +272,14 @@ void Menu::getOriginDest(int &origin,int &dest){
         int RandIndex2 = rand() % graph->getGraphsVector().at(index).size();
         origin = graph->getGraphsVector().at(index).at(RandIndex);
         dest = graph->getGraphsVector().at(index).at(RandIndex2);
+        origin = 1241362717;
+        dest = 1252224705;
     }
 }
 
 void Menu::initialVertices(int &origin,int &dest,int option){
-    if (option == 0) { exit(0); }
     if(!IS_TESTING) distanceEdges = 100; //Varios blocos de 100 metros
+    if (option == 0) { exit(0); }
     else if (option == 1) {
         //Aveiro
         /*origin = 26019978;
@@ -350,7 +353,8 @@ void Menu::initialVertices(int &origin,int &dest,int option){
         setFolder("4x4");
         gridNum = 4;
     }
-    else if (option == 13) {        //8x8
+    else if (option == 13) {
+        //8x8
         distanceEdges = 75;
         setFolder("8x8");
         gridNum = 8;
@@ -518,5 +522,43 @@ void Menu::validDifficulty(int &option){
 void Menu::showBiggestConnectedGraph(int origin, int dest){
     cleanGraphRuntime(origin,dest);
     drawer(origin,dest);
+}
+
+void Menu::defaultRun(string directory) {
+
+    //graph->setNumOfConfluencePoints(size);
+    vector<int> confluenceNodeIds; int id;
+    vector<int> times; int time;
+    vector<int> difficulties; int diff;
+    char point;
+
+    ifstream def; def.open(directory + "default.txt");
+    if (!def.is_open()){
+        cout << "default.txt not found in " << directory << endl;
+        return;
+    }
+
+    def >> id >> time;
+    confluenceNodeIds.push_back(id);
+    times.push_back(time);
+    while (def >> id >> time){
+        if (id == 0 && time == 0) break;
+        confluenceNodeIds.push_back(id);
+        times.push_back(time * distanceEdges) ;
+        cout << id << " : " << time << endl;
+    }
+    cout << "Point: " << point << endl;
+    while (def >> diff){
+        cout << diff << endl;
+        difficulties.push_back(diff);
+    }
+
+    def.close();
+
+    graph->setNumOfConfluencePoints(confluenceNodeIds.size());
+    graph->setSelectedDiff(difficulties);
+    graph->calculateInterestingPath(confluenceNodeIds,times,difficulties,0);
+
+    drawer(confluenceNodeIds);
 }
 
