@@ -37,7 +37,7 @@ public:
 
     void runMapMenu();
 
-    void AStar(int origin, int dest);
+    void AStar(int origin, int dest,string option = "");
 
     void floydWarshall(Graph * graph);
 

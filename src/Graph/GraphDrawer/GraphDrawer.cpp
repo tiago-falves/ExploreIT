@@ -27,7 +27,6 @@ void GraphDrawer::drawFromGraph(Graph * graph) {
     graphViewer->defineEdgeCurved(0);
     graphViewer->defineVertexSize(0.1);
 
-
     int cont = 0;
     drawNodes(graph);
     drawEdges(graph,cont);
@@ -37,15 +36,11 @@ void GraphDrawer::drawFromGraph(Graph * graph) {
     graphViewer->rearrange();
 
     sleep(1000);
-
-
-
 }
 
 
 void GraphDrawer::drawNodes(Graph * graph){
     cout << "\tDrawing Nodes...\n";
-
 
     for(pair<long,Node *> node : graph->getNodes()){
 
@@ -71,8 +66,6 @@ void GraphDrawer::drawNodes(Graph * graph){
         }
     }
     graphViewer->setVertexColor(graph->pointsToDraw[0].back()(), GREEN);
-    //graphViewer->setVertexColor(graph->pointsToDraw[0][0].getId(),"red");
-    //graphViewer->setVertexColor(graph->pointsToDraw[graph->pointsToDraw.size()-1].back()(),"blue");
 }
 
 void GraphDrawer::drawEdges(Graph *graph,int &cont) {
@@ -99,27 +92,17 @@ void GraphDrawer::drawPath(Graph *graph, int &cont) {
             Node orig = graph->pointsToDraw[it][j];
             Node dest = graph->pointsToDraw[it][j -1];
             graphViewer->addEdge(cont,orig.getId(),dest.getId(),EdgeType::DIRECTED);
-
-            //UNCOMMENT INTENDED OPTION
-            //DESIGN [OPTION 1: One color per group]
-
-            graphViewer->setEdgeColor(cont, getColor(graph->getSelectedDiff()[it/(graph->getNumOfConfluencePoints()-1)]));
-            drawDetailedThicknesses(cont, graph->findEdge(orig, dest));
-
-            //DESIGN [OPTION 2: We are lgbt <3]
-            //graphViewer->setEdgeThickness(cont, graph->getSelectedDiff()[it/(graph->getNumOfConfluencePoints()-1)]*3);
-            //drawDetailedDifficulties(cont,graph->findEdge(orig, dest));
-
-            //drawDifficulties(cont,graph->findEdge(orig, dest));
+            //Beautiful LGBT for A*
+            if(graph->getNumOfConfluencePoints() == 0 && graph->getSelectedDiff().size() == 1){
+                graphViewer->setEdgeThickness(cont, graph->getSelectedDiff()[it/(graph->getNumOfConfluencePoints()-1)]*3);
+                drawDetailedDifficulties(cont,graph->findEdge(orig, dest));
+            }else{ //Lame design with one color per group
+                graphViewer->setEdgeColor(cont, getColor(graph->getSelectedDiff()[it/(graph->getNumOfConfluencePoints()-1)]));
+                drawDetailedThicknesses(cont, graph->findEdge(orig, dest));
+            }
             cont++;
         }
-        //graphViewer->setVertexColor(graph->pointsToDraw[it][graph->pointsToDraw[it].size()].getId(),"Cyan");
     }
-    //LAST VERTICE
-    //graphViewer->setVertexColor(graph->pointsToDraw[0][0].getId(),"red");
-
-    //First Vertice
-    //graphViewer->setVertexColor(graph->pointsToDraw[size-1][lastVectorSize-1].getId(),"blue");
 }
 
 string GraphDrawer::parseColor(string tag){
