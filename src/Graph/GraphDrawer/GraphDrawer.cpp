@@ -66,7 +66,8 @@ void GraphDrawer::drawNodes(Graph * graph){
             graphViewer->setVertexSize(v.back()(), 20);
         }
     }
-    graphViewer->setVertexColor(graph->pointsToDraw[0].back()(), GREEN);
+    if (graph->pointsToDraw.size() && graph->pointsToDraw[0].size())
+        graphViewer->setVertexColor(graph->pointsToDraw[0].back()(), GREEN);
 }
 
 void GraphDrawer::drawEdges(Graph *graph,int &cont) {
