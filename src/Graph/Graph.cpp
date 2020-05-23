@@ -7,6 +7,8 @@
 
 #define INF std::numeric_limits<double>::max()
 
+ostringstream outStream;
+
 unordered_map<long, Node *> Graph::getNodes(){
     return nodes;
 }
@@ -114,7 +116,7 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
     else if(abs(edge_difficulty-difficulty) <= 4 || edge_difficulty-difficulty < 0){
         localWeight = 1.05*(0.9* medDist + medDiff);
         if(!w->getTags().size() && withPoi) localWeight += 1.05;
-        if(nodeUpdate(localWeight,w,v,tam_edge,edge_difficulty,false)) return true;
+        if(nodeUpdate(localWeight,w,v,tam_edge,edge_difficulty,true)) return true;
     }
     else { //Ele adiciona mais valor a dificuldade
         localWeight = 1.2*(0.9*medDist + medDiff);
@@ -138,12 +140,13 @@ bool Graph::relaxDistance(Node *v,Node *w, double tam_edge, long int targetDista
 }
 
 double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty,vector<Node> *nodesVisited,string AStarType){
-    cout << "Started A*\n";
-    cout <<  "\tOrigin: " << origin << endl;
+    outStream = ostringstream() ;
+    outStream << endl << "Started A*\n";
+    outStream <<  "\tOrigin: " << origin << endl;
 
-    cout << "\tDestiny: " << target << endl;
-    cout << "\tPretended Difficulty: "<<difficulty << endl;
-    cout << "\tTarget Distance: " << targetDistance << endl;
+    outStream << "\tDestiny: " << target << endl;
+    outStream << "\tPretended Difficulty: "<<difficulty << endl;
+    outStream << "\tTarget Distance: " << targetDistance << endl;
 
     auto start = std::chrono::high_resolution_clock::now();
 
@@ -157,16 +160,14 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
         //se estiver a explorar o ponto target e se o caminho for aceitável
         if (v->getId() == nodes[target]->getId()) {
             if((abs(v->getDist()-targetDistance)/targetDistance) < 0.1) {
-                pointsToDraw.push_back(getPath(origin,target));
-                cout <<"\tReal Distance: " << nodes[target]->getDist() <<endl;
-                cout <<"\tAverage Difficulty: " << nodes[target]->getSummedDifficulties() / nodes[target]->getDist()<<endl<<endl;
-                cout << "\tNumber Pois: ";
+                outStream <<"\tReal Distance: " << nodes[target]->getDist() <<endl;
+                outStream <<"\tAverage Difficulty: " << nodes[target]->getSummedDifficulties() / nodes[target]->getDist()<<endl;
                 auto finish = std::chrono::high_resolution_clock::now();
                 std::chrono::duration<double> elapsed = finish - start;
                 ofstream outputtime;
                 outputtime.open(path + "time",ofstream::app);
                 outputtime << elapsed.count() << endl;
-                cout << path + "time"<<endl;
+                pointsToDraw.push_back(getPath(origin,target));
                 return 0;
             }
         }
@@ -183,16 +184,19 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
         }
     }
 
-    pointsToDraw.push_back(getPath(origin,target));
-    cout <<"\tReached the very end of A*\n";
-    cout <<"\tReal Distance: " << nodes[target]->getDist() <<endl;
-    cout <<"\tAverage Difficulty: " << nodes[target]->getSummedDifficulties() / nodes[target]->getDist()<<endl<<endl;
+    outStream <<"\tReal Distance: " << nodes[target]->getDist() <<endl;
+    outStream <<"\tAverage Difficulty: " << nodes[target]->getSummedDifficulties() / nodes[target]->getDist()<<endl<<endl;
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     ofstream outputtime;
     outputtime.open(path + "time",ofstream::app);
     outputtime << elapsed.count() << endl;
-    cout << path + "time"<<endl;
+    if(nodes[target]->getDist()!=INF)
+        pointsToDraw.push_back(getPath(origin,target));
+    else{
+        vector<Node> a;
+        pointsToDraw.push_back(a);
+    }
     return 0;
 }
 
@@ -233,12 +237,17 @@ vector<Node> Graph::getPath(long int origin,long int dest)
     else if (v->getDist() == INF)
         return res;
 
+    int i =0;
     for( ; v != nullptr; v = v->path) {
         res.push_back(*v);
+        if(v->violated_difficulty)
+            i++;
         if(v->getTags().size())
             num++;
     }
-    cout<<"Number of POIS: "<<num<<endl;
+    cout << outStream.str();
+    cout<<"\tDificuldade violada: "<<i<<endl;
+    cout<<"\tNumber of POIS: "<<num<<endl;
     return res;
 }
 
