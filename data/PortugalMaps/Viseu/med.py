@@ -1,4 +1,4 @@
-file1 = open('time', 'r') 
+file1 = open('timeDFS', 'r') 
 
 sum=0
 i =0.0

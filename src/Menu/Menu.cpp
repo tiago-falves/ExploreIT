@@ -207,10 +207,16 @@ void Menu::cleanGraphRuntime(int origin,int dest){
 
 
 void Menu::preprocess(string directory) {
+    ofstream outputtime;
+    outputtime.open(directory + "timeDFS",ofstream::app);
     preprocessor->preProcessDifficulties();
     preprocessor->saveDifficulties(directory);
     //preprocessor->setGridPOIs(gridNum);
+    auto start = std::chrono::high_resolution_clock::now();
     preprocessor->preprocessConnectivity(directory);
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = finish - start;
+    outputtime <<  elapsed.count()<<endl;
 }
 
 
