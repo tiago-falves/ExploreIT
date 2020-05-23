@@ -526,8 +526,6 @@ void Menu::showBiggestConnectedGraph(int origin, int dest){
 }
 
 void Menu::defaultRun(string directory) {
-
-    //graph->setNumOfConfluencePoints(size);
     vector<int> confluenceNodeIds; int id;
     vector<int> times; int time;
     vector<int> difficulties; int diff;
