@@ -80,6 +80,8 @@ public:
     void showBiggestConnectedGraph(int origin, int dest);
 
     void defaultRun(string directory);
+
+    void MandatoryPoints();
 };
 
 
