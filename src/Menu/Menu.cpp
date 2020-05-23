@@ -39,19 +39,23 @@ void Menu::runMapMenu(){
         cout << "Gondomar                                                           [6]" << endl;
         cout << "Lisboa                                                             [7]" << endl;
         cout << "Maia                                                               [8]" << endl;
-        cout << "Porto                                                              [9]" << endl;
-        cout << "Viseu                                                              [10]" << endl;
-        cout << "Portugal                                                           [11]" << endl;
-        cout << "GridGraphs 4*4                                                     [12]" << endl;
-        cout << "GridGraphs 8*8                                                     [13]" << endl;
-        cout << "GridGraphs 16*16                                                   [14]" << endl << endl;
+        cout << "Porto Old                                                          [9]" << endl;
+        cout << "Porto Full                                                         [10]" << endl;
+        cout << "Penafiel                                                           [11]" << endl;
+        cout << "Espinho                                                            [12]" << endl;
+        cout << "Viseu                                                              [13]" << endl;
+        cout << "Portugal                                                           [14]" << endl;
+        cout << "GridGraphs 4*4                                                     [15]" << endl;
+        cout << "GridGraphs 8*8                                                     [16]" << endl;
+        cout << "GridGraphs 16*16                                                   [17]" << endl;
+        cout << "GridGraphs 100*100                                                 [18]" << endl << endl;
         cout << "Insert the number correspondent to your option: ";
         cin >> option;
-        validOption(option, 15);
+        validOption(option, 18);
 
         menuSeparator();
 
-        if(option >= 12) IS_TESTING = true;
+        if(option >= 15) IS_TESTING = true;
         else IS_TESTING = false;
 
         initialVertices(origin,dest,option);
@@ -87,7 +91,6 @@ void Menu::runMenu(int origin, int dest) {
 
     loadGraph();
     getOriginDest(origin, dest);
-    if (gridNum != 0) preprocessor->setGridPOIs(gridNum);
 
     while(true) {
 
@@ -137,6 +140,8 @@ void drawerS(int origin,int dest,Graph *graph){
 }
 
 void Menu::drawer(int origin,int dest){
+
+    cout <<"Number Edges: " << graph->getEdges().size() << "\nNodes: " << graph->getNodes().size() << endl;
     GraphDrawer *drawer = new GraphDrawer(2000, 2000);
     auto start = std::chrono::high_resolution_clock::now();
     //graph->pointsToDraw = graph->getPath(origin, dest);
@@ -202,7 +207,7 @@ void Menu::cleanGraphRuntime(int origin,int dest){
 void Menu::preprocess(string directory) {
     preprocessor->preProcessDifficulties();
     preprocessor->saveDifficulties(directory);
-    preprocessor->setGridPOIs(gridNum);
+    //preprocessor->setGridPOIs(gridNum);
     preprocessor->preprocessConnectivity(directory);
 }
 
@@ -281,91 +286,44 @@ void Menu::getOriginDest(int &origin,int &dest){
 
 void Menu::initialVertices(int &origin,int &dest,int option){
     if(!IS_TESTING) distanceEdges = 100; //Varios blocos de 100 metros
-    if (option == 0) { exit(0); }
-    else if (option == 1) {
-        //Aveiro
-        /*origin = 26019978;
-        dest = 26019992;*/
-        setFolder("aveiro");
-    }
-    else if (option == 2) {
-        //Braga
-        //origin = 450543314;
-        //dest = 450543328;
-        setFolder("braga");
-    }
-    else if (option == 3) {
-        //Coimbra
-        //origin = 206155873;
-        //dest = 206155874;
-        setFolder("coimbra");
-
-    }
-    else if (option == 4) {
-        //Ermesinde
-        //origin = 25449700;
-        //dest = 25449701;
-        setFolder("ermesinde");
-    }
-    else if (option == 5) {
-        //Fafe
-        //origin = 26130479;
-        //dest = 26130480;
-        setFolder("fafe");
-    }
-    else if (option == 6) {
-        //Gondomar
-        //origin = 112624356;
-        //dest = 112624357;
-        setFolder("gondomar");
-    }
-    else if (option == 7) {
-        //Lisboa
-        //origin = 582518621;
-        //dest = 582518622;
-        setFolder("lisboa");
-    }
-    else if (option == 8) {
-        //Maia
-        //origin = 26058104;
-        //dest = 26058105;
-        setFolder("maia");
-    }
-    else if (option == 9) {
-        //Porto
-        //origin = 90379613;
-        //dest = 90379614;
-        setFolder("porto");
-    }
-    else if (option == 10) {
-        //Viseu
-        //origin = 26023650;
-        //dest = 26023652;
-        setFolder("viseu");
-    }
-    else if (option == 11) {
-        //Portugal
-        //origin = 158862065;
-        //dest = 158862066;
-        setFolder("portugal");
-    }
-    else if (option == 12) {
+    if (option == 0)  exit(0);
+    else if (option == 1)    setFolder("aveiro");
+    else if (option == 2) setFolder("braga");
+    else if (option == 3) setFolder("coimbra");
+    else if (option == 4) setFolder("ermesinde");
+    else if (option == 5) setFolder("fafe");
+    else if (option == 6) setFolder("gondomar");
+    else if (option == 7) setFolder("lisboa");
+    else if (option == 8) setFolder("maia");
+    else if (option == 9) setFolder("porto");
+    else if (option == 10) setFolder("porto_full");
+    else if (option == 11) setFolder("penafiel");
+    else if (option == 12) setFolder("espinho");
+    else if (option == 13) setFolder("viseu");
+    else if (option == 14) setFolder("portugal");
+    else if (option == 15) {
         //4*4
         distanceEdges = 150;
         setFolder("4x4");
         gridNum = 4;
     }
-    else if (option == 13) {
+    else if (option == 16) {
         //8x8
         distanceEdges = 75;
         setFolder("8x8");
         gridNum = 8;
     }
-    else if (option == 14) {
+    else if (option == 17) {
         //16x16
         distanceEdges = 37;
         setFolder("16x16");
         gridNum = 16;
+    }
+    else if (option == 18) {
+        //100*100
+        distanceEdges = 1;
+        setFolder("100x100");
+        gridNum = 100;
     }
 }
 
