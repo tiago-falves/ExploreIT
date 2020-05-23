@@ -581,7 +581,7 @@ void Menu::MandatoryPoints(){
 
     vector<int> d;
     d.push_back(5);
-    d = graph->mandatoryPOIS(a,b,c,d);
+    graph->mandatoryPOIS(a,b,c,d);
     drawer(d);
 }
 
