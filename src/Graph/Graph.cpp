@@ -59,6 +59,7 @@ void Graph::initNodes(Node *origin,Node *target,vector<Node> *nodesVisited){
         node.second->violated_difficulty=false;
         double dx=abs(target->getX()-node.second->getX());
         double dy=abs(target->getY()-node.second->getY());
+        //node.second->setDistTarget(getNodeDistance(target->getId(),node.first));
         node.second->setDistTarget(sqrt(dx*dx+dy*dy));
         //node.second->setDistTarget(dx+dy);
         node.second->path = nullptr;
@@ -142,6 +143,7 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
     cout << "Started A*\n";
     cout <<  "\tOrigin: " << origin << endl;
     cout << " \tDestiny: " << target << endl;
+    targetDistance = 200;
     cout << " \tTarget Distance: " << targetDistance << endl;
     auto start = std::chrono::high_resolution_clock::now();
     initNodes(nodes[origin],nodes[target],nodesVisited);
@@ -221,7 +223,7 @@ vector<Node> Graph::getPath(long int origin,long int dest)
 {
     vector<Node> res;
     Node *v = nodes[dest];
-    float sum=0;
+    int num = 0;
     if(v == nullptr)
         return res;
     else if (v->getDist() == INF)
@@ -232,8 +234,10 @@ vector<Node> Graph::getPath(long int origin,long int dest)
             cout<<"Difficulty was violated at point "<<v->getId()<<", press enter to continue:"<<endl;
         }
         res.push_back(*v);
-        sum+=v->getDist();
+        if(v->getTags().size())
+            num++;
     }
+    cout<<"Number of POIS: "<<num<<endl;
     return res;
 }
 

@@ -45,6 +45,7 @@ void Menu::runMapMenu(){
         cout << "GridGraphs 4*4                                                     [12]" << endl;
         cout << "GridGraphs 8*8                                                     [13]" << endl;
         cout << "GridGraphs 16*16                                                   [14]" << endl << endl;
+        cout << "GridGraphs 100*100                                                 [15]" << endl << endl;
         cout << "Insert the number correspondent to your option: ";
         cin >> option;
         validOption(option, 15);
@@ -363,6 +364,12 @@ void Menu::initialVertices(int &origin,int &dest,int option){
         distanceEdges = 37;
         setFolder("16x16");
         gridNum = 16;
+    }
+    else if (option == 15) {
+        //16x16
+        distanceEdges = 1;
+        setFolder("100x100");
+        gridNum = 99;
     }
 }
 
