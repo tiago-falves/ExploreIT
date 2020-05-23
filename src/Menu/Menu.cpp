@@ -508,15 +508,9 @@ void Menu::defaultRun(string directory) {
     while (def >> id >> time){
         if (id == 0 && time == 0) break;
         confluenceNodeIds.push_back(id);
-        times.push_back(time * distanceEdges) ;
-        cout << id << " : " << time << endl;
+        times.push_back(time * distanceEdges);
     }
-    cout << "Point: " << point << endl;
-    while (def >> diff){
-        cout << diff << endl;
-        difficulties.push_back(diff);
-    }
-
+    while (def >> diff) difficulties.push_back(diff);
     def.close();
 
     graph->setNumOfConfluencePoints(confluenceNodeIds.size());
