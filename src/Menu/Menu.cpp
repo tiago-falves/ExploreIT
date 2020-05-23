@@ -323,7 +323,7 @@ void Menu::initialVertices(int &origin,int &dest,int option){
         //100*100
         distanceEdges = 1;
         setFolder("100x100");
-        gridNum = 100;
+        gridNum = 99;
     }
 }
 

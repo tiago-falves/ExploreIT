@@ -64,6 +64,7 @@ void Graph::initNodes(Node *origin,Node *target,vector<Node> *nodesVisited){
         //node.second->setDistTarget(sqrt(dx*dx+dy*dy));
         if(hasFloyd) node.second->setDistTarget(getNodeDistance(node.first,target->getId()));
         else node.second->setDistTarget(sqrt(dx*dx+dy*dy));
+
         node.second->path = nullptr;
         node.second->setSummedDifficulties(0);
     }
@@ -141,6 +142,7 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
     cout << "Started A*\n";
 
     cout <<  "\tOrigin: " << origin << endl;
+
     cout << "\tDestiny: " << target << endl;
     cout << "\tPretended Difficulty: "<<difficulty << endl;
     cout << "\tTarget Distance: " << targetDistance << endl;
