@@ -96,6 +96,7 @@ void Menu::runMenu(int origin, int dest) {
 
 
         menuSeparator();
+
         cout << endl << "Please choose what is your option:" << endl << endl;
 
         cout << "Exit                                                               [0]" << endl;
@@ -107,10 +108,11 @@ void Menu::runMenu(int origin, int dest) {
         cout << "A* between 2 points                                                [6]" << endl;
         cout << "Floyd Warshall                                                     [7]" << endl;
         cout << "Algorithm with many confluence points                              [8]" << endl;
-        cout << "Default algorithm for map (only for fafe for now)                  [9]" << endl << endl;
+        cout << "Default algorithm for map (only for fafe for now)                  [9]" << endl;
+        cout << "Mandatory Points                                                   [10]" << endl << endl;
         cout << "Insert the number correspondent to your option: ";
         cin >> option;
-        validOption(option, 9);
+        validOption(option, 10);
 
         menuSeparator();
 
@@ -124,6 +126,7 @@ void Menu::runMenu(int origin, int dest) {
         else if (option == 7) { floydWarshall(graph); }
         else if (option == 8) { runMasterpiece(); }
         else if (option == 9) { defaultRun(directory); }
+        else if (option == 10){ MandatoryPoints(); }
     }
 }
 
@@ -174,14 +177,10 @@ void Menu::AStar(int origin, int dest,string option){
     difficulties.push_back(diff);
     cleanGraphRuntime(origin, dest);
     vector<vector<Node>> vectors;
-    auto start = std::chrono::high_resolution_clock::now();
     int distance;
     distance = 20;
     graph->setSelectedDiff(difficulties);
     graph->AStar(origin, dest, distance * distanceEdges, diff, nullptr,option);
-    auto finish = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed = finish - start;
-    std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
     drawer(origin,dest);
 }
 
@@ -279,8 +278,6 @@ void Menu::getOriginDest(int &origin,int &dest){
         int RandIndex2 = rand() % graph->getGraphsVector().at(index).size();
         origin = graph->getGraphsVector().at(index).at(RandIndex);
         dest = graph->getGraphsVector().at(index).at(RandIndex2);
-        origin = 1241362717;
-        dest = 1252224705;
     }
 }
 
@@ -520,5 +517,27 @@ void Menu::defaultRun(string directory) {
     graph->calculateInterestingPath(confluenceNodeIds,times,difficulties,0);
 
     drawer(confluenceNodeIds);
+}
+
+void Menu::MandatoryPoints(){
+    vector<int> a;
+    a.push_back(0);
+    a.push_back(50);
+    a.push_back(60);
+
+    vector<int> b;
+    b.push_back(3);
+    b.push_back(5);
+    b.push_back(55);
+
+    vector<int> c;
+    c.push_back(0);
+    c.push_back(10);
+    c.push_back(30);
+
+    vector<int> d;
+    d.push_back(5);
+    graph->mandatoryPOIS(a,b,c,d);
+    drawer(d);
 }
 

@@ -96,7 +96,8 @@ void GraphDrawer::drawPath(Graph *graph, int &cont) {
             graphViewer->addEdge(cont,orig.getId(),dest.getId(),EdgeType::DIRECTED);
             //Beautiful LGBT for A*
             if(graph->getNumOfConfluencePoints() == 0 && graph->getSelectedDiff().size() == 1){
-                graphViewer->setEdgeThickness(cont, graph->getSelectedDiff()[it/(graph->getNumOfConfluencePoints()-1)]*3);
+                graphViewer->setEdgeThickness(cont, 4);
+//                graphViewer->setEdgeThickness(cont, graph->getSelectedDiff()[it/(graph->getNumOfConfluencePoints()-1)]*3);
                 drawDetailedDifficulties(cont,graph->findEdge(orig, dest));
             }else{ //Lame design with one color per group
                 graphViewer->setEdgeColor(cont, getColor(graph->getSelectedDiff()[it/(graph->getNumOfConfluencePoints()-1)]));
