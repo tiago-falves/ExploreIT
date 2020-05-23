@@ -183,7 +183,7 @@ void Menu::AStar(int origin, int dest,string option){
     int distance;
     distance = 20;
     graph->setSelectedDiff(difficulties);
-    graph->AStar(origin, dest, distance , diff, nullptr,option);
+    graph->AStar(origin, dest, distance*distanceEdges , diff, nullptr,option);
     drawer(origin,dest);
 }
 
@@ -285,7 +285,7 @@ void Menu::getOriginDest(int &origin,int &dest){
 }
 
 void Menu::initialVertices(int &origin,int &dest,int option){
-    if(!IS_TESTING) distanceEdges = 100; //Varios blocos de 100 metros
+    if(!IS_TESTING) distanceEdges = 1; //Varios blocos de 100 metros
     if (option == 0)  exit(0);
     else if (option == 1)    setFolder("aveiro");
     else if (option == 2) setFolder("braga");
@@ -520,7 +520,7 @@ void Menu::defaultRun(string directory) {
     drawer(confluenceNodeIds);
 }
 
-void Menu::MandatoryPoints(){
+void Menu::MandatoryPoints() {
     vector<int> a;
     a.push_back(0);
     a.push_back(50);
@@ -533,8 +533,14 @@ void Menu::MandatoryPoints(){
 
     vector<int> c;
     c.push_back(0);
-    c.push_back(70);
-    c.push_back(100);
+    if (graph->isHasFloyd()) {
+        c.push_back(2 * graph->getNodeDistance(0, 50));
+        c.push_back(c.back()+2 * graph->getNodeDistance(50, 60));
+    }
+    else{
+        c.push_back(2 * 50);
+        c.push_back(c.back() + 2 * 10);
+    }
 
     vector<int> d;
     d.push_back(5);

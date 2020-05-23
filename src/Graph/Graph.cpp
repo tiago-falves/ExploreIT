@@ -139,7 +139,6 @@ bool Graph::relaxDistance(Node *v,Node *w, double tam_edge, long int targetDista
 
 double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty,vector<Node> *nodesVisited,string AStarType){
     cout << "Started A*\n";
-
     cout <<  "\tOrigin: " << origin << endl;
 
     cout << "\tDestiny: " << target << endl;
@@ -185,8 +184,9 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
     }
 
     pointsToDraw.push_back(getPath(origin,target));
-    cout << "Reached the very end of A*\n";
-    cout <<"Real Size: " << pointsToDraw.back().size() <<endl;
+    cout <<"\tReached the very end of A*\n";
+    cout <<"\tReal Distance: " << nodes[target]->getDist() <<endl;
+    cout <<"\tAverage Difficulty: " << nodes[target]->getSummedDifficulties() / nodes[target]->getDist()<<endl<<endl;
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     ofstream outputtime;
@@ -234,9 +234,6 @@ vector<Node> Graph::getPath(long int origin,long int dest)
         return res;
 
     for( ; v != nullptr; v = v->path) {
-        if(v->violated_difficulty){
-            cout<<"Difficulty was violated at point "<<v->getId()<<", press enter to continue:"<<endl;
-        }
         res.push_back(*v);
         if(v->getTags().size())
             num++;
