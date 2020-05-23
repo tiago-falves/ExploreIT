@@ -104,7 +104,7 @@ void Menu::runMenu(int origin, int dest) {
         cout << "A* between 2 points                                                [6]" << endl;
         cout << "Floyd Warshall                                                     [7]" << endl;
         cout << "Algorithm with many confluence points                              [8]" << endl;
-        cout << "Default algorithm for map (only for fafe for now)                  [9]" << endl << endl;
+        cout << "Default algorithm for map                                          [9]" << endl << endl;
         cout << "Insert the number correspondent to your option: ";
         cin >> option;
         validOption(option, 9);
@@ -274,8 +274,8 @@ void Menu::getOriginDest(int &origin,int &dest){
         int RandIndex2 = rand() % graph->getGraphsVector().at(index).size();
         origin = graph->getGraphsVector().at(index).at(RandIndex);
         dest = graph->getGraphsVector().at(index).at(RandIndex2);
-        origin = 1241362717;
-        dest = 1252224705;
+        origin = 1188176562;
+        dest = 663689378;
     }
 }
 
