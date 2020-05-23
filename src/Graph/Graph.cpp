@@ -59,8 +59,8 @@ void Graph::initNodes(Node *origin,Node *target,vector<Node> *nodesVisited){
         node.second->violated_difficulty=false;
         double dx=abs(target->getX()-node.second->getX());
         double dy=abs(target->getY()-node.second->getY());
-        //node.second->setDistTarget(sqrt(dx*dx+dy*dy));
-        node.second->setDistTarget(dx+dy);
+        node.second->setDistTarget(sqrt(dx*dx+dy*dy));
+        //node.second->setDistTarget(dx+dy);
         node.second->path = nullptr;
         node.second->setSummedDifficulties(0);
     }

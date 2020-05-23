@@ -175,7 +175,7 @@ void Menu::AStar(int origin, int dest,string option){
     int distance;
     distance = 20;
     graph->setSelectedDiff(difficulties);
-    graph->AStar(origin, dest, distance * distanceEdges, diff, nullptr,option);
+    graph->AStar(origin, dest, distance , diff, nullptr,option);
     drawer(origin,dest);
 }
 
@@ -277,7 +277,7 @@ void Menu::getOriginDest(int &origin,int &dest){
 }
 
 void Menu::initialVertices(int &origin,int &dest,int option){
-    if(!IS_TESTING) distanceEdges = 100; //Varios blocos de 100 metros
+    if(!IS_TESTING) distanceEdges = 1; //Varios blocos de 100 metros
     if (option == 0) { exit(0); }
     else if (option == 1) {
         //Aveiro
