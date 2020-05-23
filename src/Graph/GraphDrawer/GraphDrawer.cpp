@@ -54,7 +54,7 @@ void GraphDrawer::drawNodes(Graph * graph){
         if(node.second->getTags().size() != 0) {
             color = parseColor(node.second->getTags()[0]);
             graphViewer->setVertexColor(node.second->getId(), color);
-            if (color == ORANGE) graphViewer->setVertexSize(node.second->getId(), 10);
+            if (color == ORANGE) graphViewer->setVertexSize(node.second->getId(), 5);
         }
         if (color != ORANGE) graphViewer->setVertexSize(node.second->getId(), 0.1);
     }
@@ -66,8 +66,12 @@ void GraphDrawer::drawNodes(Graph * graph){
             graphViewer->setVertexSize(v.back()(), 20);
         }
     }
-    if (graph->pointsToDraw.size() && graph->pointsToDraw[0].size())
-        graphViewer->setVertexColor(graph->pointsToDraw[0].back()(), GREEN);
+    if (graph->pointsToDraw.size() && graph->pointsToDraw[0].size()) {
+        if (graph->pointsToDraw[0].back()() == graph->pointsToDraw.back().front()()) //CIRCUIT
+            graphViewer->setVertexColor(graph->pointsToDraw[0].back()(), MAGENTA);
+        else
+            graphViewer->setVertexColor(graph->pointsToDraw[0].back()(), GREEN);
+    }
 }
 
 void GraphDrawer::drawEdges(Graph *graph,int &cont) {
@@ -98,6 +102,7 @@ void GraphDrawer::drawPath(Graph *graph, int &cont) {
             if(graph->getNumOfConfluencePoints() == 0 && graph->getSelectedDiff().size() == 1){
                 graphViewer->setEdgeThickness(cont, 4);
 //                graphViewer->setEdgeThickness(cont, graph->getSelectedDiff()[it/(graph->getNumOfConfluencePoints()-1)]*3);
+
                 drawDetailedDifficulties(cont,graph->findEdge(orig, dest));
             }else{ //Lame design with one color per group
                 graphViewer->setEdgeColor(cont, getColor(graph->getSelectedDiff()[it/(graph->getNumOfConfluencePoints()-1)]));

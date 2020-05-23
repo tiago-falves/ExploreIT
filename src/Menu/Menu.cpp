@@ -71,6 +71,7 @@ void Menu::setFolder(string graphDirectory){
         nodeFileName += graphDirectory + ".txt";
         edgesFileName += graphDirectory + ".txt";
         connectivityFileName = "connectivity.txt";
+        floydFileName = "floydWarshallOutput.txt";
         string temp = graphDirectory;
         temp[0] = toupper(temp[0]);
         directory = "../data/PortugalMaps/" + temp + "/";
@@ -80,6 +81,8 @@ void Menu::setFolder(string graphDirectory){
         nodeFileName = "nodes.txt";
         edgesFileName = "edges.txt";
         connectivityFileName = "connectivity.txt";
+        floydFileName = "floydWarshallOutput.txt";
+
     }
 }
 
@@ -108,7 +111,7 @@ void Menu::runMenu(int origin, int dest) {
         cout << "A* between 2 points                                                [6]" << endl;
         cout << "Floyd Warshall                                                     [7]" << endl;
         cout << "Algorithm with many confluence points                              [8]" << endl;
-        cout << "Default algorithm for map (only for fafe for now)                  [9]" << endl;
+        cout << "Default algorithm for map                                          [9]" << endl;
         cout << "Mandatory Points                                                   [10]" << endl << endl;
         cout << "Insert the number correspondent to your option: ";
         cin >> option;
@@ -180,7 +183,7 @@ void Menu::AStar(int origin, int dest,string option){
     int distance;
     distance = 20;
     graph->setSelectedDiff(difficulties);
-    graph->AStar(origin, dest, distance * distanceEdges, diff, nullptr,option);
+    graph->AStar(origin, dest, distance , diff, nullptr,option);
     drawer(origin,dest);
 }
 
@@ -234,7 +237,7 @@ void Menu::validOption(int &option,int optionsNumber){
 void Menu::loadGraph(){
     cout << "Loading Graph...\n";
 
-    GraphLoader loader = GraphLoader(graph,directory,nodeFileName,edgesFileName,tagFilePath);
+    GraphLoader loader = GraphLoader(graph,directory,nodeFileName,edgesFileName,tagFilePath,floydFileName);
     auto start = std::chrono::high_resolution_clock::now();
     loader.loadGraph(IS_TESTING);
     loader.setConnectivityFile(directory+connectivityFileName);
@@ -482,8 +485,6 @@ void Menu::showBiggestConnectedGraph(int origin, int dest){
 }
 
 void Menu::defaultRun(string directory) {
-
-    //graph->setNumOfConfluencePoints(size);
     vector<int> confluenceNodeIds; int id;
     vector<int> times; int time;
     vector<int> difficulties; int diff;
@@ -532,8 +533,8 @@ void Menu::MandatoryPoints(){
 
     vector<int> c;
     c.push_back(0);
-    c.push_back(10);
-    c.push_back(30);
+    c.push_back(70);
+    c.push_back(100);
 
     vector<int> d;
     d.push_back(5);

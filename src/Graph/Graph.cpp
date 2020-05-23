@@ -24,9 +24,11 @@ Edge* Graph::findEdge(const int &id) const{
     return it == edges.end() ? nullptr : it->second;
 }
 
-bool Graph::addNode(const int &id, int x, int y) {
+bool Graph::addNode(const int &id, int x, int y,int floydPosition) {
     if (findNode(id) != nullptr) return false;
     Node * newNode = new Node(id, x, y);
+    newNode->setFloydPosition(floydPosition);
+    nodesVector.push_back(newNode);
     this->nodes.insert(pair<int,Node*>(id, newNode));
     return true;
 }
@@ -60,7 +62,8 @@ void Graph::initNodes(Node *origin,Node *target,vector<Node> *nodesVisited){
         double dx=abs(target->getX()-node.second->getX());
         double dy=abs(target->getY()-node.second->getY());
         //node.second->setDistTarget(sqrt(dx*dx+dy*dy));
-        node.second->setDistTarget(dx+dy);
+        if(hasFloyd) node.second->setDistTarget(getNodeDistance(node.first,target->getId()));
+        else node.second->setDistTarget(sqrt(dx*dx+dy*dy));
         node.second->path = nullptr;
         node.second->setSummedDifficulties(0);
     }
@@ -223,7 +226,7 @@ vector<Node> Graph::getPath(long int origin,long int dest)
 {
     vector<Node> res;
     Node *v = nodes[dest];
-    float sum=0;
+    int num = 0;
     if(v == nullptr)
         return res;
     else if (v->getDist() == INF)
@@ -234,24 +237,18 @@ vector<Node> Graph::getPath(long int origin,long int dest)
             cout<<"Difficulty was violated at point "<<v->getId()<<", press enter to continue:"<<endl;
         }
         res.push_back(*v);
-        sum+=v->getDist();
+        if(v->getTags().size())
+            num++;
     }
+    cout<<"Number of POIS: "<<num<<endl;
     return res;
 }
 
 void Graph::FloydWarshall(string directory) {
     cout << "Started FloydWarshall algorithm" << endl;
 
-    vector<Node*> temp;
-    int vec_pos = 0;
-    unordered_map<long, Node*>::const_iterator it = nodes.begin();
-    while(it != nodes.end()){
-        temp.push_back(it->second);
-        it->second->setFloydPosition(vec_pos);
-        it++; vec_pos++;
-    }
 
-    unsigned n = temp.size();
+    unsigned n = nodesVector.size();
     W = new double *[n];
     P = new double *[n];
     for (unsigned i = 0; i < n; i++) {
@@ -261,8 +258,8 @@ void Graph::FloydWarshall(string directory) {
             W[i][j] = i == j ? 0 : INF;
             P[i][j] = -1;
         }
-        for (auto e : temp[i]->getEdges()) {
-            int j = find(temp.begin(), temp.end(), e->getDestination()) - temp.begin();
+        for (auto e : nodesVector[i]->getEdges()) {
+            int j = find(nodesVector.begin(), nodesVector.end(), e->getDestination()) - nodesVector.begin();
             W[i][j]  = e->getWeight();
             P[i][j]  = i;
         }
@@ -385,7 +382,7 @@ Edge *Graph::findEdge(Node orig, Node dest) {
 }
 
 int Graph::getNodeDistance(int origid, int destid) {
-    return W[nodes.at(origid)->getFloydPostion()][nodes.at(destid)->getFloydPostion()];
+    return floydMatrix[nodes.at(origid)->getFloydPostion()][nodes.at(destid)->getFloydPostion()];
 }
 
 void Graph::setGraphs(const vector<unordered_set<int>> &graphs) {
@@ -523,7 +520,9 @@ void Graph::defineHours(vector<int> finalVect,vector<int> confluencePoints,vecto
             total += calculateDistance(i.at(i1),i.at(i1+1));
         }
         for(int i1=0;i1<i.size()-1;i1++){
-            defHors.push_back(defHors.at(defHors.size()-1) + round(hoursT.at(0) * (calculateDistance(i.at(i1),i.at(i1+1))/total)) );
+            int h = round(hoursT.at(0) * (calculateDistance(i.at(i1),i.at(i1+1))/total));
+            if(!h) h=1;
+            defHors.push_back(defHors.at(defHors.size()-1) +  h);
         }
         try{
             hoursT.erase(hoursT.begin());
@@ -559,7 +558,7 @@ vector<int> Graph::mandatoryPOIS(vector<int> confluencePoints,vector<int> mandat
         for(auto i:mandPOIS){
             if((d=calculateDistance(i,finalVect.back()))<minDist){
                 minDist = d;
-                node = mandPOIS.back();
+                node = i;
             }
         }
         if((d=calculateDistance(confP.front(),finalVect.back()))<minDist){
@@ -576,9 +575,27 @@ vector<int> Graph::mandatoryPOIS(vector<int> confluencePoints,vector<int> mandat
     defineHours(finalVect,confluencePoints,hours);
     calculateInterestingPath(finalVect,hours,difficulties,0);
     selected_difficulties = difficulties;
-    numOfConfluencePoints = confluencePoints.size();
+    numOfConfluencePoints = finalVect.size();
+    cout << "Verification: " << numOfConfluencePoints << endl;
     return finalVect;
 }
+
+const vector<vector<int>> &Graph::getFloydMatrix() const {
+    return floydMatrix;
+}
+
+void Graph::setFloydMatrix(const vector<vector<int>> &floydMatrix) {
+    Graph::floydMatrix = floydMatrix;
+}
+
+bool Graph::isHasFloyd() const {
+    return hasFloyd;
+}
+
+void Graph::setHasFloyd(bool hasFloyd) {
+    Graph::hasFloyd = hasFloyd;
+}
+
 
 
 

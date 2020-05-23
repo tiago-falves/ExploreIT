@@ -22,6 +22,7 @@ private:
     string edgesFileName;
     string connectivityFileName;
     string tagFilePath;
+    string floydFileName;
     int gridNum = 0;
     Preprocessor *preprocessor;
     int distanceEdges;

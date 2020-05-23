@@ -12,7 +12,7 @@ class GraphLoader {
 public:
 
 
-    GraphLoader(Graph * graph, const string &directory, const string &nodeFile, const string &edgeFile,const string &tagPath);
+    GraphLoader(Graph * graph, const string &directory, const string &nodeFile, const string &edgeFile,const string &tagPath,const string &floydFileName);
 
     bool loadGraph(bool isGrid);
 
@@ -39,6 +39,7 @@ private:
     string nodeFile;
     string edgeFile;
     string tagPath;
+    string floydFile;
     string connectivityFile;
 public:
     const string &getConnectivityFile() const;
@@ -53,6 +54,7 @@ private:
     bool loadTags(bool isGrid);
 
 
+    bool loadFloyd();
 };
 
 
