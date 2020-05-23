@@ -142,8 +142,6 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
     cout << "Difficuldade: "<<difficulty << endl;
     cout << "Started A*\n";
     cout <<  "\tOrigin: " << origin << endl;
-    cout << " \tDestiny: " << target << endl;
-    targetDistance = 200;
     cout << " \tTarget Distance: " << targetDistance << endl;
     auto start = std::chrono::high_resolution_clock::now();
     initNodes(nodes[origin],nodes[target],nodesVisited);
@@ -525,7 +523,9 @@ void Graph::defineHours(vector<int> finalVect,vector<int> confluencePoints,vecto
             total += calculateDistance(i.at(i1),i.at(i1+1));
         }
         for(int i1=0;i1<i.size()-1;i1++){
-            defHors.push_back(defHors.at(defHors.size()-1) + round(hoursT.at(0) * (calculateDistance(i.at(i1),i.at(i1+1))/total)) );
+            int h = round(hoursT.at(0) * (calculateDistance(i.at(i1),i.at(i1+1))/total));
+            if(!h) h=1;
+            defHors.push_back(defHors.at(defHors.size()-1) +  h);
         }
         try{
             hoursT.erase(hoursT.begin());
@@ -561,7 +561,7 @@ vector<int> Graph::mandatoryPOIS(vector<int> confluencePoints,vector<int> mandat
         for(auto i:mandPOIS){
             if((d=calculateDistance(i,finalVect.back()))<minDist){
                 minDist = d;
-                node = mandPOIS.back();
+                node = i;
             }
         }
         if((d=calculateDistance(confP.front(),finalVect.back()))<minDist){

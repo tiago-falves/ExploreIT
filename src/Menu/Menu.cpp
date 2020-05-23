@@ -579,8 +579,8 @@ void Menu::MandatoryPoints(){
 
     vector<int> c;
     c.push_back(0);
-    c.push_back(10);
-    c.push_back(30);
+    c.push_back(70);
+    c.push_back(100);
 
     vector<int> d;
     d.push_back(5);
