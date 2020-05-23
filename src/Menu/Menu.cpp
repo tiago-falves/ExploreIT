@@ -273,8 +273,6 @@ void Menu::getOriginDest(int &origin,int &dest){
         int RandIndex2 = rand() % graph->getGraphsVector().at(index).size();
         origin = graph->getGraphsVector().at(index).at(RandIndex);
         dest = graph->getGraphsVector().at(index).at(RandIndex2);
-        origin = 1241362717;
-        dest = 1252224705;
     }
 }
 
