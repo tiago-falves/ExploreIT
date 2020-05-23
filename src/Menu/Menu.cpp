@@ -105,7 +105,7 @@ void Menu::runMenu(int origin, int dest) {
         cout << "A* between 2 points                                                [6]" << endl;
         cout << "Floyd Warshall                                                     [7]" << endl;
         cout << "Algorithm with many confluence points                              [8]" << endl;
-        cout << "Default algorithm for map (only for fafe for now)                  [9]" << endl;
+        cout << "Default algorithm for map                                          [9]" << endl;
         cout << "Mandatory Points                                                   [10]" << endl << endl;
         cout << "Insert the number correspondent to your option: ";
         cin >> option;
@@ -524,8 +524,6 @@ void Menu::showBiggestConnectedGraph(int origin, int dest){
 }
 
 void Menu::defaultRun(string directory) {
-
-    //graph->setNumOfConfluencePoints(size);
     vector<int> confluenceNodeIds; int id;
     vector<int> times; int time;
     vector<int> difficulties; int diff;

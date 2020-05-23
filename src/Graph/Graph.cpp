@@ -574,7 +574,8 @@ vector<int> Graph::mandatoryPOIS(vector<int> confluencePoints,vector<int> mandat
     defineHours(finalVect,confluencePoints,hours);
     calculateInterestingPath(finalVect,hours,difficulties,0);
     selected_difficulties = difficulties;
-    numOfConfluencePoints = confluencePoints.size();
+    numOfConfluencePoints = finalVect.size();
+    cout << "Verification: " << numOfConfluencePoints << endl;
     return finalVect;
 }
 
