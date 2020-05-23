@@ -24,9 +24,11 @@ Edge* Graph::findEdge(const int &id) const{
     return it == edges.end() ? nullptr : it->second;
 }
 
-bool Graph::addNode(const int &id, int x, int y) {
+bool Graph::addNode(const int &id, int x, int y,int floydPosition) {
     if (findNode(id) != nullptr) return false;
     Node * newNode = new Node(id, x, y);
+    newNode->setFloydPosition(floydPosition);
+    nodesVector.push_back(newNode);
     this->nodes.insert(pair<int,Node*>(id, newNode));
     return true;
 }
@@ -59,9 +61,9 @@ void Graph::initNodes(Node *origin,Node *target,vector<Node> *nodesVisited){
         node.second->violated_difficulty=false;
         double dx=abs(target->getX()-node.second->getX());
         double dy=abs(target->getY()-node.second->getY());
-        //node.second->setDistTarget(getNodeDistance(target->getId(),node.first));
-        node.second->setDistTarget(sqrt(dx*dx+dy*dy));
-        node.second->setDistTarget(dx+dy);
+        //node.second->setDistTarget(sqrt(dx*dx+dy*dy));
+        if(hasFloyd) node.second->setDistTarget(getNodeDistance(node.first,target->getId()));
+        else node.second->setDistTarget(sqrt(dx*dx+dy*dy));
         node.second->path = nullptr;
         node.second->setSummedDifficulties(0);
     }
@@ -76,7 +78,7 @@ void Graph::initNodes(Node *origin,Node *target,vector<Node> *nodesVisited){
 
 bool Graph::getRelaxFunction(Node *v,Node *w, double tam_edge, long int targetDistance, int edge_difficulty, int difficulty,string type = ""){
     if(type == "") return relax(v,w, tam_edge, targetDistance, edge_difficulty, difficulty);
-    else if(type == "distance") return relaxDistance(v,w,tam_edge, targetDistance);
+    else if(type == "distance") return relaxDistance(v,w,tam_edge, targetDistance,edge_difficulty);
     if(type == "diff") return relax(v,w, tam_edge, targetDistance, edge_difficulty, difficulty,false);
     return false;
 }
@@ -86,7 +88,7 @@ bool nodeUpdate(double localWeight, Node * w,Node * v,double tam_edge,int edge_d
         w->setDist( v->getDist()+tam_edge);
         w->setWeight(localWeight);
         w->path = v;
-        w->violated_difficulty= false;
+        w->violated_difficulty= violatedDifficulty;
         w->setSummedDifficulties((v->getSummedDifficulties()+edge_difficulty*tam_edge));
         return true;
     }
@@ -95,18 +97,15 @@ bool nodeUpdate(double localWeight, Node * w,Node * v,double tam_edge,int edge_d
 
 
 bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int edge_difficulty, int difficulty,bool withPoi){
-    //Average difficulty
     double ave_diff = (v->getSummedDifficulties()+edge_difficulty*tam_edge)/(v->getDist()+tam_edge);
-    //calcula a parte da heuristica da dificuldade e normaliza-a
     float medDiff = abs(float((ave_diff-difficulty) / ave_diff));
-    //calcula a parte da heuristica da distância e normaliza-a
     double medDist =abs(v->getDist() + tam_edge + w->getDistTarget() - targetDistance) / targetDistance;
-    //soma as pasrtes da heuristica e multiplica por um fator de importância
+    //Soma as partes da heuristica e divide-as conferme a importancia
     double localWeight = 0.9 * medDist +  0.1 * medDiff;
     //se o nó w não tive um POI aumenta o weight em 1.
     if(!w->getTags().size()) localWeight++;
 
-    //Se dificuldade for 5 entao varia entre 3 e 7 entra neste if
+    //Se a dificuldade media variar entre +- 2
     if(abs(edge_difficulty)<=difficulty+2){
         if(nodeUpdate(localWeight,w,v,tam_edge,edge_difficulty,false)) return true;
     }
@@ -125,25 +124,30 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
     return false;
 }
 
-
-bool Graph::relaxDistance(Node *v,Node *w, double tam_edge, long int targetDistance){
+bool Graph::relaxDistance(Node *v,Node *w, double tam_edge, long int targetDistance,int edge_difficulty){
     double localWeight = 0;
     localWeight = abs(v->getDist() + tam_edge + w->getDistTarget() - targetDistance);
     if((localWeight < w->getWeight()) && v->path != w) {
         w->setDist( v->getDist()+tam_edge);
         w->setWeight(localWeight);
         w->path = v;
+        w->setSummedDifficulties((v->getSummedDifficulties()+edge_difficulty*tam_edge));
         return true;
     }
     return false;
 }
 
 double Graph::AStar(long int origin,long int  target, long int targetDistance, int difficulty,vector<Node> *nodesVisited,string AStarType){
-    cout << "Difficuldade: "<<difficulty << endl;
     cout << "Started A*\n";
+
     cout <<  "\tOrigin: " << origin << endl;
-    cout << " \tTarget Distance: " << targetDistance << endl;
+
+    cout << "\tDestiny: " << target << endl;
+    cout << "\tPretended Difficulty: "<<difficulty << endl;
+    cout << "\tTarget Distance: " << targetDistance << endl;
+
     auto start = std::chrono::high_resolution_clock::now();
+
     initNodes(nodes[origin],nodes[target],nodesVisited);
     MutablePriorityQueue q;
     q.insert((nodes[origin]));
@@ -155,7 +159,9 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
         if (v->getId() == nodes[target]->getId()) {
             if((abs(v->getDist()-targetDistance)/targetDistance) < 0.1) {
                 pointsToDraw.push_back(getPath(origin,target));
-                cout <<"Real Size: " << nodes[target]->getDist() <<endl<<endl;
+                cout <<"\tReal Distance: " << nodes[target]->getDist() <<endl;
+                cout <<"\tAverage Difficulty: " << nodes[target]->getSummedDifficulties() / nodes[target]->getDist()<<endl<<endl;
+                cout << "\tNumber Pois: ";
                 auto finish = std::chrono::high_resolution_clock::now();
                 std::chrono::duration<double> elapsed = finish - start;
                 ofstream outputtime;
@@ -242,16 +248,8 @@ vector<Node> Graph::getPath(long int origin,long int dest)
 void Graph::FloydWarshall(string directory) {
     cout << "Started FloydWarshall algorithm" << endl;
 
-    vector<Node*> temp;
-    int vec_pos = 0;
-    unordered_map<long, Node*>::const_iterator it = nodes.begin();
-    while(it != nodes.end()){
-        temp.push_back(it->second);
-        it->second->setFloydPosition(vec_pos);
-        it++; vec_pos++;
-    }
 
-    unsigned n = temp.size();
+    unsigned n = nodesVector.size();
     W = new double *[n];
     P = new double *[n];
     for (unsigned i = 0; i < n; i++) {
@@ -261,8 +259,8 @@ void Graph::FloydWarshall(string directory) {
             W[i][j] = i == j ? 0 : INF;
             P[i][j] = -1;
         }
-        for (auto e : temp[i]->getEdges()) {
-            int j = find(temp.begin(), temp.end(), e->getDestination()) - temp.begin();
+        for (auto e : nodesVector[i]->getEdges()) {
+            int j = find(nodesVector.begin(), nodesVector.end(), e->getDestination()) - nodesVector.begin();
             W[i][j]  = e->getWeight();
             P[i][j]  = i;
         }
@@ -385,7 +383,7 @@ Edge *Graph::findEdge(Node orig, Node dest) {
 }
 
 int Graph::getNodeDistance(int origid, int destid) {
-    return W[nodes.at(origid)->getFloydPostion()][nodes.at(destid)->getFloydPostion()];
+    return floydMatrix[nodes.at(origid)->getFloydPostion()][nodes.at(destid)->getFloydPostion()];
 }
 
 void Graph::setGraphs(const vector<unordered_set<int>> &graphs) {
@@ -582,6 +580,23 @@ vector<int> Graph::mandatoryPOIS(vector<int> confluencePoints,vector<int> mandat
     cout << "Verification: " << numOfConfluencePoints << endl;
     return finalVect;
 }
+
+const vector<vector<int>> &Graph::getFloydMatrix() const {
+    return floydMatrix;
+}
+
+void Graph::setFloydMatrix(const vector<vector<int>> &floydMatrix) {
+    Graph::floydMatrix = floydMatrix;
+}
+
+bool Graph::isHasFloyd() const {
+    return hasFloyd;
+}
+
+void Graph::setHasFloyd(bool hasFloyd) {
+    Graph::hasFloyd = hasFloyd;
+}
+
 
 
 

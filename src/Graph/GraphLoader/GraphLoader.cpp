@@ -11,13 +11,13 @@
 using namespace std;
 
 
-GraphLoader::GraphLoader(Graph * graph,const string &directory, const string &nodeFile, const string &edgeFile,const string &tagPath) :
-    graph(graph), directory(directory), nodeFile(nodeFile), edgeFile(edgeFile),tagPath(tagPath) {
+GraphLoader::GraphLoader(Graph * graph,const string &directory, const string &nodeFile, const string &edgeFile,const string &tagPath,const string &floydFileName) :
+    graph(graph), directory(directory), nodeFile(nodeFile), edgeFile(edgeFile),tagPath(tagPath),floydFile(floydFileName) {
 }
 
 
 bool GraphLoader::loadGraph(bool isGrid) {
-    return (loadNodes() &&  loadEdges() && loadDifficulties() && loadTags(isGrid));
+    return (loadNodes() &&  loadEdges() && loadDifficulties() && loadTags(isGrid) && loadFloyd() );
 }
 
 bool GraphLoader::loadNodes( ) {
@@ -32,7 +32,7 @@ bool GraphLoader::loadNodes( ) {
     graph->path = directory;
     if (!file_node.is_open())
     {
-        cout << "Node File not found\n";
+        cout << "\tNode File not found\n";
         return false;
     }
 
@@ -40,7 +40,7 @@ bool GraphLoader::loadNodes( ) {
 
     for (int i = 0; i < numberNodes; i++) {
         file_node >> c >> id >> c >> x >> c >> y >> c;
-        graph->addNode(id, x, y);
+        graph->addNode(id, x, y,i);
         //cout << to_string(id) << " x:" << to_string(x) << " y:" << to_string(y) << "\n";
         if(x>graph->max_x) graph->max_x=x;
         if(x<graph->min_x) graph->min_x=x;
@@ -50,7 +50,6 @@ bool GraphLoader::loadNodes( ) {
     file_node.close();
 
     return true;
-
 }
 
 
@@ -65,7 +64,7 @@ bool GraphLoader::loadEdges() {
 
     file.open(directory + edgeFile);
     if (!file.is_open()){
-        cout << "Error Opening edges file\n";
+        cout << "\tError Opening edges file\n";
         return false;
     }
 
@@ -94,7 +93,7 @@ bool GraphLoader::loadTags(bool isTesting) {
     ifstream TagsFile(tagPath); //Turismo
 
     if (!TagsFile.is_open()){
-        cout << "Error Opening Tag file\n";
+        cout << "\tError Opening Tag file\n";
         return false;
     }
 
@@ -118,7 +117,7 @@ bool GraphLoader::loadDifficulties() {
     char c;
     ifstream diffFile(directory + "difficulties.txt");
     if (!diffFile.is_open()){
-        cout << "Error opening difficulties file, please preprocess\n";
+        cout << "\tError opening difficulties file, please preprocess\n";
         return false;
     }
     cout << "\tLoading Difficulties\n";
@@ -142,7 +141,7 @@ bool GraphLoader::loadConnectivity() {
 
     if (!file.is_open()){
         cout << connectivityFile << endl;
-        cout << "Error Opening Connectivity file\n";
+        cout << "\tError Opening Connectivity file\n";
         return false;
     }
 
@@ -170,6 +169,10 @@ bool GraphLoader::loadConnectivity() {
 
     return true;
 }
+
+
+
+
 
 const string &GraphLoader::getDirectory() const {
     return directory;
@@ -204,5 +207,43 @@ void GraphLoader::setConnectivityFile(const string &connectivityFile) {
 }
 
 
+
+bool GraphLoader::loadFloyd( ) {
+
+    vector<vector<int>> floydVector;
+    cout << "\tLoading Floyd\n";
+
+    int numberNodes, id;
+    double x, y;
+    char c;
+    ifstream fileFloyd;
+    fileFloyd.open(directory + floydFile);
+    graph->path = directory;
+    if (!fileFloyd.is_open()){
+        cout << "\tFloyd File not found\n";
+        return false;
+    }
+    int distance;
+
+    graph->setHasFloyd(true);
+
+    numberNodes = this->graph->getNodes().size();
+
+    for (int i = 0; i < numberNodes; i++) {
+        vector<int> distances;
+        for (int j = 0; j < numberNodes; ++j) {
+            fileFloyd >> distance;
+            distances.push_back(distance);
+        }
+        floydVector.push_back(distances);
+    }
+    this->graph->setFloydMatrix(floydVector);
+
+    cout<< floydVector[1][3] << endl;
+
+    fileFloyd.close();
+
+    return true;
+}
 
 
