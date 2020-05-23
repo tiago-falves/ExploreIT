@@ -29,6 +29,7 @@ bool GraphLoader::loadNodes( ) {
     ifstream file_node;
 
     file_node.open(directory + nodeFile);
+    graph->path = directory;
     if (!file_node.is_open())
     {
         cout << "Node File not found\n";

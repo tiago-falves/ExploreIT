@@ -34,7 +34,10 @@ private:
 
     vector<int> selected_difficulties;
     int numOfConfluencePoints;
+    float calculateDistance(int n1,int n2);
+    void defineHours(vector<int> finalVect,vector<int> confluencePoints,vector<int> &hours);
 public:
+    vector<int> mandatoryPOIS(vector<int> confluencePoints,vector<int> mandatoryPOIS,vector<int> hours, vector<int> difficulties);
     int getNumOfConfluencePoints() const;
     void setNumOfConfluencePoints(int numOfConfluencePoints);
     unordered_map<int,int> getEdgeDiff();
@@ -42,6 +45,7 @@ public:
     void setGraphs(const vector<unordered_set<int>> &graphs);
     const vector<vector<int>> &getGraphsVector() const;
     void setGraphsVector(const vector<vector<int>> &graphsVector);
+    string path;
 
 
     vector<vector<Node>> pointsToDraw;

@@ -109,8 +109,8 @@ bool Graph::relax(Node *v,Node *w, double tam_edge, long int targetDistance, int
     if(abs(edge_difficulty)<=difficulty+2){
         if(nodeUpdate(localWeight,w,v,tam_edge,edge_difficulty,false)) return true;
     }
-    //Ele adiciona mais valor a dificuldade
-    //Se a dificuldade for 5 então varia entre 0 e 9
+        //Ele adiciona mais valor a dificuldade
+        //Se a dificuldade for 5 então varia entre 0 e 9
     else if(abs(edge_difficulty-difficulty) <= 4 || edge_difficulty-difficulty < 0){
         localWeight = 1.05*(0.9* medDist + medDiff);
         if(!w->getTags().size() && withPoi) localWeight += 1.05;
@@ -143,6 +143,7 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
     cout <<  "\tOrigin: " << origin << endl;
     cout << " \tDestiny: " << target << endl;
     cout << " \tTarget Distance: " << targetDistance << endl;
+    auto start = std::chrono::high_resolution_clock::now();
     initNodes(nodes[origin],nodes[target],nodesVisited);
     MutablePriorityQueue q;
     q.insert((nodes[origin]));
@@ -155,6 +156,12 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
             if((abs(v->getDist()-targetDistance)/targetDistance) < 0.1) {
                 pointsToDraw.push_back(getPath(origin,target));
                 cout <<"Real Size: " << nodes[target]->getDist() <<endl<<endl;
+                auto finish = std::chrono::high_resolution_clock::now();
+                std::chrono::duration<double> elapsed = finish - start;
+                ofstream outputtime;
+                outputtime.open(path + "time",ofstream::app);
+                outputtime << elapsed.count() << endl;
+                cout << path + "time"<<endl;
                 return 0;
             }
         }
@@ -174,6 +181,12 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
     pointsToDraw.push_back(getPath(origin,target));
     cout << "Reached the very end of A*\n";
     cout <<"Real Size: " << pointsToDraw.back().size() <<endl;
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = finish - start;
+    ofstream outputtime;
+    outputtime.open(path + "time",ofstream::app);
+    outputtime << elapsed.count() << endl;
+    cout << path + "time"<<endl;
     return 0;
 }
 
@@ -453,6 +466,116 @@ void Graph::dijkstraShortestPath(const int &source, const int &dest){
         }
     }
 }
+
+float Graph::calculateDistance(int n1,int n2){
+    Node *node1 = nodes[n1];
+    Node *node2 = nodes[n2];
+    float out;
+    double dx=abs(node1->getX()-node2->getX());
+    double dy=abs(node1->getY()-node2->getY());
+    return sqrt(dx*dx+dy*dy);
+}
+
+void removeFromVect(vector<int> &conf,vector<int> &mand,int n){
+    if(conf.front()==n) {
+        conf.erase(conf.begin());
+        return;
+    }
+    for (auto i = mand.begin();i!=mand.end();i++){
+        if(*i==n) {
+            mand.erase(i);
+            return;
+        }
+    }
+
+}
+
+void Graph::defineHours(vector<int> finalVect,vector<int> confluencePoints,vector<int> &hours){
+    vector<int> hoursT;
+    vector<int> defHors;
+    for(auto i:hours){
+        hoursT.push_back(i);
+    }
+    vector<vector<int>> subDomain;
+    vector<int> a;
+    subDomain.push_back(a);
+    subDomain.back().push_back(confluencePoints.front());
+    confluencePoints.erase(confluencePoints.begin());
+    //finalVect.erase((finalVect.begin()));
+    for(auto o=1;o<finalVect.size();o++){
+        subDomain.back().push_back(finalVect.at(o));
+        if(finalVect.at(o)==confluencePoints.front()){
+            subDomain.push_back(a);
+            subDomain.back().push_back(finalVect.at(o));
+            confluencePoints.erase(confluencePoints.begin());
+        }
+    }
+    subDomain.pop_back();
+
+    //defHors.clear();
+    defHors.push_back(0);
+    hoursT.erase(hoursT.begin());
+    for(auto i:subDomain){
+        int total=0;
+        for(int i1=0;i1<i.size()-1;i1++){
+            total += calculateDistance(i.at(i1),i.at(i1+1));
+        }
+        for(int i1=0;i1<i.size()-1;i1++){
+            defHors.push_back(defHors.at(defHors.size()-1) + round(hoursT.at(0) * (calculateDistance(i.at(i1),i.at(i1+1))/total)) );
+        }
+        try{
+            hoursT.erase(hoursT.begin());
+        }
+        catch (...){
+
+        }
+    }
+    for(auto i:subDomain){
+        for(auto i1:i){
+            cout << i1 << " ";
+        }
+        cout<<endl;
+    }
+    cout << endl << "HOURS" << endl;
+    for(auto i:defHors){
+        cout << i << " ";
+    }
+    cout << endl;
+    hours = defHors;
+}
+
+vector<int> Graph::mandatoryPOIS(vector<int> confluencePoints,vector<int> mandatoryPOIS,vector<int> hours, vector<int> difficulties){
+    vector<int> confP = confluencePoints;
+    vector<int> mandPOIS = mandatoryPOIS;
+    vector<int> finalVect;
+    finalVect.push_back(confP.at(0));
+    confP.erase(confP.begin());
+    while(confP.size()){
+        float minDist=INF;
+        int node=0;
+        float d;
+        for(auto i:mandPOIS){
+            if((d=calculateDistance(i,finalVect.back()))<minDist){
+                minDist = d;
+                node = mandPOIS.back();
+            }
+        }
+        if((d=calculateDistance(confP.front(),finalVect.back()))<minDist){
+            node = confP.front();
+        }
+        finalVect.push_back(node);
+        removeFromVect(confP,mandPOIS,node);
+    }
+    cout << endl << "POINTS" << endl;
+    for(auto i:finalVect){
+        cout << i << " ";
+    }
+    cout << endl;
+    defineHours(finalVect,confluencePoints,hours);
+    calculateInterestingPath(finalVect,hours,difficulties,0);
+    return finalVect;
+}
+
 
 
 
