@@ -64,7 +64,6 @@ void Graph::initNodes(Node *origin,Node *target,vector<Node> *nodesVisited){
         //node.second->setDistTarget(sqrt(dx*dx+dy*dy));
         if(hasFloyd) node.second->setDistTarget(getNodeDistance(node.first,target->getId()));
         else node.second->setDistTarget(sqrt(dx*dx+dy*dy));
-
         node.second->path = nullptr;
         node.second->setSummedDifficulties(0);
     }
