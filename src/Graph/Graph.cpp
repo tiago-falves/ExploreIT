@@ -143,6 +143,7 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
     cout <<  "\tOrigin: " << origin << endl;
     cout << " \tDestiny: " << target << endl;
     cout << " \tTarget Distance: " << targetDistance << endl;
+    auto start = std::chrono::high_resolution_clock::now();
     initNodes(nodes[origin],nodes[target],nodesVisited);
     MutablePriorityQueue q;
     q.insert((nodes[origin]));
@@ -155,6 +156,12 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
             if((abs(v->getDist()-targetDistance)/targetDistance) < 0.1) {
                 pointsToDraw.push_back(getPath(origin,target));
                 cout <<"Real Size: " << nodes[target]->getDist() <<endl<<endl;
+                auto finish = std::chrono::high_resolution_clock::now();
+                std::chrono::duration<double> elapsed = finish - start;
+                ofstream outputtime;
+                outputtime.open(path + "time",ofstream::app);
+                outputtime << elapsed.count() << endl;
+                cout << path + "time"<<endl;
                 return 0;
             }
         }
@@ -174,6 +181,12 @@ double Graph::AStar(long int origin,long int  target, long int targetDistance, i
     pointsToDraw.push_back(getPath(origin,target));
     cout << "Reached the very end of A*\n";
     cout <<"Real Size: " << pointsToDraw.back().size() <<endl;
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = finish - start;
+    ofstream outputtime;
+    outputtime.open(path + "time",ofstream::app);
+    outputtime << elapsed.count() << endl;
+    cout << path + "time"<<endl;
     return 0;
 }
 

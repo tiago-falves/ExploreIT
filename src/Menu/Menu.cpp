@@ -169,14 +169,10 @@ void Menu::AStar(int origin, int dest,string option){
     difficulties.push_back(diff);
     cleanGraphRuntime(origin, dest);
     vector<vector<Node>> vectors;
-    auto start = std::chrono::high_resolution_clock::now();
     int distance;
     distance = 20;
     graph->setSelectedDiff(difficulties);
     graph->AStar(origin, dest, distance * distanceEdges, diff, nullptr,option);
-    auto finish = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed = finish - start;
-    std::cout << "A* time: " << elapsed.count() << " s\n" << endl;
     drawer(origin,dest);
 }
 

@@ -42,6 +42,7 @@ public:
     void setGraphs(const vector<unordered_set<int>> &graphs);
     const vector<vector<int>> &getGraphsVector() const;
     void setGraphsVector(const vector<vector<int>> &graphsVector);
+    string path;
 
 
     vector<vector<Node>> pointsToDraw;
