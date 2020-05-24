@@ -213,7 +213,7 @@ void Menu::preprocess(string directory) {
     ofstream outputtime;
     outputtime.open(directory + "timeDFS",ofstream::app);
     preprocessor->preProcessDifficulties();
-    preprocessor->saveDifficulties(directory);*/
+    preprocessor->saveDifficulties(directory);
     preprocessor->setGridPOIs(gridNum, directory);
     auto start = std::chrono::high_resolution_clock::now();
     preprocessor->preprocessConnectivity(directory);
