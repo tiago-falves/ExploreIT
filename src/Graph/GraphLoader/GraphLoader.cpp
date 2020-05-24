@@ -17,7 +17,7 @@ GraphLoader::GraphLoader(Graph * graph,const string &directory, const string &no
 
 
 bool GraphLoader::loadGraph(bool isGrid) {
-    return (loadNodes() &&  loadEdges() && loadDifficulties() && loadTags(isGrid) && loadFloyd() );
+    return (loadNodes() &&  loadEdges() && loadDifficulties() && loadTags(isGrid) && loadFloyd() && loadGridPOIS(isGrid));
 }
 
 bool GraphLoader::loadNodes( ) {
@@ -243,6 +243,25 @@ bool GraphLoader::loadFloyd( ) {
 
     fileFloyd.close();
 
+    return true;
+}
+
+bool GraphLoader::loadGridPOIS(bool isGrid) {
+    int nodeID;
+    if (!isGrid) return false;
+
+    ifstream diffFile(directory + "pois.txt");
+    if (!diffFile.is_open()){
+        cout << "\tError opening pois file, please preprocess\n";
+        return false;
+    }
+    cout << "\tLoading Difficulties\n";
+
+
+    while (diffFile >> nodeID)
+        graph->findNode(nodeID)->addTag("tourism=information");
+
+    diffFile.close();
     return true;
 }
 

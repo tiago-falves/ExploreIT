@@ -28,6 +28,13 @@ private:
     unordered_map<int,int> edgeDiff;
     vector<vector<int>> floydMatrix;
     bool hasFloyd = false;
+    bool grid = false;
+public:
+    bool isGrid() const;
+
+    void setGrid(bool grid);
+
+private:
 
     //FLoyd Warshall matrices
     double ** W;   // dist

@@ -55,7 +55,10 @@ void Menu::runMapMenu(){
 
         menuSeparator();
 
-        if(option >= 15) IS_TESTING = true;
+        if(option >= 15) {
+            IS_TESTING = true;
+            graph->setGrid(true);
+        }
         else IS_TESTING = false;
 
         initialVertices(origin,dest,option);
@@ -210,8 +213,8 @@ void Menu::preprocess(string directory) {
     ofstream outputtime;
     outputtime.open(directory + "timeDFS",ofstream::app);
     preprocessor->preProcessDifficulties();
-    preprocessor->saveDifficulties(directory);
-    //preprocessor->setGridPOIs(gridNum);
+    preprocessor->saveDifficulties(directory);*/
+    preprocessor->setGridPOIs(gridNum, directory);
     auto start = std::chrono::high_resolution_clock::now();
     preprocessor->preprocessConnectivity(directory);
     auto finish = std::chrono::high_resolution_clock::now();
@@ -329,7 +332,7 @@ void Menu::initialVertices(int &origin,int &dest,int option){
         //100*100
         distanceEdges = 1;
         setFolder("100x100");
-        gridNum = 99;
+        gridNum = 100;
     }
 }
 

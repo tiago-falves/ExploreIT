@@ -603,6 +603,14 @@ void Graph::setHasFloyd(bool hasFloyd) {
     Graph::hasFloyd = hasFloyd;
 }
 
+bool Graph::isGrid() const {
+    return grid;
+}
+
+void Graph::setGrid(bool grid) {
+    Graph::grid = grid;
+}
+
 
 
 
