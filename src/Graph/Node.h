@@ -16,7 +16,14 @@ using namespace std;
 class Node {
 private:
     long int id = 0;
+    /**
+     * Edges that connect to node
+     */
     std::vector<Edge *> edges;
+
+    /**
+     * Node tags
+     */
     vector<string> tags;
     double x = 0, y = 0;
     double dist=0;
@@ -52,16 +59,34 @@ public:
     void setSummedDifficulties(double d){ summedDifficulties=d;}
     void addDifficulty(double d){ summedDifficulties+=d;}
 
+    /**
+     * Adds tag to node.
+     * @param tag
+     */
     void addTag(std::string tag);
     Edge * addEdge(int edgeId,Node * origin,Node *destination);
 
+    /**
+     * Operator used to get id to simplify code.
+     * @return
+     */
     long operator()() {return id;}
+
+    /**
+     * Operator that indicates if two nodes are the same, by comparing unique ids.
+     * @param a
+     * @return
+     */
     long operator==(Node a) {return a.getId()==id;}
 
     void removeEdge(int destiny);
 
     Edge *findEdge(int destiny);
 
+    /**
+     * Sets position of node in Floyd Warshall matrix.
+     * @param floydPosition
+     */
     void setFloydPosition(int floydPosition) {this->floydPosition = floydPosition;}
     int getFloydPostion() {return floydPosition;}
 };
