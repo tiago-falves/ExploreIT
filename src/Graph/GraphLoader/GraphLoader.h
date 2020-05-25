@@ -32,6 +32,8 @@ public:
 
     void setEdgeFile(const string &edgeFile);
 
+    bool loadGridPOIS(bool isGrid);
+
 
 
 private:

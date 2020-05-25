@@ -103,13 +103,14 @@ void Preprocessor::setGraph(Graph *graph) {
 }
 
 //Generating (int) (1/10 no nodes na grid)
-void Preprocessor::setGridPOIs(int grid_type) {
+void Preprocessor::setGridPOIs(int grid_type, string directory) {
+    ofstream def; def.open(directory + "pois.txt");
     int n = (grid_type+1)*(grid_type+1);
     int nodeid;
     srand(time(0));
     for (int i = 0; i < n/10; i++){
         nodeid = randomGenerator(0, n-1);
-        graph->findNode(nodeid)->addTag("tourism=information");
+        def << nodeid << endl;
     }
 }
 

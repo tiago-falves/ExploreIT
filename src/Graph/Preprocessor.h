@@ -22,7 +22,7 @@ public:
     int saveDifficulties(string directory);
     Graph *getGraph() const;
     void setGraph(Graph *graph);
-    void setGridPOIs(int grid_type);
+    void setGridPOIs(int grid_type, string directory);
     vector<vector<int>> calculateConnectedGraphs();
 
     void preprocessConnectivity(string directory);

@@ -54,7 +54,7 @@ void GraphDrawer::drawNodes(Graph * graph){
         if(node.second->getTags().size() != 0) {
             color = parseColor(node.second->getTags()[0]);
             graphViewer->setVertexColor(node.second->getId(), color);
-            if (color == ORANGE) graphViewer->setVertexSize(node.second->getId(), 5);
+            if (color == ORANGE && !graph->isGrid()) graphViewer->setVertexSize(node.second->getId(), 5);
         }
         if (color != ORANGE) graphViewer->setVertexSize(node.second->getId(), 0.1);
     }
