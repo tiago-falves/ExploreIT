@@ -19,9 +19,33 @@ private:
 
 public:
 
+    /**
+     * Constructs edge given origin and destination nodes.
+     * @param id
+     * @param origin
+     * @param destiny
+     * @param weight
+     */
     Edge(int id,Node *origin, Node *destiny, double weight);
+
+    /**
+     * Constructs edge given only destination node.
+     * @param id
+     * @param weight
+     * @param destination
+     */
     Edge(int id,float weight,Node *destination);
+
+    /**
+     * Gets edge destination node.
+     * @return
+     */
     Node * getDestination();
+
+    /**
+     * Gets edge origin node.
+     * @return
+     */
     Node * getOrigin();
     double getWeight();
     int getDifficulty() const;
