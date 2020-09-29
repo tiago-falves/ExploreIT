@@ -1,4 +1,4 @@
-# CAL1920
+# ExploreIT
 
 Neste trabalho, pretende-se implementar uma aplicação que, dado um conjunto
 de pontos de interesse, locais de confluência e trilhos, produza circuitos
