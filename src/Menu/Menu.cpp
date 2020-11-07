@@ -184,7 +184,8 @@ void Menu::AStar(int origin, int dest,string option){
     cleanGraphRuntime(origin, dest);
     vector<vector<Node>> vectors;
     int distance;
-    distance = 20;
+    if(IS_TESTING) distance = 20;
+    else distance = 12000;
     graph->setSelectedDiff(difficulties);
     graph->AStar(origin, dest, distance*distanceEdges , diff, nullptr,option);
     drawer(origin,dest);
